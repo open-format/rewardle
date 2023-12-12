@@ -1,0 +1,21 @@
+{
+  "name": "get-started",
+  "module": "index.ts",
+  "type": "module",
+  "workspaces": [
+    "app",
+    "backend"
+  ],
+  "devDependencies": {
+    "bun-types": "latest"
+  },
+  "peerDependencies": {
+    "typescript": "^5.0.0"
+  },
+  "dependencies": {
+    "turbo": "^1.11.1"
+  },
+  "scripts": {
+    "dev": "turbo run dev --parallel"
+  }
+}
