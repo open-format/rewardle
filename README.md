@@ -6,9 +6,6 @@
 
 - Install [BunJS](https://bun.sh/)
 
-bun.password.hash
-bun.password.verify
-
 ###
 
 1. Install dependencies:
