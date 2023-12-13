@@ -67,8 +67,8 @@ Supabase offer a good [free price plan](https://supabase.com/pricing) which incl
 
 1. Create an account with [Supabase](https://supabase.com)
 
-2. Create a new project from the [Dashboard](https://supabase.com/dashboard). Use a strong password and please keep it safe!
+2. Create a new project from the [Dashboard](https://supabase.com/dashboard). Use a strong database password and please keep it safe!
 
-3. Once the project has been created you will see database connection credentials and API keys. These are needed to connect your app to the Database and API and will be defined in your backend .env file. Please keep these safe and never commit them.
+3. Once the project has been created, on the next page ake note of the `anon` and `service_role` keys in the API settings, and also the project URL and JWT secret. These will be used in your application to interact with Supabase services and will be defined in your backend `.env` file. Please keep these safe and never commit them.
 
 4. Go to the 'SQL Editor' linked in the left nav. Copy and paste the schema SQL from above and run this against your new project database.
