@@ -7,21 +7,25 @@
 ### Getting Started
 
 1. Clone the repository:
+
 ```bash
 git clone https://github.com/open-format/get-started.git
 ```
 
 2. Navigate to the project directory:
+
 ```bash
 cd get-started
 ```
 
 3. Install dependencies:
+
 ```bash
 bun install
 ```
 
 4. Execute development commands:
+
 ```bash
 bun dev
 ```
@@ -65,7 +69,7 @@ CREATE INDEX "idx_email_address" ON "profiles" ("email_address");
 -- Create Wallets Table
 CREATE TABLE "wallets" (
   "eth_address" VARCHAR(42) PRIMARY KEY,
-  "profile_id" UUID UNIQUE NOT NULL,
+  "profile_id" INT UNIQUE NOT NULL,
   "private_key" VARCHAR(64),
   FOREIGN KEY ("profile_id") REFERENCES "profiles" ("id")
 );
