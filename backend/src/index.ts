@@ -53,6 +53,29 @@ app.post("/login", async (c) => {
   }
 });
 
+app.post("/welcome", async (c) => {
+  const body = await c.req.parseBody();
+  if (!body) {
+    return c.json({ status: 401, message: "The request payload is required" });
+  }
+  switch (body.type) {
+    case "magiclink":
+      // Complete the sign in process using the token
+      let { error } = await supabase.auth.signInWithOtp({ token: body.token });
+
+      if (error) {
+        console.error("Error completing sign in:", error);
+        return c.text(`Error: ${error.message}`, 400);
+      } else {
+        console.log("Sign in successful!");
+        // Redirect user to the dashboard page
+        return c.redirect("/dashboard");
+      }
+    default:
+      return c.text("Invalid request type", 400);
+  }
+});
+
 export default {
   port: 8080,
   fetch: app.fetch,

@@ -14,10 +14,11 @@
   },
   "dependencies": {
     "@openformat/react": "dev",
+    "@supabase/supabase-js": "^2.39.0",
     "dayjs": "^1.11.10",
     "ethers": "^5",
     "graphql-request": "^6.1.0",
-    "@supabase/supabase-js": "^2.39.0",
+    "react-router-dom": "^6.21.0",
     "turbo": "^1.11.1"
   },
   "scripts": {
