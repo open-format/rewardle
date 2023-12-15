@@ -1,3 +1,5 @@
+/** @jsxImportSource @emotion/react */ // This is required for Emotion CSS-in-JS
+// use client
 import { useEffect } from "react";
 import { useSupabase } from "../hooks/useSupabase";
 import * as React from "react";

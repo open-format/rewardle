@@ -1,16 +1,14 @@
+"use client";
 import React from "react";
+import Leaderboard from "../components/Leaderboard";
 
-type GlobalLayoutProps = {
-  children: React.ReactNode;
-};
-
-const GlobalLayout: React.FC<GlobalLayoutProps> = ({ children }) => {
+const Home = () => {
   return (
     <div>
-      {/* Global elements like header/footer */}
-      {children}
+      <h1>Welcome to OPENFORMAT GetStarted!</h1>
+      <Leaderboard />
     </div>
   );
 };
 
-export default GlobalLayout;
+export default Home;

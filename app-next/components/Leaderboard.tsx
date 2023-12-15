@@ -10,10 +10,10 @@ export default () => {
   const [isLoading, setIsLoading] = React.useState<boolean>(true);
 
   // Calculate the start and end of the current week
-  //const startOfWeek = dayjs().startOf("week");
-  const startOfWeek = dayjs("2023-12-04");
-  const endOfWeek = dayjs("2023-12-04 19:20");
-  //const endOfWeek = startOfWeek.endOf("week");
+  const startOfWeek = dayjs().startOf("week");
+  const endOfWeek = startOfWeek.endOf("week");
+  //const startOfWeek = dayjs("2023-12-04");
+  //const endOfWeek = dayjs("2023-12-04 19:20");
 
   // Convert start and end dates of the week to timestamps
   const { startTimestamp, endTimestamp } = convertToTimestamps(
