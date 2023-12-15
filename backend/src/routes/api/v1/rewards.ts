@@ -26,6 +26,14 @@ rewards.onError((err, c) => {
   return c.json({ status: "Failed", message: err.message }, 500);
 });
 
+rewards.post("/actions/xp/award", async (c) => c.text(""));
+rewards.post("/actions/reward-token/award", async (c) => c.text(""));
+rewards.post("/actions/badges/:id/award", async (c) => c.text(""));
+rewards.post("/missions/xp/award", async (c) => c.text(""));
+rewards.post("/missions/reward-token/award", async (c) => c.text(""));
+rewards.post("/missions/badges/:id/award", async (c) => c.text(""));
+rewards.post("/batch-award", async (c) => c.text(""));
+
 /**
  * POST rewards/xp/award
  *
