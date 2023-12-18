@@ -20,7 +20,7 @@ export default function Signup() {
 
     if (response.ok) {
       // Redirect on successful signup
-      Router.push("/welcome"); // or any other page
+      Router.push("/");
     } else {
       // Handle errors
       console.error("Signup failed");

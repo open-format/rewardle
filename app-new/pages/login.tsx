@@ -18,7 +18,7 @@ export default function Login() {
 
     if (response.ok) {
       // Redirect on successful login
-      Router.push("/dashboard"); // or any other page
+      Router.push("/");
     } else {
       // Handle errors
       console.error("Login failed");

@@ -1,7 +1,5 @@
-// pages/api/auth/signup.ts
-
+import { supabase } from "../../../utils/supabaseClient";
 import { NextApiRequest, NextApiResponse } from "next";
-import { createClient } from "@supabase/supabase-js";
 
 export default async function handler(
   req: NextApiRequest,
@@ -13,16 +11,6 @@ export default async function handler(
   }
 
   const { email, password } = req.body;
-
-  // Initialize Supabase client
-  const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL;
-  const supabaseAnonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY;
-  if (!supabaseUrl || !supabaseAnonKey) {
-    res.status(500).json({ error: "Supabase URL or Anon Key is undefined" });
-    return;
-  }
-  const supabase = createClient(supabaseUrl, supabaseAnonKey);
-
   const response = await supabase.auth.signUp({
     email,
     password,
