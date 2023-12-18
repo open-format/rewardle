@@ -1,5 +1,4 @@
 import { RewardType } from "@openformat/react";
-import { BigNumber } from "ethers";
 
 type Action = {
   id: string;
@@ -74,9 +73,24 @@ type MissionRequirement = {
 
 type Token = {
   id: string;
-  amount: BigNumber | number;
+  amount: string | number;
   address: string;
   type: RewardType;
   activityType: string;
   tokenURI?: string;
+};
+
+interface GetUserProfileResponse {
+  actions: Action[];
+  missions: Mission[];
+  user: {
+    tokenBalances: FungibleTokenBalance[];
+  };
+}
+
+type FungibleTokenBalance = {
+  balance: string;
+  token: {
+    id: string;
+  };
 };
