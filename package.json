@@ -3,7 +3,7 @@
   "module": "index.ts",
   "type": "module",
   "workspaces": [
-    "app",
+    "app-new",
     "backend"
   ],
   "devDependencies": {
@@ -21,6 +21,9 @@
     "react-router-dom": "^6.21.0",
     "turbo": "^1.11.1"
   },
+  "trustedDependencies": [
+    "supabase"
+  ],
   "scripts": {
     "dev": "turbo run dev --parallel"
   }

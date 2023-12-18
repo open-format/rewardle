@@ -1,14 +1,16 @@
+// pages/signup.tsx
+
 import React, { useState } from "react";
 import Router from "next/router";
 
-export default function Login() {
+export default function Signup() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
   const handleSubmit = async (event) => {
     event.preventDefault();
 
-    const response = await fetch("/api/auth/login", {
+    const response = await fetch("/api/auth/signup", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -17,11 +19,11 @@ export default function Login() {
     });
 
     if (response.ok) {
-      // Redirect on successful login
-      Router.push("/dashboard"); // or any other page
+      // Redirect on successful signup
+      Router.push("/welcome"); // or any other page
     } else {
       // Handle errors
-      console.error("Login failed");
+      console.error("Signup failed");
     }
   };
 
@@ -41,7 +43,7 @@ export default function Login() {
         placeholder="Password"
         required
       />
-      <button type="submit">Login</button>
+      <button type="submit">Sign Up</button>
     </form>
   );
 }
