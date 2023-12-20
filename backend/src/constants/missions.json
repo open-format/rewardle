@@ -1,0 +1,24 @@
+[
+  {
+    "id": "Test Mission",
+    "description": "Complete two test actions to complete the Test Mission",
+    "tokens": [
+      {
+        "address": "0x77c4eac06807538e2eeaedb0d2d2e9d05e421385",
+        "amount": 5
+      },
+      {
+        "address": "0x373b1bfaac988e4b6b5b73e65778f3b1c4a8da6a",
+        "amount": 5
+      }
+    ],
+    "badgeUrl": "https://i.postimg.cc/4yg90byK/avatar.png",
+    "requirements": [
+      {
+        "actionId": "test_action",
+        "description": "trigger_test_action",
+        "count": 3
+      }
+    ]
+  }
+]
