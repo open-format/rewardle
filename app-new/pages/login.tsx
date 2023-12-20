@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import Router from "next/router";
+import LoginButton from "../components/LoginButton";
 
 export default function Login() {
   const [email, setEmail] = useState("");
@@ -26,22 +27,28 @@ export default function Login() {
   };
 
   return (
-    <form onSubmit={handleSubmit}>
-      <input
-        type="email"
-        value={email}
-        onChange={(e) => setEmail(e.target.value)}
-        placeholder="Email"
-        required
-      />
-      <input
-        type="password"
-        value={password}
-        onChange={(e) => setPassword(e.target.value)}
-        placeholder="Password"
-        required
-      />
-      <button type="submit">Login</button>
-    </form>
+    <>
+      <h1>Web3</h1>
+      <LoginButton></LoginButton>
+
+      <h2>Magic Link</h2>
+      <form onSubmit={handleSubmit}>
+        <input
+          type="email"
+          value={email}
+          onChange={(e) => setEmail(e.target.value)}
+          placeholder="Email"
+          required
+        />
+        <input
+          type="password"
+          value={password}
+          onChange={(e) => setPassword(e.target.value)}
+          placeholder="Password"
+          required
+        />
+        <button type="submit">Login</button>
+      </form>
+    </>
   );
 }

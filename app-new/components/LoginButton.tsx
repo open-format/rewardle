@@ -4,6 +4,10 @@ import {
   useSetIsWalletModalOpen,
   useWallet,
 } from "@openformat/react";
+import axios from "axios";
+import { GetServerSideProps } from "next";
+import { getServerSession } from "next-auth";
+import { authOptions } from "../pages/api/auth/[...nextauth]";
 import { useSession } from "next-auth/react";
 import { useRouter } from "next/router";
 import { useEffect } from "react";
@@ -11,9 +15,12 @@ import { useEffect } from "react";
 export default function LoginButton() {
   const router = useRouter();
   const { data: session } = useSession();
+  console.log("session", session);
   const validSession = session?.user?.address;
-  console.log("Wallet address", validSession);
+  console.log("Session wallet address", validSession);
   const { address } = useWallet();
+  console.log("Wallet address", address);
+
   const prevAddress = session?.user?.address;
   const setIsWalletModalOpen = useSetIsWalletModalOpen();
 
@@ -55,3 +62,28 @@ export default function LoginButton() {
     />
   );
 }
+
+export const getServerSideProps: GetServerSideProps = async (context) => {
+  const session = await getServerSession(context.req, context.res, authOptions);
+
+  if (session) {
+    const baseURL = process.env.NEXT_PUBLIC_API_HOSTNAME + "/api/v1";
+    const res = await axios.post(`${baseURL}/auth/refresh_token`, {
+      refreshToken: session.user.refresh_token,
+    });
+
+    const me = await axios.get(`${baseURL}/profile/me`, {
+      headers: { Authorization: `Bearer ${res.data.accessToken}` },
+    });
+
+    return {
+      props: {
+        profileData: me.data,
+      },
+    };
+  } else {
+    return {
+      props: {},
+    };
+  }
+};

@@ -1,33 +1,68 @@
-import { createMiddlewareClient } from "@supabase/auth-helpers-nextjs";
-import { NextResponse } from "next/server";
-
+import withAuth from "next-auth/middleware";
 import type { NextRequest } from "next/server";
-//import type { Database } from '@/lib/database.types'
+import { NextResponse } from "next/server";
+const [AUTH_USER, AUTH_PASS] = (process.env.HTTP_BASIC_AUTH || ":").split(":");
 
-export async function middleware(req: NextRequest) {
-  const res = NextResponse.next();
+const nextAuthMiddleware = withAuth({
+  pages: {
+    signIn: "/login",
+    error: "/error",
+  },
+});
 
-  // Create a Supabase client configured to use cookies
-  // @todo imprt database types with `bun add supabase@">=1.8.1" && bunx supabase login`
-  // See: https://supabase.com/docs/guides/api/rest/generating-types
-  // const supabase = createMiddlewareClient<Database>({ req, res })
-  const supabase = createMiddlewareClient<any>({ req, res });
+export async function middleware(req: NextRequest, res: NextResponse) {
+  if (!isAuthenticated(req)) {
+    return new NextResponse("Authentication required", {
+      status: 401,
+      headers: { "WWW-Authenticate": "Basic" },
+    });
+  }
 
-  // Refresh session if expired - required for Server Components
-  await supabase.auth.getSession();
+  const nextAuthResponse = await nextAuthMiddleware(req, res);
 
-  return res;
+  if (nextAuthResponse) {
+    return nextAuthResponse;
+  }
+
+  return NextResponse.next();
 }
 
-// Ensure the middleware is only called for relevant paths.
+// Step 2. Check HTTP Basic Auth header if present
+function isAuthenticated(req: NextRequest) {
+  if (!process.env.HTTP_BASIC_AUTH) {
+    return true;
+  }
+  const authheader =
+    req.headers.get("authorization") || req.headers.get("Authorization");
+
+  if (!authheader) {
+    return false;
+  }
+
+  const auth = Buffer.from(authheader.split(" ")[1], "base64")
+    .toString()
+    .split(":");
+  const user = auth[0];
+  const pass = auth[1];
+
+  if (user == AUTH_USER && pass == AUTH_PASS) {
+    return true;
+  } else {
+    return false;
+  }
+}
+
+// Step 3. Configure "Matching Paths" below to protect routes with HTTP Basic Auth
 export const config = {
-  matcher: [
+  matcher:
     /*
      * Match all request paths except for the ones starting with:
+     * - api (API routes)
      * - _next/static (static files)
      * - _next/image (image optimization files)
      * - favicon.ico (favicon file)
+     * - images
+     * - fonts
      */
-    "/((?!_next/static|_next/image|favicon.ico).*)",
-  ],
+    "/((?!api|_next/static|_next/image|favicon.ico|images|fonts).*)",
 };
