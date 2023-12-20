@@ -1,5 +1,8 @@
 import { Hono } from "hono";
 import dotenv from "dotenv";
+import jwt from "jsonwebtoken";
+import { ethers } from "ethers";
+import crypto from "crypto";
 
 dotenv.config();
 const auth = new Hono();
@@ -9,9 +12,6 @@ if (!process.env.JWT_SECRET) {
   throw new Error("JWT_SECRET is not defined!");
 }
 const JWT_SECRET = process.env.JWT_SECRET;
-const jwt = require("jsonwebtoken");
-const ethers = require("ethers");
-const crypto = require("crypto");
 
 // NodeCache for storing challenges
 import NodeCache from "node-cache";
@@ -49,8 +49,9 @@ const getUsedRefreshToken = (token: any) => {
 
 // Generate a Challenge which is stored against the ETH address for X seconds
 // Randomise it and store it server-side associated with the public address.
-auth.post("/challenge", async (req, res) => {
-  const { publicAddress } = req.body;
+auth.post("/challenge", async (c) => {
+  const body = await c.req.parseBody();
+  const { publicAddress } = body;
   // Store this against the public address. Make it truly random (Generate a salt / nonce )
   const crypto = require("crypto");
   const randomValue = crypto.randomBytes(32).toString("hex");
@@ -64,23 +65,25 @@ auth.post("/challenge", async (req, res) => {
   // Store the challenge in the Node cache
   storeChallenge(publicAddress, challenge);
 
-  return res.send({ challenge });
+  return c.json({ challenge });
 });
 
-auth.post("/verify", async (req, res) => {
-  const { signature, publicAddress, userMessage } = req.body;
+auth.post("/verify", async (c) => {
+  const body = await c.req.parseBody();
+  const { signature, publicAddress, userMessage } = body;
 
   if (!signature || !publicAddress || !userMessage) {
-    return res.status(400).send({
-      error: "Request should have signature and publicAddress",
-    });
+    return c.json(
+      { error: "Request should have signature and publicAddress" },
+      400
+    );
   }
 
   // Get the challenge from the cache store
   const challenge = getChallenge(publicAddress);
   if (typeof challenge !== "string") {
     console.log("retreiving challenge failed");
-    return res.status(401).send({ error: "Signature verification failed" });
+    return c.json({ error: "Signature verification failed" }, 401);
   }
   // Remove challenge from cache as it's single use
   removeChallenge(publicAddress);
@@ -115,32 +118,33 @@ auth.post("/verify", async (req, res) => {
 
       //@TODO Temporarily Store the refreshToken in a the database, along with the user's publicAddress and other meta info
       // Validation, Token rotation, Auditing, Revocation
-      return res.send({ accessToken, refreshToken });
+      return c.json({ accessToken, refreshToken });
     } else {
       console.log("signing failed");
-      return res.status(401).send({ error: "Signature verification failed" });
+      return c.json({ error: "Signature verification failed" }, 401);
     }
   } catch (err) {
     console.log(err);
-    return res.status(500).send({ error: "Error processing the request" });
+    return c.json({ error: "Error processing the request" }, 500);
   }
 });
 
-auth.post("/refresh_token", (req, res) => {
-  const { refreshToken } = req.body;
+auth.post("/refresh_token", async (c) => {
+  const body = await c.req.parseBody();
+  const { refreshToken } = body;
 
   if (!refreshToken) {
-    return res.status(400).send("Refresh token required");
+    return c.json({ error: "Refresh token required" }, 400);
   }
 
   if (getUsedRefreshToken(refreshToken)) {
-    return res.status(401).send("Invalid token");
+    return c.text("Invalid token", 401);
   }
   try {
     const decoded = jwt.verify(refreshToken, JWT_SECRET);
 
     if (decoded.type !== "refresh") {
-      return res.status(401).send("Invalid token type");
+      return c.text("Invalid token type", 401);
     }
 
     // Generate JWT with nonce and publicAddress
@@ -154,36 +158,36 @@ auth.post("/refresh_token", (req, res) => {
       }
     );
 
-    return res.send({ accessToken: newAccessToken });
+    return c.json({ accessToken: newAccessToken });
   } catch (err) {
     console.log(err);
-    res.status(401).send("Invalid refresh token");
+    return c.json({ error: "Invalid refresh token" }, 401);
   }
 });
 
-auth.post("/logout", (req, res) => {
-  const { refreshToken } = req.body;
+auth.post("/logout", async (c) => {
+  const body = await c.req.parseBody();
+  const { refreshToken } = body;
 
   if (!refreshToken) {
-    return res.status(400).send("Refresh token required");
+    return c.text("Refresh token required", 400);
   }
 
   try {
     const decoded = jwt.verify(refreshToken, JWT_SECRET);
 
     if (decoded.type !== "refresh") {
-      return res.status(401).send("Invalid token type");
+      return c.text("Invalid token type", 401);
     }
 
     // Invalidate the refreshToken
     storeUsedRefreshToken(refreshToken);
     // @TODO If refresh token is stored in a database, delete it.
-
-    return res.status(200).send("Logged out successfully");
+    return c.text("Logged out successfully", 200);
   } catch (err) {
     console.log(err);
-    res.status(401).send("Invalid refresh token");
+    return c.text("Invalid refresh token", 401);
   }
 });
 
-export default router;
+export default auth;
