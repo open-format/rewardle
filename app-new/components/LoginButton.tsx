@@ -12,6 +12,7 @@ export default function LoginButton() {
   const router = useRouter();
   const { data: session } = useSession();
   const validSession = session?.user?.address;
+  console.log("Wallet address", validSession);
   const { address } = useWallet();
   const prevAddress = session?.user?.address;
   const setIsWalletModalOpen = useSetIsWalletModalOpen();
