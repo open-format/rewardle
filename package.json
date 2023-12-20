@@ -21,8 +21,11 @@
     "graphql-request": "^6.1.0",
     "jsonwebtoken": "^9.0.2",
     "node-cache": "^5.1.2",
+    "react": "",
+    "react-dom": "",
     "react-router-dom": "^6.21.0",
-    "turbo": "^1.11.1"
+    "turbo": "^1.11.1",
+    "zustand": "^4.4.7"
   },
   "trustedDependencies": [
     "supabase"

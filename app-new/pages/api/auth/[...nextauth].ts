@@ -29,8 +29,7 @@ export const authOptions: NextAuthOptions = {
   callbacks: {
     signIn: async ({ user, account }) => {
       // Check provider (Web3 / GitHub / Discord) and save to DB
-      const baseURL =
-        process.env.NEXT_PUBLIC_API_HOSTNAME + "/api/v1";
+      const baseURL = process.env.NEXT_PUBLIC_API_HOSTNAME + "/api/v1";
 
       switch (account?.provider) {
         case "web3":
@@ -71,13 +70,11 @@ export const authOptions: NextAuthOptions = {
         token?.access_token_expires &&
         Date.now() > token.access_token_expires
       ) {
-        const baseURL =
-          process.env.NEXT_PUBLIC_API_HOSTNAME + "/api/v1";
+        const baseURL = process.env.NEXT_PUBLIC_API_HOSTNAME + "/api/v1";
 
-        const newTokenInfo = await axios.post(
-          `${baseURL}/auth/refresh_token`,
-          { refreshToken: token.refresh_token }
-        );
+        const newTokenInfo = await axios.post(`${baseURL}/auth/refresh_token`, {
+          refreshToken: token.refresh_token,
+        });
 
         const decodedToken = Buffer.from(
           newTokenInfo.data.accessToken.split(".")[1],
@@ -85,8 +82,7 @@ export const authOptions: NextAuthOptions = {
         ).toString("utf-8");
 
         token.access_token = newTokenInfo.accessToken;
-        token.access_token_expires =
-          JSON.parse(decodedToken).exp * 1000;
+        token.access_token_expires = JSON.parse(decodedToken).exp * 1000;
       }
 
       return token;

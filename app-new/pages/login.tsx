@@ -1,8 +1,51 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Router from "next/router";
+import { useRouter } from "next/router";
+import { useWallet } from "@openformat/react";
 import LoginButton from "../components/LoginButton";
+import { GetServerSideProps } from "next";
+import { getServerSession } from "next-auth";
+import { useSession } from "next-auth/react";
+import { useProfileStore } from "../stores/useProfileStore";
+import { authOptions } from "../pages/api/auth/[...nextauth]";
+import axios from "axios";
 
 export default function Login() {
+  const { setProfileData } = useProfileStore();
+  const router = useRouter();
+  const { data: session } = useSession();
+  const validSession = session?.user?.address;
+  const { address } = useWallet();
+
+  const prevAddress = session?.user?.address;
+  const setIsWalletModalOpen = useSetIsWalletModalOpen();
+
+  useEffect(() => {
+    const lastConnectedWallet = JSON.parse(
+      localStorage.getItem(
+        "__TW__/coordinatorStorage/lastConnectedWallet"
+      ) as any
+    );
+    const localWallet = JSON.parse(
+      localStorage.getItem("__TW__/localWallet/localWalletData") as any
+    );
+
+    if (
+      validSession &&
+      router.pathname !== "/login" &&
+      lastConnectedWallet?.walletId !== "metamask" &&
+      localWallet
+    ) {
+      setIsWalletModalOpen(true);
+    }
+  }, [validSession]);
+
+  useEffect(() => {
+    if (prevAddress && address !== prevAddress) {
+      router.replace("/logout");
+    }
+  }, [address]);
+
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
@@ -52,3 +95,28 @@ export default function Login() {
     </>
   );
 }
+
+export const getServerSideProps: GetServerSideProps = async (context) => {
+  const session = await getServerSession(context.req, context.res, authOptions);
+
+  if (session) {
+    const baseURL = process.env.NEXT_PUBLIC_API_HOSTNAME + "/api/v1";
+    const res = await axios.post(`${baseURL}/auth/refresh_token`, {
+      refreshToken: session.user.refresh_token,
+    });
+
+    const me = await axios.get(`${baseURL}/profile/me`, {
+      headers: { Authorization: `Bearer ${res.data.accessToken}` },
+    });
+
+    return {
+      props: {
+        profileData: me.data,
+      },
+    };
+  } else {
+    return {
+      props: {},
+    };
+  }
+};
