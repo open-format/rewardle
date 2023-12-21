@@ -1,17 +1,17 @@
 import React, { useEffect, useState } from "react";
 import Router from "next/router";
 import { useRouter } from "next/router";
-import { useWallet } from "@openformat/react";
+import { useSetIsWalletModalOpen, useWallet } from "@openformat/react";
 import LoginButton from "../components/LoginButton";
 import { GetServerSideProps } from "next";
 import { getServerSession } from "next-auth";
 import { useSession } from "next-auth/react";
-import { useProfileStore } from "../stores/useProfileStore";
 import { authOptions } from "../pages/api/auth/[...nextauth]";
 import axios from "axios";
 
 export default function Login() {
-  const { setProfileData } = useProfileStore();
+  // Set profile data on login
+  console.log("Set Profile Data");
   const router = useRouter();
   const { data: session } = useSession();
   const validSession = session?.user?.address;
