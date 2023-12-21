@@ -9,6 +9,7 @@ export const authOptions: NextAuthOptions = {
       name: "Web3",
       credentials: {},
       authorize: async (credentials, req) => {
+        console.log("authorize");
         if (credentials.address) {
           // Ethereum address acts as a user ID
           return {

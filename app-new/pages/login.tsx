@@ -1,8 +1,11 @@
 import React, { useEffect, useState } from "react";
 import Router from "next/router";
 import { useRouter } from "next/router";
-import { useSetIsWalletModalOpen, useWallet } from "@openformat/react";
-import LoginButton from "../components/LoginButton";
+import {
+  ConnectButton,
+  useSetIsWalletModalOpen,
+  useWallet,
+} from "@openformat/react";
 import { GetServerSideProps } from "next";
 import { getServerSession } from "next-auth";
 import { useSession } from "next-auth/react";
@@ -43,6 +46,7 @@ export default function Login() {
   useEffect(() => {
     if (prevAddress && address !== prevAddress) {
       router.replace("/logout");
+      return;
     }
   }, [address]);
 
@@ -72,7 +76,15 @@ export default function Login() {
   return (
     <>
       <h1>Web3</h1>
-      <LoginButton></LoginButton>
+      <ConnectButton
+        switchToActiveChain={true}
+        modalSize="compact"
+        welcomeScreen={{
+          title: "Connect your wallet",
+          subtitle: "Connect with Metamask or Continue as Guest.",
+        }}
+        modalTitleIconUrl={"https://app.openformat.tech/favicon.ico"}
+      />
 
       <h2>Magic Link</h2>
       <form onSubmit={handleSubmit}>
