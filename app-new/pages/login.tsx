@@ -3,9 +3,12 @@ import Router from "next/router";
 import { useRouter } from "next/router";
 import {
   ConnectButton,
+  Chains,
+  useChain,
   useSetIsWalletModalOpen,
   useWallet,
 } from "@openformat/react";
+import { useWeb3Connect } from "../utils/useWeb3Connect";
 import { GetServerSideProps } from "next";
 import { getServerSession } from "next-auth";
 import { useSession } from "next-auth/react";
@@ -22,6 +25,15 @@ export default function Login() {
 
   const prevAddress = session?.user?.address;
   const setIsWalletModalOpen = useSetIsWalletModalOpen();
+
+  const { chainId } = useChain();
+
+  const { handleConnect } = useWeb3Connect();
+  useEffect(() => {
+    if (chainId === Chains.polygonMumbai.id && !validSession) {
+      handleConnect();
+    }
+  }, [chainId]);
 
   useEffect(() => {
     const lastConnectedWallet = JSON.parse(

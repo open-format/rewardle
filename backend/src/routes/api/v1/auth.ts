@@ -21,6 +21,10 @@ const challengesCache = new NodeCache({
   stdTTL: parseInt(process.env.AUTH_CACHE_TTL || "600", 10),
 });
 const storeChallenge = (publicAddress: any, challenge: any) => {
+  if (typeof publicAddress !== "string" && typeof publicAddress !== "number") {
+    console.error("Invalid publicAddress:", publicAddress);
+    return false;
+  }
   return challengesCache.set(publicAddress, challenge);
 };
 
@@ -50,8 +54,12 @@ const getUsedRefreshToken = (token: any) => {
 // Generate a Challenge which is stored against the ETH address for X seconds
 // Randomise it and store it server-side associated with the public address.
 auth.post("/challenge", async (c) => {
-  const body = await c.req.parseBody();
+  const body = await c.req.json();
+  console.log("Parsed body:", body);
   const { publicAddress } = body;
+  if (!publicAddress) {
+    return c.json({ error: "Public address is required" }, 400);
+  }
   // Store this against the public address. Make it truly random (Generate a salt / nonce )
   const crypto = require("crypto");
   const randomValue = crypto.randomBytes(32).toString("hex");
@@ -69,7 +77,7 @@ auth.post("/challenge", async (c) => {
 });
 
 auth.post("/verify", async (c) => {
-  const body = await c.req.parseBody();
+  const body = await c.req.json();
   const { signature, publicAddress, userMessage } = body;
 
   if (!signature || !publicAddress || !userMessage) {
@@ -130,7 +138,7 @@ auth.post("/verify", async (c) => {
 });
 
 auth.post("/refresh_token", async (c) => {
-  const body = await c.req.parseBody();
+  const body = await c.req.json();
   const { refreshToken } = body;
 
   if (!refreshToken) {
@@ -166,7 +174,7 @@ auth.post("/refresh_token", async (c) => {
 });
 
 auth.post("/logout", async (c) => {
-  const body = await c.req.parseBody();
+  const body = await c.req.json();
   const { refreshToken } = body;
 
   if (!refreshToken) {
