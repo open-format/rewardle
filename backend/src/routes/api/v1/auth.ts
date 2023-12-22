@@ -1,200 +1,92 @@
-import { Hono } from "hono";
-import dotenv from "dotenv";
-import jwt from "jsonwebtoken";
+import { PrismaClient } from "@prisma/client";
 import { ethers } from "ethers";
-import crypto from "crypto";
+import { Hono } from "hono";
+import { sign } from "hono/jwt";
 
-dotenv.config();
+const prisma = new PrismaClient();
+
 const auth = new Hono();
 
-// JWT secret from environment variable
-if (!process.env.JWT_SECRET) {
-  throw new Error("JWT_SECRET is not defined!");
+enum Status {
+  SUCCESS = "success",
+  FAILED = "failed",
 }
-const JWT_SECRET = process.env.JWT_SECRET;
 
-// NodeCache for storing challenges
-import NodeCache from "node-cache";
-
-// Cache issued Challenges. Create a new cache instance with a default TTL (time-to-live) of 10 minutes
-const challengesCache = new NodeCache({
-  stdTTL: parseInt(process.env.AUTH_CACHE_TTL || "600", 10),
-});
-const storeChallenge = (publicAddress: any, challenge: any) => {
-  if (typeof publicAddress !== "string" && typeof publicAddress !== "number") {
-    console.error("Invalid publicAddress:", publicAddress);
-    return false;
-  }
-  return challengesCache.set(publicAddress, challenge);
-};
-
-// Retrieve a challenge
-const getChallenge = (publicAddress: any) => {
-  return challengesCache.get(publicAddress);
-};
-
-// Remove a challenge
-const removeChallenge = (publicAddress: any) => {
-  return challengesCache.del(publicAddress);
-};
-
-// Cache invalid (logged out) refresh tokens. Create a new cache instance with a default TTL (time-to-live) of 7 Days
-const usedRefreshTokensCache = new NodeCache({
-  stdTTL: 7 * 24 * 60 * 60,
-});
-const storeUsedRefreshToken = (token: any) => {
-  return usedRefreshTokensCache.set(token, true);
-};
-
-// Retrieve a usedRefreshToken
-const getUsedRefreshToken = (token: any) => {
-  return challengesCache.get(token);
-};
-
-// Generate a Challenge which is stored against the ETH address for X seconds
-// Randomise it and store it server-side associated with the public address.
 auth.post("/challenge", async (c) => {
-  const body = await c.req.json();
-  console.log("Parsed body:", body);
-  const { publicAddress } = body;
-  if (!publicAddress) {
-    return c.json({ error: "Public address is required" }, 400);
-  }
-  // Store this against the public address. Make it truly random (Generate a salt / nonce )
-  const crypto = require("crypto");
-  const randomValue = crypto.randomBytes(32).toString("hex");
-  const nonce = `${publicAddress}.${Date.now()}.${crypto
-    .randomBytes(4)
-    .toString("hex")}`;
+  const { eth_address } = await c.req.json();
+  const challenge = `Sign this message: ${Date.now()}`;
 
-  const combined = `${randomValue}.${nonce}`;
-  const challenge = crypto.createHash("sha256").update(combined).digest("hex");
-
-  // Store the challenge in the Node cache
-  storeChallenge(publicAddress, challenge);
+  await prisma.challenge.create({
+    data: { eth_address, challenge },
+  });
 
   return c.json({ challenge });
 });
 
 auth.post("/verify", async (c) => {
-  const body = await c.req.json();
-  const { signature, publicAddress, userMessage } = body;
+  const { eth_address, signature } = await c.req.json();
 
-  if (!signature || !publicAddress || !userMessage) {
+  const result = await prisma.challenge.findFirstOrThrow({
+    where: { eth_address },
+    orderBy: {
+      createdAt: "desc",
+    },
+  });
+
+  console.log({ result });
+
+  const originalChallenge = result ? result.challenge : null;
+
+  if (!originalChallenge) {
     return c.json(
-      { error: "Request should have signature and publicAddress" },
-      400
+      { status: "error", message: "Challenge not found" },
+      404
     );
   }
 
-  // Get the challenge from the cache store
-  const challenge = getChallenge(publicAddress);
-  if (typeof challenge !== "string") {
-    console.log("retreiving challenge failed");
-    return c.json({ error: "Signature verification failed" }, 401);
-  }
-  // Remove challenge from cache as it's single use
-  removeChallenge(publicAddress);
-
   try {
-    // Recover the signer from the signature
-    // Prepend the userMessage. This is the human readable text as provided.
-    const signer = ethers.utils.verifyMessage(
-      userMessage + challenge,
+    const signerAddress = ethers.utils.verifyMessage(
+      originalChallenge,
       signature
     );
 
-    if (signer.toLowerCase() === publicAddress.toLowerCase()) {
-      // Generate JWT with nonce and publicAddress
-      const nonce = `${Date.now()}.${crypto.randomBytes(4).toString("hex")}`;
+    if (signerAddress.toLowerCase() === eth_address.toLowerCase()) {
+      await prisma.challenge.delete({
+        where: { id: result.id },
+      });
 
-      const accessToken = jwt.sign(
-        { publicAddress, nonce, type: "access" },
-        JWT_SECRET,
-        {
-          expiresIn: process.env.ACCESS_TOKEN_LIFETIME, // Single-use
-        }
+      await prisma.user.upsert({
+        where: { eth_address }, // Unique identifier for the record
+        update: {},
+        create: {
+          eth_address,
+        }, // Fields for the new record if it doesn't exist
+      });
+
+      const secret = "it-is-very-secret";
+      const expirationTime = Math.floor(Date.now() / 1000) + 60; // Current time in seconds + 28 days
+
+      const token = await sign(
+        { sub: eth_address, exp: expirationTime },
+        secret
       );
 
-      const refreshToken = jwt.sign(
-        { publicAddress, nonce, type: "refresh" },
-        JWT_SECRET,
-        {
-          expiresIn: process.env.REFRESH_TOKEN_LIFETIME, // valid for a week for refreshing without message signing
-        }
-      );
-
-      //@TODO Temporarily Store the refreshToken in a the database, along with the user's publicAddress and other meta info
-      // Validation, Token rotation, Auditing, Revocation
-      return c.json({ accessToken, refreshToken });
+      return c.json({
+        status: Status.SUCCESS,
+        token: token,
+      });
     } else {
-      console.log("signing failed");
-      return c.json({ error: "Signature verification failed" }, 401);
+      // Signature is invalid
+      return c.json(
+        { status: Status.FAILED, message: "Invalid signature" },
+        401
+      );
     }
-  } catch (err) {
-    console.log(err);
-    return c.json({ error: "Error processing the request" }, 500);
-  }
-});
-
-auth.post("/refresh_token", async (c) => {
-  const body = await c.req.json();
-  const { refreshToken } = body;
-
-  if (!refreshToken) {
-    return c.json({ error: "Refresh token required" }, 400);
-  }
-
-  if (getUsedRefreshToken(refreshToken)) {
-    return c.text("Invalid token", 401);
-  }
-  try {
-    const decoded = jwt.verify(refreshToken, JWT_SECRET);
-
-    if (decoded.type !== "refresh") {
-      return c.text("Invalid token type", 401);
-    }
-
-    // Generate JWT with nonce and publicAddress
-    const nonce = `${Date.now()}.${crypto.randomBytes(4).toString("hex")}`;
-
-    const newAccessToken = jwt.sign(
-      { publicAddress: decoded.publicAddress, nonce, type: "access" },
-      JWT_SECRET,
-      {
-        expiresIn: process.env.ACCESS_TOKEN_LIFETIME, // single-use
-      }
+  } catch (e) {
+    return c.json(
+      { status: Status.FAILED, message: "Verification failed" },
+      500
     );
-
-    return c.json({ accessToken: newAccessToken });
-  } catch (err) {
-    console.log(err);
-    return c.json({ error: "Invalid refresh token" }, 401);
-  }
-});
-
-auth.post("/logout", async (c) => {
-  const body = await c.req.json();
-  const { refreshToken } = body;
-
-  if (!refreshToken) {
-    return c.text("Refresh token required", 400);
-  }
-
-  try {
-    const decoded = jwt.verify(refreshToken, JWT_SECRET);
-
-    if (decoded.type !== "refresh") {
-      return c.text("Invalid token type", 401);
-    }
-
-    // Invalidate the refreshToken
-    storeUsedRefreshToken(refreshToken);
-    // @TODO If refresh token is stored in a database, delete it.
-    return c.text("Logged out successfully", 200);
-  } catch (err) {
-    console.log(err);
-    return c.text("Invalid refresh token", 401);
   }
 });
 
