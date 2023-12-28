@@ -7,6 +7,14 @@ import leaderboard from "./routes/api/v1/leaderboard";
 import missions from "./routes/api/v1/missions";
 import profile from "./routes/api/v1/profile";
 import rewards from "./routes/api/v1/rewards";
+import { checkEnv } from "./utils/errors";
+
+try {
+  checkEnv();
+} catch (error) {
+  console.error(error.message);
+  process.exit(1);
+}
 
 const app = new Hono().basePath("/api/v1");
 
