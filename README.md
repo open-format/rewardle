@@ -1,10 +1,27 @@
-# OPENFORMAT Get Started Template!
+# GetStarted with OPENFORMAT
+
+Welcome to the GetStarted template for OPENFORMAT – your gateway to integrating core features of the OPENFORMAT platform into your project. This template is designed to streamline the implementation process and provide you with a solid foundation to build upon. Key features include:
+
+- **Play (Rewards)**: Engage users with a dynamic on-chain rewards system.
+- **Profile Management**: Enable users to create and manage their profiles.
+- **Leaderboard Functionality**: Foster competition with a real-time leaderboard.
+- **Quests**: Introduce quests to enhance user interaction and engagement.
+
+## Technology Stack
+
+- **Frontend**: Built with NextJS. see the [Frontend README](./frontend/README.md) for more details.
+
+- **Backend**: Developed using TypeScript, the backend is powered by Hono for serverless functions and Prisma for database management, ensuring robustness and scalability. See the [Backend README](./backend/README.md) for more details.
+
+> [!IMPORTANT]  
+> This application is not production ready. We've focused on creating a minimal implementation to help you understand how to use OPENFORMAT.
 
 ## Getting Started
 
 ### Prerequisites
 
 - We're using Bun as the JavaScript runtime for its awesome performance - [Bun](https://bun.sh/)
+- Node.js 18.17 or later (This is due to Next.js and Prisma relying on Node.js APIs that Bun does not yet implement - [Ref](https://bun.sh/guides/ecosystem/nextjs)). Once Bun supports these APIs this will not longer be required.
 
 ### Setup
 
@@ -20,104 +37,24 @@ git clone https://github.com/open-format/get-started.git
 cd get-started
 ```
 
-3. Install dependencies:
+3. Run setup script (Install dependencies,setups local database and generate env files):
 
 ```bash
-bun install
+make setup
 ```
 
-4. Execute development commands:
+4. Add [backend](./backend/.env) environment variables.
+
+5. Execute development commands:
 
 ```bash
 bun dev
 ```
 
 5. Open your browser to view the applications:
-   - Backend is running at [http://localhost:8000](http://localhost:8000)
+
+   - Backend is running at [http://localhost:8000](http://localhost:8080)
    - React app is available at [http://localhost:3000](http://localhost:3000)
-
-## Database
-
-For the database, we recommend using [Supabase](https://supabase.com) and setting up a Postgres database there. With Supabase, we manage authentication and provide the option to sign up using an email address and a magic link.
-
-The database schema includes a `profiles` table, where user profile data such as nickname and email address are stored. The `profiles`.`auth_user_id` column references the internal Supabase `users` table, where authentication data is kept. Additionally, there is a `wallets` table for storing users' Web3 wallet addresses and a wallet private key, which is required for the magic link signup method. In this scenario, we store and manage a Web3 wallet for the user, and the private key is necessary to authorize transactions.
-
-### Entity-Relationship Diagram
-
-![Entity-Relationship Diagram](database-schema-erd.png)
-
-### Database Schema SQL
-
-```sql
--- Create the enum type
-CREATE TYPE user_type_enum AS ENUM ('web3', 'magic_link');
-
--- Create Profiles Table
-CREATE TABLE "profiles" (
-  "id" SERIAL PRIMARY KEY,
-  "auth_user_id" UUID REFERENCES auth.users(id) ON DELETE SET NULL,
-  "nickname" VARCHAR(255),
-  "email_address" VARCHAR(255) UNIQUE,
-  "user_type" user_type_enum NOT NULL DEFAULT 'web3'
-);
-
-ALTER TABLE public.profiles ENABLE ROW LEVEL SECURITY;
-
--- Indexes for Profiles Table
-CREATE UNIQUE INDEX "profiles_nickname_key" ON "profiles" ("nickname");
-CREATE INDEX "idx_nickname" ON "profiles" ("nickname");
-CREATE INDEX "idx_email_address" ON "profiles" ("email_address");
-
--- Create Wallets Table
-CREATE TABLE "wallets" (
-  "eth_address" VARCHAR(42) PRIMARY KEY,
-  "profile_id" INT UNIQUE NOT NULL,
-  "private_key" VARCHAR(64),
-  FOREIGN KEY ("profile_id") REFERENCES "profiles" ("id")
-);
-
-ALTER TABLE public.wallets ENABLE ROW LEVEL SECURITY;
-
--- Indexes for Wallets Table
-CREATE INDEX "idx_wallets_profile_id" ON "wallets" ("profile_id");
-
--- Function to update email_address in profiles on update of auth.users email
-CREATE FUNCTION public.update_user_email()
-RETURNS TRIGGER
-LANGUAGE plpgsql
-SECURITY DEFINER SET search_path = public
-AS $$
-BEGIN
-  UPDATE public.profiles
-  SET email_address = NEW.email
-  WHERE id = NEW.id;
-  RETURN NEW;
-END;
-$$;
-
--- Trigger to call update_user_email function on email update
-CREATE TRIGGER on_auth_user_email_updated
-AFTER UPDATE OF email ON auth.users
-FOR EACH ROW
-WHEN (OLD.email IS DISTINCT FROM NEW.email)
-EXECUTE PROCEDURE public.update_user_email();
-```
-
-### Supabase setup
-
-Supabase offer a good [free price plan](https://supabase.com/pricing) that includes unlimited API requests, social OAuth providers, and sufficient database storage to get you started. Here are the steps to set up your database there:
-
-1. Create an account with [Supabase](https://supabase.com).
-
-2. Create a new project from the [Dashboard](https://supabase.com/dashboard). Use a strong database password and keep it safe!
-
-3. Once the project has been created, on the next page, take note of the `anon` and `service_role` keys in the API settings, as well as the project URL and JWT secret. These will be used in your application to interact with Supabase services and should be defined in your backend `.env` file. Please keep these credentials secure and never commit them to version control.
-
-4. Go to the 'SQL Editor' linked in the left navigation. Copy and paste the schema SQL from above and execute it against your new project database.
-
-Here's a README outline for your developers on how to use the Token System. This guide will explain the structure and usage of `actions.json`, `missions.json`, and the `tokenSystem` class.
-
----
 
 ## Token System Usage Guide
 

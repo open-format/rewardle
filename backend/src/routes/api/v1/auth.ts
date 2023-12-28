@@ -6,7 +6,7 @@ import { sign } from "hono/jwt";
 const prisma = new PrismaClient();
 
 const auth = new Hono();
-const SECRET = "it-is-very-secret";
+const SECRET = process.env.JWT_SECRET as string;
 
 enum Status {
   SUCCESS = "success",
@@ -32,7 +32,7 @@ auth.post("/verify", async (c) => {
   const result = await prisma.challenge.findFirstOrThrow({
     where: { eth_address },
     orderBy: {
-      createdAt: "desc",
+      created_at: "desc",
     },
   });
 
@@ -79,15 +79,15 @@ auth.post("/verify", async (c) => {
         await prisma.token.create({
           data: {
             userId: user.id,
-            accessToken,
-            refreshToken,
+            access_token: accessToken,
+            refresh_token: refreshToken,
           },
         });
 
         return c.json({
           status: Status.SUCCESS,
-          accessToken,
-          refreshToken,
+          access_token: accessToken,
+          refresh_token: refreshToken,
         });
       } else {
         return c.json(
@@ -113,10 +113,10 @@ auth.post("/verify", async (c) => {
 auth.post("/refresh-token", async (c) => {
   const ACCESS_EXPIRES_IN = Math.floor(Date.now() / 1000) + 60; // Current time in seconds + 28 days
 
-  const { refreshToken } = await c.req.json();
+  const { refresh_token } = await c.req.json();
 
   const tokenRecord = await prisma.token.findFirst({
-    where: { refreshToken },
+    where: { refresh_token },
     include: { user: true }, // Include the user relation here
   });
 
@@ -137,13 +137,13 @@ auth.post("/refresh-token", async (c) => {
 
   await prisma.token.update({
     where: { id: tokenRecord.id },
-    data: { accessToken: newAccessToken },
+    data: { access_token: newAccessToken },
   });
 
   return c.json({
     status: Status.SUCCESS,
-    refreshToken,
-    accessToken: newAccessToken,
+    refresh_token,
+    access_token: newAccessToken,
   });
 });
 

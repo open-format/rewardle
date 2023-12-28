@@ -7,6 +7,311 @@
 	},
 	"item": [
 		{
+			"name": "auth",
+			"item": [
+				{
+					"name": "auth/verify",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"let response = pm.response.json(); // Parse the JSON response",
+									"if (response && response.access_token) {",
+									"    pm.collectionVariables.set(\"jwt_token\", response.access_token); ",
+									"}",
+									"",
+									"if (response && response.refresh_token) {",
+									"    pm.collectionVariables.set(\"refresh_token\", response.refresh_token); ",
+									"}",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"eth_address\": \"{{eth_address}}\",\n    \"signature\": \"0x05c63662c9b322eecd3fb9fa6eda95fd3f2957b7cf18249bff99fade0215759d03023b9c11dd9fb108f65d8239a9e924f51512dedf4c7b836c0ca9d23c2f1dec1c\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}/auth/verify",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"auth",
+								"verify"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "auth/challenge",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"eth_address\": \"{{eth_address}}\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}/auth/challenge",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"auth",
+								"challenge"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "auth/refresh-token",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"let response = pm.response.json(); // Parse the JSON response",
+									"if (response && response.access_token) {",
+									"    pm.collectionVariables.set(\"jwt_token\", response.access_token); // Set the token as a collection variable",
+									"}",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"refresh_token\": \"{{refresh_token}}\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}/auth/refresh-token",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"auth",
+								"refresh-token"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "profile",
+			"item": [
+				{
+					"name": "profile/me",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{jwt_token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"email_address\": \"bob@example.com\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}/profile/me",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"profile",
+								"me"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "profile/me",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{jwt_token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{url}}/profile/me",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"profile",
+								"me"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "token system",
+			"item": [
+				{
+					"name": "rewards/token-system/trigger Copy",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"user_address\": \"{{eth_address}}\",\n    \"action_id\": \"test_action\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}/rewards/token-system/trigger",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"rewards",
+								"token-system",
+								"trigger"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "actions",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{url}}/actions",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"actions"
+							],
+							"query": [
+								{
+									"key": "id",
+									"value": null,
+									"disabled": true
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "missions",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{url}}/missions",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"missions"
+							],
+							"query": [
+								{
+									"key": "id",
+									"value": null,
+									"disabled": true
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "leaderboard",
+			"item": [
+				{
+					"name": "Get Leaderboard",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{url}}/leaderboard",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"leaderboard"
+							],
+							"query": [
+								{
+									"key": "start",
+									"value": "0",
+									"disabled": true
+								},
+								{
+									"key": "end",
+									"value": "999999999999999",
+									"disabled": true
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
 			"name": "ping",
 			"request": {
 				"method": "GET",
@@ -18,41 +323,6 @@
 					],
 					"path": [
 						"ping"
-					]
-				}
-			},
-			"response": []
-		},
-		{
-			"name": "rewards/token-system/trigger",
-			"request": {
-				"method": "POST",
-				"header": [],
-				"body": {
-					"mode": "raw",
-					"raw": "{\n    \"user_address\": \"0x03755352654D73DA06756077Dd7f040ADcE3Fd58\",\n    \"action_id\": \"test_action\"\n}",
-					"options": {
-						"raw": {
-							"language": "json"
-						}
-					}
-				},
-				"url": {
-					"raw": "{{url}}/rewards/token-system/trigger",
-					"host": [
-						"{{url}}"
-					],
-					"path": [
-						"rewards",
-						"token-system",
-						"trigger"
-					],
-					"query": [
-						{
-							"key": "id",
-							"value": null,
-							"disabled": true
-						}
 					]
 				}
 			},
@@ -82,8 +352,22 @@
 	"variable": [
 		{
 			"key": "url",
-			"value": "http://localhost:8080/api/v1",
+			"value": "",
 			"type": "string"
+		},
+		{
+			"key": "jwt_token",
+			"value": "",
+			"type": "string"
+		},
+		{
+			"key": "eth_address",
+			"value": "",
+			"type": "string"
+		},
+		{
+			"key": "refresh_token",
+			"value": ""
 		}
 	]
 }
