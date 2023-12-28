@@ -16,7 +16,7 @@ app.use(
     origin: ["http://localhost:3000"],
   }),
   jwt({
-    secret: "it-is-very-secret",
+    secret: process.env.JWT_SECRET as string,
   })
 );
 
