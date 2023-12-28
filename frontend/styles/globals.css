@@ -1,0 +1,581 @@
+/* A simple CSS reset */
+html,
+body,
+div,
+span,
+applet,
+object,
+iframe,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+p,
+blockquote,
+pre,
+a,
+abbr,
+acronym,
+address,
+big,
+cite,
+code,
+del,
+dfn,
+em,
+img,
+ins,
+kbd,
+q,
+s,
+samp,
+small,
+strike,
+strong,
+sub,
+sup,
+tt,
+var,
+b,
+u,
+i,
+center,
+dl,
+dt,
+dd,
+ol,
+ul,
+li,
+fieldset,
+form,
+label,
+legend,
+table,
+caption,
+tbody,
+tfoot,
+thead,
+tr,
+th,
+td,
+article,
+aside,
+canvas,
+details,
+embed,
+figure,
+figcaption,
+footer,
+header,
+hgroup,
+menu,
+nav,
+output,
+ruby,
+section,
+summary,
+time,
+mark,
+audio,
+video {
+  margin: 0;
+  padding: 0;
+  border: 0;
+  font-size: 100%;
+  font: inherit;
+  vertical-align: baseline;
+}
+/* HTML5 display-role reset for older browsers */
+article,
+aside,
+details,
+figcaption,
+figure,
+footer,
+header,
+hgroup,
+menu,
+nav,
+section {
+  display: block;
+}
+body {
+  line-height: 1;
+}
+ol,
+ul {
+  list-style: none;
+}
+blockquote,
+q {
+  quotes: none;
+}
+blockquote:before,
+blockquote:after,
+q:before,
+q:after {
+  content: "";
+  content: none;
+}
+table {
+  border-collapse: collapse;
+  border-spacing: 0;
+}
+
+/* theme.css */
+
+/* Base theme variables */
+:root {
+  --primary-color: yellow; /* Neon green */
+  --background-color: #000; /* Dark background */
+  --text-color: #fff; /* White text */
+  --border-color: yellow; /* Neon green borders */
+  --border-radius: 3px; /* Rounded corners */
+  --border-width: 1px; /* Thin borders */
+  --border-radius-circle: 100%;
+}
+
+/* Global styles */
+body {
+  background-color: var(--background-color);
+  color: var(--text-color);
+  font-family: "Chivo";
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  padding: 0px;
+  line-height: 1.3em;
+}
+h1,
+h2,
+h3,
+h4 {
+  text-transform: uppercase;
+  text-shadow: 0 0 5px var(--primary-color);
+  line-height: 1.2em;
+}
+
+h1 {
+  font-size: 3em;
+  font-weight: 900;
+  color: var(--primary-color);
+}
+h2 {
+  font-size: 2em;
+  font-weight: 600;
+}
+h3 {
+  font-size: 1.5em;
+  font-weight: 500;
+}
+h4 {
+  font-size: 1.2em;
+  font-weight: 400;
+}
+
+/* Header layout adjustments */
+header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0 20px;
+}
+
+header div {
+  display: flex;
+  align-items: center;
+}
+
+.header__logo {
+  margin-right: 10px;
+  border-radius: 9999px;
+}
+
+nav {
+  display: flex;
+  align-items: center;
+}
+
+nav a {
+  margin: 0 10px;
+  text-decoration: none;
+  color: var(--text-color); /* Change as needed */
+}
+
+/* Responsive adjustments */
+@media (max-width: 600px) {
+  nav a {
+    margin: 0 5px;
+  }
+
+  .header__logo {
+    height: 40px;
+    width: 40px;
+  }
+
+  .header__company {
+    display: none;
+  }
+
+  header {
+    padding: 10px;
+  }
+}
+
+/* Section styles */
+#profile,
+#achievements,
+#leaderboard,
+#welcome {
+  max-width: 65ch;
+}
+section.main {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 10px;
+}
+
+/* Individual items styles */
+.user-data,
+.achievement,
+.actions {
+  background-color: rgba(0, 0, 0, 0.8);
+  border: var(--border-width) solid var(--border-color);
+  border-radius: var(--border-radius);
+  padding: 10px;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 20px;
+  flex-wrap: wrap;
+}
+.user-data,
+.achievement {
+  margin-bottom: 1.5em;
+}
+/* User Data Section Layout */
+.user-data {
+  gap: 20px; /* Space between columns */
+  width: 100%;
+  padding: 1rem;
+  width: 100%;
+  font-weight: 300;
+}
+
+/* Avatar Column */
+#user-avatar {
+  width: 128px; /* or your preferred width */
+  flex-grow: 0; /* Prevents the avatar from growing */
+  flex-shrink: 0; /* Prevents the avatar from shrinking */
+}
+
+/* Name and Email Column */
+.user-data-details {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around; /* Distributes space evenly */
+  flex-grow: 1; /* Allows this column to grow as needed */
+}
+.user-data-details figcaption {
+  font-size: 2em;
+  font-weight: 100;
+}
+/* Wallet and Scores Column */
+.user-data-wallet-scores {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around; /* Distributes space evenly */
+  flex-grow: 1; /* Allows this column to grow as needed */
+}
+#user-tokens {
+  color: var(--primary-color);
+}
+/* Specific Styles for Name, Email, Wallet, and Scores */
+/* Add any specific styling for these elements as needed */
+
+#user-avatar {
+  width: 128px;
+}
+article h3 {
+  color: var(--primary-color);
+}
+/* Payload and badges styles  */
+
+/* Achievement Layout */
+.achievement {
+  display: flex;
+  width: 100%;
+  align-items: stretch; /* Ensures items align in height */
+  gap: 20px; /* Space between elements */
+  border: var(--border-width) solid var(--border-color);
+  border-radius: var(--border-radius);
+  margin-bottom: 1.5em;
+  background-color: rgba(0, 0, 0, 0.8);
+  padding: 0;
+}
+
+/* Badge Column */
+.badges {
+  flex-grow: 0; /* Prevents the badge column from growing */
+  flex-shrink: 0; /* Prevents the badge column from shrinking */
+  align-items: center;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.badges img {
+  width: 256px; /* Adjust the size of the badge as needed */
+  height: auto;
+  margin: 1em;
+}
+/* Text Content Column */
+.achievement-content {
+  margin: 1em;
+  display: flex;
+  width: 10%;
+  flex-direction: column;
+  flex-grow: 1; /* Allows this column to grow and take available space */
+  justify-content: space-around; /* Distributes space evenly */
+}
+
+/* Title, Description, Status, and Payload */
+.achievement h3,
+.achievement p,
+.achievement .payload {
+  margin-bottom: 10px; /* Space between elements */
+}
+
+/* Actions List */
+.actions {
+  order: 2; /* Positions actions after the main content */
+  width: 100%; /* Full width of the container */
+  display: flex;
+  margin: 1em;
+}
+.actions h4 {
+}
+.action-title {
+  color: var(--primary-color);
+  font-weight: 700;
+}
+.actions ul {
+  padding-left: 20px;
+}
+
+.actions li {
+  list-style-type: disc;
+}
+
+/* Updated Leaderboard Styles */
+#leaderboard {
+  width: 100%;
+}
+
+#leaderboard h2 {
+  margin-bottom: 10px;
+}
+
+#leaderboard h3 {
+  text-align: left;
+  margin-bottom: 20px;
+}
+
+/* Leaderboard Table Styling */
+#leaderboard table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 0 auto;
+  background-color: rgba(0, 0, 0, 0.8);
+}
+
+#leaderboard th,
+#leaderboard td {
+  text-align: center;
+  padding: 10px;
+}
+
+/* Leaderboard Table Row and Cell Styling */
+#leaderboard td {
+  text-align: center;
+  padding: 10px;
+  vertical-align: middle; /* Vertically centers content in each cell */
+}
+#leaderboard td.leaderboard-position {
+  font-size: 2em;
+  font-weight: 100;
+}
+#leaderboard th {
+  background-color: var(--primary-color);
+  color: var(--background-color);
+  border-bottom: var(--border-width) solid var(--border-color);
+  vertical-align: middle; /* Vertically centers content in header cells */
+}
+
+#leaderboard tr {
+  border-bottom: var(--border-width) solid var(--border-color); /* Bottom border for each row */
+}
+#leaderboard tr.leaderboard-you {
+  background-color: var(--primary-color);
+  color: var(--background-color);
+  border: var(--border-width) solid var(--border-color);
+}
+#leaderboard .position-column {
+  width: 10%;
+}
+
+#leaderboard .avatar-column {
+  width: 50px;
+}
+
+#leaderboard img {
+  width: 100%;
+  height: auto;
+  border-radius: 50%;
+  box-shadow: 0 0 5px var(--primary-color);
+}
+
+/* Footer styles */
+footer {
+  width: 100%;
+  max-width: 1200px;
+  margin: 1em 0;
+  text-align: right;
+  font-size: 0.8em;
+  font-weight: 100;
+}
+
+/* Responsive adjustments */
+@media screen and (max-width: 768px) {
+  .user-data,
+  .achievement,
+  .actions {
+    flex-direction: column;
+  }
+
+  .badges img {
+    width: 128px; /* Adjust the size of the badge as needed */
+    height: auto;
+  }
+  .achievement-content {
+    width: 90%;
+  }
+  #profile {
+    width: 90%;
+  }
+  .user-data {
+    display: block;
+    text-align: center;
+  }
+  .actions {
+    width: 88%;
+  }
+  .user-data figure,
+  .user-data div,
+  .user-data p,
+  .user-data ul {
+    margin: 1em;
+  }
+}
+
+/* Welcome Styles */
+.welcome__list {
+}
+
+.welcome__item {
+  border: var(--border-width) solid var(--border-color);
+  border-radius: var(--border-radius);
+  margin: 1rem 0;
+  padding: 1rem;
+}
+
+.welcome__description p {
+  margin-bottom: 1rem;
+}
+
+/* Quests */
+/* Style for the entire quests section */
+.quests {
+  /* Styles for the quests section */
+}
+
+/* Style for the title of the quests section */
+.quests__title {
+  /* Styles for the title */
+}
+
+/* Style for the list of quests */
+.quests__list {
+  /* Styles for the quest list */
+  list-style: none;
+  padding: 0;
+}
+
+/* Style for each quest item in the list */
+.quests__item {
+  /* Styles for each quest item */
+  margin-bottom: 1em;
+}
+
+/* Style for each quest article */
+.quest {
+  /* Styles for each quest article */
+  border: var(--border-width) solid var(--border-color);
+  border-radius: var(--border-radius);
+  padding: 1em;
+  margin-bottom: 1em;
+}
+
+.quest__image {
+  height: 200px;
+  width: 200px;
+  border-radius: var(--border-radius-circle);
+}
+
+.quest__details {
+  display: flex;
+}
+/* Style for quest ID */
+.quest__id {
+  /* Styles for quest ID */
+  font-weight: bold;
+}
+
+/* Style for quest description */
+.quest__description {
+  /* Styles for quest description */
+}
+
+/* Style for quest requirements section */
+.quest__requirements {
+  /* Styles for requirements section */
+  margin-top: 1em;
+}
+
+/* Style for requirements title */
+.quest__requirements-title {
+  /* Styles for requirements title */
+  font-weight: bold;
+}
+
+/* Style for requirements list */
+.quest__requirements-list {
+  /* Styles for requirements list */
+  list-style: none;
+  padding: 0;
+}
+
+/* Style for each requirement in the list */
+.quest__requirement {
+  /* Styles for each requirement */
+}
+
+.nav__active {
+  color: pink;
+}
