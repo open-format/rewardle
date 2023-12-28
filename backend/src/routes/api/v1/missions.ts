@@ -1,5 +1,5 @@
 import { Hono } from "hono";
-import MISSIONS from "../../../constants/missions.json";
+import MISSIONS from "../../../constants/missions";
 
 enum Status {
   SUCCESS = "success",

@@ -1,8 +1,0 @@
-[
-  {
-    "id": "test_action",
-    "amount": 10,
-    "description": "trigger_test_action",
-    "address": "0x081959e70095ecf36044726680db51906e7cfdd2"
-  }
-]

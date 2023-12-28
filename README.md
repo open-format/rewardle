@@ -60,9 +60,9 @@ bun dev
 
 ### Overview
 
-The Token System is designed to calculate and trigger rewards based on user actions and completed missions. It utilises two main configuration files: `actions.json` and `missions.json`, and a core class `TokenSystem`.
+The Token System is designed to calculate and trigger rewards based on user actions and completed missions. It utilises two main configuration files: `actions.ts` and `missions.ts`, and a core class `TokenSystem`.
 
-### `actions.json` - Action Configurations
+### `actions.ts` - Action Configurations
 
 This file sets up the actions that users can perform to earn rewards.
 
@@ -75,18 +75,18 @@ This file sets up the actions that users can perform to earn rewards.
 
 #### Structure Example:
 
-```json
-[
+```ts
+export default [
   {
-    "id": "test_action",
-    "amount": 10,
-    "description": "trigger_test_action",
-    "address": "0x373b1bfaac988e4b6b5b73e65778f3b1c4a8da6a"
-  }
-]
+    id: "test_action",
+    amount: 10,
+    description: "trigger_test_action",
+    address: process.env.XP_TOKEN_ID,
+  },
+];
 ```
 
-### `missions.json` - Mission Configurations
+### `missions.ts` - Mission Configurations
 
 This file defines missions that users can complete for additional rewards.
 
@@ -113,29 +113,32 @@ This file defines missions that users can complete for additional rewards.
 
 #### Structure Example:
 
-```json
-[
+```ts
+export default [
   {
-    "id": "Test Mission",
-    "description": "Complete two test actions to complete the Test Mission",
-    "tokens": [
+    id: "test_mission",
+    description:
+      "Complete two test actions to complete the Test Mission",
+    tokens: [
       {
-        "address": "0x77c4eac06807538e2eeaedb0d2d2e9d05e421385",
-        "amount": 5
+        address: process.env.XP_TOKEN_ID,
+        amount: 100,
       },
       {
-        "address": "0x373b1bfaac988e4b6b5b73e65778f3b1c4a8da6a",
-        "amount": 5
-      }
+        address: process.env.REWARD_TOKEN_ID,
+        amount: 5,
+      },
     ],
-    "requirements": [
+    badgeUrl: "https://i.postimg.cc/4yg90byK/avatar.png",
+    requirements: [
       {
-        "actionId": "test_action",
-        "count": 3
-      }
-    ]
-  }
-]
+        actionId: "test_action",
+        description: "Complete the test action twice!",
+        count: 2,
+      },
+    ],
+  },
+];
 ```
 
 ## `tokenSystem` - Main Logic

@@ -13,8 +13,8 @@ import {
   MissionRequirement,
   User,
 } from "../../@types";
-import actions from "../constants/actions.json";
-import missions from "../constants/missions.json";
+import actions from "../constants/actions";
+import missions from "../constants/missions";
 
 export default class TokenSystem {
   private tokenService: TokenService;

@@ -1,5 +1,5 @@
 import { Hono } from "hono";
-import ACTIONS from "../../../constants/actions.json";
+import ACTIONS from "../../../constants/actions";
 
 enum Status {
   SUCCESS = "success",
