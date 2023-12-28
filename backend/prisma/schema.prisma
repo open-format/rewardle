@@ -1,0 +1,35 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id            Int      @id @default(autoincrement())
+  eth_address   String   @unique
+  nickname      String?
+  email_address String?  @unique
+  createdAt     DateTime @default(now())
+  tokens        Token[]
+}
+
+model Challenge {
+  id          Int      @id @default(autoincrement())
+  eth_address String
+  challenge   String
+  createdAt   DateTime @default(now())
+}
+
+model Token {
+  id           Int      @id @default(autoincrement())
+  userId       Int
+  accessToken  String   @unique
+  refreshToken String   @unique
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+
+  user User @relation(fields: [userId], references: [id])
+}

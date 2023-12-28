@@ -3,7 +3,7 @@
   "module": "index.ts",
   "type": "module",
   "workspaces": [
-    "app",
+    "app-new",
     "backend"
   ],
   "devDependencies": {
@@ -14,10 +14,11 @@
   },
   "dependencies": {
     "@openformat/react": "dev",
-    "dayjs": "^1.11.10",
     "ethers": "^5",
     "graphql-request": "^6.1.0",
-    "turbo": "^1.11.1"
+    "react-router-dom": "^6.21.0",
+    "turbo": "^1.11.1",
+    "validator": "^13.11.0"
   },
   "scripts": {
     "dev": "turbo run dev --parallel"
