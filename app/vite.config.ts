@@ -10,6 +10,7 @@ export default defineConfig(({ mode }) => {
     plugins: [tsconfigPaths()],
     define: {
       "process.env.APP_ID": JSON.stringify(env.APP_ID),
+      "process.env.API_URL": JSON.stringify(env.API_URL),
     },
   };
 });
