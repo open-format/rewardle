@@ -6,7 +6,7 @@ import { useQuery } from "@tanstack/react-query";
 export default function Profile() {
   const { setProfileData } = useProfileStore();
 
-  const { data: profileData } = useQuery({
+  const { data: profileData, isLoading } = useQuery({
     queryKey: ["profileData"],
     queryFn: fetchProfileData,
   });
@@ -20,6 +20,13 @@ export default function Profile() {
       })
       .catch((err) => console.log({ err }));
   }
+
+  if (isLoading)
+    return (
+      <div aria-live="assertive" aria-busy="true">
+        Loading...
+      </div>
+    );
 
   return (
     <section id="profile" className="main">
@@ -39,7 +46,7 @@ export default function Profile() {
                 <strong>Total XP:</strong> {profileData?.xp_balance}
               </li>
               <li>
-                <strong>Total $WORD:</strong>{" "}
+                <strong>Total Reward Token:</strong>{" "}
                 {profileData?.reward_token_balance}
               </li>
             </ul>
