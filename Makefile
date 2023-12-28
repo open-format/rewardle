@@ -10,4 +10,4 @@ generate-env-files:
 	@echo "Environment files copied..."
 	@echo "Update backend/.env and frontend/.env.local"
 
-setup: install db generate-env-files 
+setup: install generate-env-files db 
