@@ -3,6 +3,7 @@ import { cors } from "hono/cors";
 import { jwt } from "hono/jwt";
 import actions from "./routes/api/v1/actions";
 import auth from "./routes/api/v1/auth";
+import leaderboard from "./routes/api/v1/leaderboard";
 import missions from "./routes/api/v1/missions";
 import profile from "./routes/api/v1/profile";
 import rewards from "./routes/api/v1/rewards";
@@ -33,6 +34,7 @@ app.route("/rewards", rewards);
 app.route("/profile", profile);
 app.route("/missions", missions);
 app.route("/actions", actions);
+app.route("/leaderboard", leaderboard);
 
 export default {
   port: 8080,

@@ -94,3 +94,8 @@ type FungibleTokenBalance = {
     id: string;
   };
 };
+
+interface LeaderboardEntry {
+  user: string;
+  xp_rewarded: string;
+}

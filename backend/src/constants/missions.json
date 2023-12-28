@@ -1,19 +1,23 @@
 [
   {
-    "id": "Test Mission",
+    "id": "test_mission",
     "description": "Complete two test actions to complete the Test Mission",
     "tokens": [
       {
-        "address": "0x77c4eac06807538e2eeaedb0d2d2e9d05e421385",
-        "amount": 1
+        "address": "0x081959e70095ecf36044726680db51906e7cfdd2",
+        "amount": 100
+      },
+      {
+        "address": "0xd9A69BE23B2B004bc5F4719630aA6d1456B43253",
+        "amount": 50
       }
     ],
     "badgeUrl": "https://i.postimg.cc/4yg90byK/avatar.png",
     "requirements": [
       {
         "actionId": "test_action",
-        "description": "trigger_test_action",
-        "count": 50
+        "description": "Complete the test action twice!",
+        "count": 2
       }
     ]
   }

@@ -142,6 +142,7 @@ auth.post("/refresh-token", async (c) => {
 
   return c.json({
     status: Status.SUCCESS,
+    refreshToken,
     accessToken: newAccessToken,
   });
 });
