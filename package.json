@@ -1,10 +1,11 @@
 {
-  "name": "get-started",
+  "name": "react-wordle",
   "module": "index.ts",
   "type": "module",
+  "private": true,
   "workspaces": [
-    "frontend",
-    "backend"
+    "backend",
+    "frontend"
   ],
   "devDependencies": {
     "bun-types": "latest"
