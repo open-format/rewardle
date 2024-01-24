@@ -13,6 +13,7 @@ import { BarChartIcon, HelpIcon } from "./icons";
 import Link from "next/link";
 import { useEffect } from "react";
 import apiClient from "utils/apiClient";
+import { useRouter } from 'next/router';
 
 type Props = {
   onIconClick(modalKind: ModalKind): void;
@@ -22,6 +23,7 @@ export default function Header(props: Props) {
   const { address } = useWallet();
   const { sdk } = useOpenFormat();
   const { actions } = useGameStore();
+  const router = useRouter();
 
   const handleAuth = async () => {
     if (!address) return;
@@ -76,9 +78,11 @@ export default function Header(props: Props) {
             to: process.env.NEXT_PUBLIC_APPLICATION_OWNER_ADDRESS as string,
             amount: toWei("1"),
           })
-          .then(() => actions.reset());
-
-        // setHasSpent(true);
+          .then(() => {
+            actions.reset();
+            // setHasSpent(true);
+            router.push('/');
+          });
       }
     } catch (e: any) {
       console.log(e.message);
