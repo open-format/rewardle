@@ -7,6 +7,13 @@ import { findLastNonEmptyTile, getNextRow, getRowWord } from "./helpers";
 
 export type GameState = typeof INITIAL_STATE;
 
+function isGameCompletedSelector(state: GameState): boolean {
+  const isLastRow = state.cursor.y === state.grid.length - 1;
+  const currentRowWord = getRowWord(state.grid[state.cursor.y]);
+  const won = state.secret === currentRowWord;
+  return won || isLastRow;
+}
+
 export const useGameStore = createStore(INITIAL_STATE, {
   createActions: (set, get) => ({
     async init() {
@@ -199,6 +206,15 @@ export const useGameStore = createStore(INITIAL_STATE, {
       reject(propEq("children", "")),
       groupBy(prop("children"))
     ),
+    /**
+     * Check if the game has been completed and the number of attempts has been reached
+     */
+    isGameCompleted: ({ cursor, grid, secret }) => {
+      const isLastRow = cursor.y === grid.length - 1;
+      const currentRowWord = getRowWord(grid[cursor.y]);
+      const won = secret === currentRowWord;
+      return won || isLastRow;
+    },
   },
 });
 
@@ -209,3 +225,5 @@ useGameStore.subscribe(({ state }) => {
 export function useGameStoreSelector<R>(selector: Selector<GameState, R>) {
   return useGameStore((store) => selector(store.state));
 }
+
+export { isGameCompletedSelector };

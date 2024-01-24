@@ -6,7 +6,7 @@ import {
   useOpenFormat,
   useWallet,
 } from "@openformat/react";
-import { useGameStore } from "stores/game";
+import { useGameStore, useGameStoreSelector, isGameCompletedSelector } from "stores/game";
 import { APP_NAME, ModalKind } from "stores/game/constants";
 import { IconButton } from "./Button";
 import { BarChartIcon, HelpIcon } from "./icons";
@@ -23,6 +23,9 @@ export default function Header(props: Props) {
   const { address } = useWallet();
   const { sdk } = useOpenFormat();
   const { actions } = useGameStore();
+  
+  const isGameCompleted = useGameStoreSelector(isGameCompletedSelector);
+
   const router = useRouter();
 
   const handleAuth = async () => {
@@ -108,7 +111,15 @@ export default function Header(props: Props) {
             <BarChartIcon />
           </IconButton>
         </div>
-        <button onClick={spendTokens}>Pay to play</button>
+        {
+          isGameCompleted ?
+            (<button onClick={spendTokens}>Pay to play</button>) :
+            (
+              <Link href="/" passHref>
+                <button>Play</button>
+              </Link>
+            )
+        }
         <Link href="/leaderboard">Leaderboard</Link>
         <Link href="/profile">Profile</Link>
         <Link href="/quests">Quests</Link>
