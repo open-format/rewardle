@@ -9,7 +9,11 @@ export type GameState = typeof INITIAL_STATE;
 
 function isGameCompletedSelector(state: GameState): boolean {
   const isLastRow = state.cursor.y === state.grid.length - 1;
-  const currentRowWord = getRowWord(state.grid[state.cursor.y]);
+  const currentRowIndex = state.cursor.y - 1;
+  if (currentRowIndex < 0) {
+    return false;
+  }
+  const currentRowWord = getRowWord(state.grid[currentRowIndex]);
   const won = state.secret === currentRowWord;
   return won || isLastRow;
 }
@@ -96,9 +100,6 @@ export const useGameStore = createStore(INITIAL_STATE, {
       }
 
       const { state } = get();
-
-      console.log({ state });
-
       const won = state.secret === guessWord;
 
       const attempts = state.cursor.y + 1;

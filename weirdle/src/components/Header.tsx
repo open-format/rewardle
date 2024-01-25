@@ -6,14 +6,18 @@ import {
   useOpenFormat,
   useWallet,
 } from "@openformat/react";
-import { useGameStore, useGameStoreSelector, isGameCompletedSelector } from "stores/game";
+import {
+  useGameStore,
+  useGameStoreSelector,
+  isGameCompletedSelector,
+} from "stores/game";
 import { APP_NAME, ModalKind } from "stores/game/constants";
 import { IconButton } from "./Button";
 import { BarChartIcon, HelpIcon } from "./icons";
 import Link from "next/link";
 import { useEffect } from "react";
 import apiClient from "utils/apiClient";
-import { useRouter } from 'next/router';
+import { useRouter } from "next/router";
 
 type Props = {
   onIconClick(modalKind: ModalKind): void;
@@ -23,18 +27,15 @@ export default function Header(props: Props) {
   const { address } = useWallet();
   const { sdk } = useOpenFormat();
   const { actions } = useGameStore();
-  
-  const isGameCompleted = useGameStoreSelector(isGameCompletedSelector);
-
   const router = useRouter();
+  const isGameCompleted = useGameStoreSelector(isGameCompletedSelector);
 
   const handleAuth = async () => {
     if (!address) return;
     try {
-      const challengeResponse = await apiClient.post(
-        "auth/challenge",
-        { eth_address: address }
-      );
+      const challengeResponse = await apiClient.post("auth/challenge", {
+        eth_address: address,
+      });
       const signedMessage = await sdk.signer?.signMessage(
         challengeResponse.data.challenge
       );
@@ -43,10 +44,7 @@ export default function Header(props: Props) {
         eth_address: address,
         signature: signedMessage,
       });
-      localStorage.setItem(
-        "tokens",
-        JSON.stringify(verifyResponse.data)
-      );
+      localStorage.setItem("tokens", JSON.stringify(verifyResponse.data));
     } catch (error) {
       console.error("Authentication error:", error);
     }
@@ -84,7 +82,7 @@ export default function Header(props: Props) {
           .then(() => {
             actions.reset();
             // setHasSpent(true);
-            router.push('/');
+            router.push("/");
           });
       }
     } catch (e: any) {
@@ -101,25 +99,23 @@ export default function Header(props: Props) {
             <HelpIcon />
           </IconButton>
         </div>
-         
+
         <div className="pointer-events-none text-center text-4xl font-bold uppercase tracking-widest text-white">
           {APP_NAME}
         </div>
-       
+
         <div className="flex gap-2">
           <IconButton onClick={props.onIconClick.bind(null, "stats")}>
             <BarChartIcon />
           </IconButton>
         </div>
-        {
-          isGameCompleted ?
-            (<button onClick={spendTokens}>Pay to play</button>) :
-            (
-              <Link href="/" passHref>
-                <button>Play</button>
-              </Link>
-            )
-        }
+        {isGameCompleted ? (
+          <button onClick={spendTokens}>Pay to play</button>
+        ) : (
+          <Link href="/" passHref>
+            <button>Play</button>
+          </Link>
+        )}
         <Link href="/leaderboard">Leaderboard</Link>
         <Link href="/profile">Profile</Link>
         <Link href="/quests">Quests</Link>
