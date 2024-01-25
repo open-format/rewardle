@@ -11,8 +11,7 @@ import { toast, TypeOptions } from "react-toastify";
 import "react-toastify/dist/ReactToastify.min.css";
 import { APP_NAME } from "stores/game/constants";
 import "../styles/globals.css";
-import { QueryClient, QueryClientProvider } from "@tanstack/react-query"
-import Header from "components/Header";
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { useGameStore } from "stores/game";
 
 const queryClient = new QueryClient();
@@ -54,8 +53,7 @@ function MyApp({ Component, pageProps }: AppProps) {
           }}
         >
           <QueryClientProvider client={queryClient}>
-          <Header onIconClick={gameActions.openModal} />
-          <Component {...pageProps} />
+            <Component {...pageProps} />
           </QueryClientProvider>
         </OpenFormatProvider>
       </AnimatePresence>

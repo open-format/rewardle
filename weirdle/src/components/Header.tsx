@@ -6,11 +6,7 @@ import {
   useOpenFormat,
   useWallet,
 } from "@openformat/react";
-import {
-  useGameStore,
-  useGameStoreSelector,
-  isGameCompletedSelector,
-} from "stores/game";
+import { useGameStore, useGameStoreSelector } from "stores/game";
 import { APP_NAME, ModalKind } from "stores/game/constants";
 import { IconButton } from "./Button";
 import { BarChartIcon, HelpIcon } from "./icons";
@@ -28,7 +24,6 @@ export default function Header(props: Props) {
   const { sdk } = useOpenFormat();
   const { actions } = useGameStore();
   const router = useRouter();
-  const isGameCompleted = useGameStoreSelector(isGameCompletedSelector);
 
   const handleAuth = async () => {
     if (!address) return;
@@ -59,38 +54,6 @@ export default function Header(props: Props) {
     }
   }, [address]);
 
-  async function spendTokens() {
-    // setIsLoadingSpendToken(true);
-    try {
-      // if (!process.env.NEXT_PUBLIC_APPLICATION_OWNER_ADDRESS) {
-      //   throw new Error(
-      //     "NEXT_PUBLIC_APPLICATION_OWNER_ADDRESS not set in .env.local"
-      //   );
-      // }
-      if (address) {
-        // sdk.setStarId("0x46f518c0fb5ab62e1212b4b31b3d68765e01c42b");
-        const rewardToken = (await sdk.getContract({
-          contractAddress: process.env.NEXT_PUBLIC_REWARD_TOKEN_ID as string,
-          type: ContractType.Token,
-        })) as ERC20Base;
-
-        await rewardToken
-          .transfer({
-            to: process.env.NEXT_PUBLIC_APPLICATION_OWNER_ADDRESS as string,
-            amount: toWei("1"),
-          })
-          .then(() => {
-            actions.reset();
-            // setHasSpent(true);
-            router.push("/");
-          });
-      }
-    } catch (e: any) {
-      console.log(e.message);
-      alert(e.message);
-    }
-    // setIsLoadingSpendToken(false);
-  }
   return (
     <header className="w-full border-b-2 bg-brand p-4 dark:border-gray-800">
       <div className="m-auto flex max-w-lg justify-between">
@@ -109,13 +72,6 @@ export default function Header(props: Props) {
             <BarChartIcon />
           </IconButton>
         </div>
-        {isGameCompleted ? (
-          <button onClick={spendTokens}>Pay to play</button>
-        ) : (
-          <Link href="/" passHref>
-            <button>Play</button>
-          </Link>
-        )}
         <Link href="/leaderboard">Leaderboard</Link>
         <Link href="/profile">Profile</Link>
         <Link href="/quests">Quests</Link>

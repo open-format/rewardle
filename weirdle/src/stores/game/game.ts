@@ -7,17 +7,6 @@ import { findLastNonEmptyTile, getNextRow, getRowWord } from "./helpers";
 
 export type GameState = typeof INITIAL_STATE;
 
-function isGameCompletedSelector(state: GameState): boolean {
-  const isLastRow = state.cursor.y === state.grid.length - 1;
-  const currentRowIndex = state.cursor.y - 1;
-  if (currentRowIndex < 0) {
-    return false;
-  }
-  const currentRowWord = getRowWord(state.grid[currentRowIndex]);
-  const won = state.secret === currentRowWord;
-  return won || isLastRow;
-}
-
 export const useGameStore = createStore(INITIAL_STATE, {
   createActions: (set, get) => ({
     async init() {
@@ -72,13 +61,18 @@ export const useGameStore = createStore(INITIAL_STATE, {
       | { status: "loss"; guess: string; attempts: number }
       | { status: "playing" }
     > {
-      const { cursor, grid } = get().state;
+      const { cursor, grid, guesses } = get().state;
 
       if (cursor.x !== grid[0].length - 1) {
         return { status: "playing" };
       }
 
       const guessWord = getRowWord(grid[cursor.y]);
+
+      if (guesses.includes(guessWord)) {
+        toast.error("you already guessed this word.");
+        return { status: "playing" };
+      }
 
       if (guessWord.length !== 5) {
         return {
@@ -111,9 +105,16 @@ export const useGameStore = createStore(INITIAL_STATE, {
           state.secret
         );
 
+        state.guesses = [guessWord, ...state.guesses];
+
         if (!isLastRow) {
           state.cursor.y++;
           state.cursor.x = 0;
+        }
+
+        if (won) {
+          state.status = "won";
+          state.activeModal = "paywall";
         }
       });
 
@@ -207,15 +208,6 @@ export const useGameStore = createStore(INITIAL_STATE, {
       reject(propEq("children", "")),
       groupBy(prop("children"))
     ),
-    /**
-     * Check if the game has been completed and the number of attempts has been reached
-     */
-    isGameCompleted: ({ cursor, grid, secret }) => {
-      const isLastRow = cursor.y === grid.length - 1;
-      const currentRowWord = getRowWord(grid[cursor.y]);
-      const won = secret === currentRowWord;
-      return won || isLastRow;
-    },
   },
 });
 
@@ -226,5 +218,3 @@ useGameStore.subscribe(({ state }) => {
 export function useGameStoreSelector<R>(selector: Selector<GameState, R>) {
   return useGameStore((store) => selector(store.state));
 }
-
-export { isGameCompletedSelector };
