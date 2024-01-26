@@ -14,9 +14,6 @@ import Link from "next/link";
 import { useEffect } from "react";
 import apiClient from "utils/apiClient";
 import { useRouter } from "next/router";
-import SettingsModal from "components/SettingsModal";
-import StatsModal from "components/StatsModal";
-import HelpModal from "components/HelpModal";
 
 type Props = {
   onIconClick(modalKind: ModalKind): void;
@@ -66,8 +63,8 @@ export default function Header(props: Props) {
           </IconButton>
         </div>
 
-        <div className="pointer-events-none text-center text-4xl font-bold uppercase tracking-widest text-white">
-          {APP_NAME}
+        <div className="text-center text-4xl font-bold tracking-widest text-white">
+          <Link href="/">{APP_NAME}</Link>
         </div>
 
         <div className="flex gap-2">
@@ -80,18 +77,6 @@ export default function Header(props: Props) {
         <Link href="/quests">Quests</Link>
         <ConnectButton />
       </div>
-      <HelpModal
-        open={gameState.activeModal === "help"}
-        onClose={gameActions.closeModal}
-      />
-      <StatsModal
-        open={gameState.activeModal === "stats"}
-        onClose={gameActions.closeModal}
-      />
-      <SettingsModal
-        open={gameState.activeModal === "settings"}
-        onClose={gameActions.closeModal}
-      />
     </header>
   );
 }

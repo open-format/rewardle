@@ -1,4 +1,3 @@
-import Layout from "components/Layout";
 import { MissionConfig } from "../@types";
 import Profile from "../components/Profile";
 import Quests from "../components/Quests";
@@ -29,7 +28,7 @@ export default function ProfilePage() {
   );
 
   return (
-    <Layout>
+    <>
       <h2>Profile</h2>
       <Profile />
       <Quests
@@ -37,6 +36,6 @@ export default function ProfilePage() {
         quests={completedQuests}
         isLoading={isLoading}
       />
-    </Layout>
+    </>
   );
 }

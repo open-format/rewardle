@@ -7,8 +7,6 @@ import {
 } from "@openformat/react";
 import Grid from "components/Grid";
 import Keyboard, { isMappableKey } from "components/Keyboard";
-import Layout from "components/Layout";
-import PaywallModal from "components/PaywallModal";
 import { useCallback, useEffect } from "react";
 import { useGameStore } from "stores/game";
 import { useStatsStore } from "stores/stats";
@@ -66,31 +64,8 @@ export default function Home() {
     [gameActions, statsActions]
   );
 
-  async function spendTokens() {
-    try {
-      if (address) {
-        const rewardToken = (await sdk.getContract({
-          contractAddress: process.env.NEXT_PUBLIC_REWARD_TOKEN_ID as string,
-          type: ContractType.Token,
-        })) as ERC20Base;
-
-        await rewardToken
-          .transfer({
-            to: process.env.NEXT_PUBLIC_APPLICATION_OWNER_ADDRESS as string,
-            amount: toWei("1"),
-          })
-          .then(() => {
-            gameActions.closeModal(), gameActions.reset();
-          });
-      }
-    } catch (e: any) {
-      console.log(e.message);
-      alert(e.message);
-    }
-  }
-
   return (
-    <Layout onIconClick={gameActions.openModal}>
+    <>
       {process.env.NODE_ENV === "development" && (
         <div className="border bg-gray-100 p-2 text-center font-mono uppercase tracking-widest">
           {gameState.secret}
@@ -103,11 +78,6 @@ export default function Home() {
         disabled={gameState.isLoading}
         onKeyPress={handleKeyPress}
       />
-      <PaywallModal
-        open={gameState.activeModal === "paywall"}
-        onClose={gameActions.closeModal}
-        handlePayment={spendTokens}
-      />
-    </Layout>
+    </>
   );
 }

@@ -10,7 +10,9 @@ import "react-toastify/dist/ReactToastify.min.css";
 import { APP_NAME } from "stores/game/constants";
 import "../styles/globals.css";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import { useGameStore } from "stores/game";
+import Layout from "components/Layout";
+import { AnimatePresence } from "framer-motion";
+import { Chains, OpenFormatProvider } from "@openformat/react";
 
 const queryClient = new QueryClient();
 
@@ -23,8 +25,6 @@ const contextClass: Record<TypeOptions, string> = {
 };
 
 function MyApp({ Component, pageProps }: AppProps) {
-  const { state: gameState, actions: gameActions } = useGameStore();
-
   useEffect(() => {
     toast.configure({
       style: { padding: "1rem", display: "grid", gap: ".75rem" },
@@ -43,10 +43,20 @@ function MyApp({ Component, pageProps }: AppProps) {
       <Head>
         <title>{capitalize(APP_NAME)}</title>
       </Head>
-
-      <QueryClientProvider client={queryClient}>
-        <Component {...pageProps} />
-      </QueryClientProvider>
+      <AnimatePresence>
+        <OpenFormatProvider
+          config={{
+            networks: [Chains.polygonMumbai],
+            appId: process.env.NEXT_PUBLIC_APPLICATION_ID as string,
+          }}
+        >
+          <QueryClientProvider client={queryClient}>
+            <Layout>
+              <Component {...pageProps} />
+            </Layout>
+          </QueryClientProvider>
+        </OpenFormatProvider>
+      </AnimatePresence>
     </>
   );
 }

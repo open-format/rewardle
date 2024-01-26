@@ -1,4 +1,3 @@
-import Layout from "components/Layout";
 import { MissionConfig } from "../@types";
 import Quests from "../components/Quests";
 import apiClient from "../utils/apiClient";
@@ -18,11 +17,9 @@ export default function QuestsPage() {
   }
 
   return (
-    <Layout>
-      <section>
-        <h2>Quests</h2>
-        <Quests quests={quests} isLoading={isLoading} />
-      </section>
-    </Layout>
+    <section>
+      <h2>Quests</h2>
+      <Quests quests={quests} isLoading={isLoading} />
+    </section>
   );
 }
