@@ -5,7 +5,13 @@ import StatsModal from "components/StatsModal";
 import HelpModal from "components/HelpModal";
 import { useGameStore } from "stores/game";
 import PaywallModal from "./PaywallModal";
-import { useWallet } from "@openformat/react";
+import {
+  ContractType,
+  ERC20Base,
+  toWei,
+  useOpenFormat,
+  useWallet,
+} from "@openformat/react";
 
 const Layout: React.FC<{ onIconClick?: () => void }> = ({
   children,
@@ -13,6 +19,7 @@ const Layout: React.FC<{ onIconClick?: () => void }> = ({
 }) => {
   const { state: gameState, actions: gameActions } = useGameStore();
 
+  const { sdk } = useOpenFormat();
   const { address } = useWallet();
 
   async function spendTokens() {

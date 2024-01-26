@@ -1,10 +1,4 @@
-import {
-  ContractType,
-  ERC20Base,
-  toWei,
-  useOpenFormat,
-  useWallet,
-} from "@openformat/react";
+import { useWallet } from "@openformat/react";
 import Grid from "components/Grid";
 import Keyboard, { isMappableKey } from "components/Keyboard";
 import { useCallback, useEffect } from "react";
@@ -17,7 +11,6 @@ export default function Home() {
   const { state: gameState, actions: gameActions } = useGameStore();
   const { state: stats, actions: statsActions } = useStatsStore();
 
-  const { sdk } = useOpenFormat();
   const { address } = useWallet();
   const keys = useSelector("getUsedKeys");
 
