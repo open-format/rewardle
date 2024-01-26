@@ -48,9 +48,16 @@ export default function Home() {
 
           switch (result.status) {
             case "win":
-              statsActions.captureWin({
-                attempts: result.attempts,
-              });
+              if (address) {
+                statsActions.captureWin({
+                  attempts: result.attempts,
+                  address: address,
+                });
+              } else {
+                console.error(
+                  "Cannot capture Win Stats. Address is undefined."
+                );
+              }
               break;
             case "loss":
               statsActions.captureLoss();

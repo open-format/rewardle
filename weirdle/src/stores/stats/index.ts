@@ -1,4 +1,5 @@
 import { createStore } from "zustand-immer-store";
+import handleRewards from "utils/handleRewards";
 
 const INITIAL_STATE = {
   wins: 0,
@@ -14,7 +15,8 @@ export const useStatsStore = createStore(INITIAL_STATE, {
     version: 0,
   },
   createActions: (set, _get) => ({
-    captureWin({ attempts }: { attempts: number }) {
+    captureWin({ attempts, address }: { attempts: number; address: string }) {
+      handleRewards(address, "winner");
       set(({ state }) => {
         state.wins++;
         state.currentStreak++;
