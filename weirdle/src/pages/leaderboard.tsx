@@ -1,3 +1,4 @@
+import Layout from "components/Layout";
 import { LeaderboardEntry } from "../@types";
 import Leaderboard from "../components/Leaderboard";
 import apiClient from "../utils/apiClient";
@@ -21,13 +22,15 @@ export default function LeaderboardPage() {
   }
 
   return (
-    <section>
-      <h2>Leaderboard</h2>
-      <h3>
-        Positions for this week ({startOfWeek.format("DD/MM")} -{" "}
-        {endOfWeek.format("DD/MM")})
-      </h3>
-      <Leaderboard data={leaderboardData} isLoading={isLoading} />
-    </section>
+    <Layout>
+      <section>
+        <h2>Leaderboard</h2>
+        <h3>
+          Positions for this week ({startOfWeek.format("DD/MM")} -{" "}
+          {endOfWeek.format("DD/MM")})
+        </h3>
+        <Leaderboard data={leaderboardData} isLoading={isLoading} />
+      </section>
+    </Layout>
   );
 }

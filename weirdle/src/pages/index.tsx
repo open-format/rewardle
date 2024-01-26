@@ -6,12 +6,9 @@ import {
   useWallet,
 } from "@openformat/react";
 import Grid from "components/Grid";
-import Header from "components/Header";
-import HelpModal from "components/HelpModal";
 import Keyboard, { isMappableKey } from "components/Keyboard";
+import Layout from "components/Layout";
 import PaywallModal from "components/PaywallModal";
-import SettingsModal from "components/SettingsModal";
-import StatsModal from "components/StatsModal";
 import { useCallback, useEffect } from "react";
 import { useGameStore } from "stores/game";
 import { useStatsStore } from "stores/stats";
@@ -93,39 +90,24 @@ export default function Home() {
   }
 
   return (
-    <div className="m-auto flex h-screen w-full flex-col dark:bg-gray-700">
-      <Header onIconClick={gameActions.openModal} />
-      <main className="m-auto flex max-w-lg flex-1 flex-col justify-between p-4">
-        {process.env.NODE_ENV === "development" && (
-          <div className="border bg-gray-100 p-2 text-center font-mono uppercase tracking-widest">
-            {gameState.secret}
-          </div>
-        )}
-        <Grid data={gameState.grid} />
-        <div className="flex-1 md:hidden"></div>
-        <Keyboard
-          usedKeys={keys}
-          disabled={gameState.isLoading}
-          onKeyPress={handleKeyPress}
-        />
-      </main>
-      <HelpModal
-        open={gameState.activeModal === "help"}
-        onClose={gameActions.closeModal}
-      />
-      <StatsModal
-        open={gameState.activeModal === "stats"}
-        onClose={gameActions.closeModal}
-      />
-      <SettingsModal
-        open={gameState.activeModal === "settings"}
-        onClose={gameActions.closeModal}
+    <Layout onIconClick={gameActions.openModal}>
+      {process.env.NODE_ENV === "development" && (
+        <div className="border bg-gray-100 p-2 text-center font-mono uppercase tracking-widest">
+          {gameState.secret}
+        </div>
+      )}
+      <Grid data={gameState.grid} />
+      <div className="flex-1 md:hidden"></div>
+      <Keyboard
+        usedKeys={keys}
+        disabled={gameState.isLoading}
+        onKeyPress={handleKeyPress}
       />
       <PaywallModal
         open={gameState.activeModal === "paywall"}
         onClose={gameActions.closeModal}
         handlePayment={spendTokens}
       />
-    </div>
+    </Layout>
   );
 }

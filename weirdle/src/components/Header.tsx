@@ -6,7 +6,7 @@ import {
   useOpenFormat,
   useWallet,
 } from "@openformat/react";
-import { useGameStore, useGameStoreSelector } from "stores/game";
+import { useGameStore } from "stores/game";
 import { APP_NAME, ModalKind } from "stores/game/constants";
 import { IconButton } from "./Button";
 import { BarChartIcon, HelpIcon } from "./icons";
@@ -14,6 +14,9 @@ import Link from "next/link";
 import { useEffect } from "react";
 import apiClient from "utils/apiClient";
 import { useRouter } from "next/router";
+import SettingsModal from "components/SettingsModal";
+import StatsModal from "components/StatsModal";
+import HelpModal from "components/HelpModal";
 
 type Props = {
   onIconClick(modalKind: ModalKind): void;
@@ -22,8 +25,8 @@ type Props = {
 export default function Header(props: Props) {
   const { address } = useWallet();
   const { sdk } = useOpenFormat();
-  const { actions } = useGameStore();
   const router = useRouter();
+  const { state: gameState, actions: gameActions } = useGameStore();
 
   const handleAuth = async () => {
     if (!address) return;
@@ -58,7 +61,7 @@ export default function Header(props: Props) {
     <header className="w-full border-b-2 bg-brand p-4 dark:border-gray-800">
       <div className="m-auto flex max-w-lg justify-between">
         <div className="flex gap-2">
-          <IconButton onClick={props.onIconClick.bind(null, "help")}>
+          <IconButton onClick={() => gameActions.openModal("help")}>
             <HelpIcon />
           </IconButton>
         </div>
@@ -68,7 +71,7 @@ export default function Header(props: Props) {
         </div>
 
         <div className="flex gap-2">
-          <IconButton onClick={props.onIconClick.bind(null, "stats")}>
+          <IconButton onClick={() => gameActions.openModal("stats")}>
             <BarChartIcon />
           </IconButton>
         </div>
@@ -77,6 +80,18 @@ export default function Header(props: Props) {
         <Link href="/quests">Quests</Link>
         <ConnectButton />
       </div>
+      <HelpModal
+        open={gameState.activeModal === "help"}
+        onClose={gameActions.closeModal}
+      />
+      <StatsModal
+        open={gameState.activeModal === "stats"}
+        onClose={gameActions.closeModal}
+      />
+      <SettingsModal
+        open={gameState.activeModal === "settings"}
+        onClose={gameActions.closeModal}
+      />
     </header>
   );
 }

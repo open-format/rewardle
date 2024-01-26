@@ -1,3 +1,4 @@
+import Layout from "components/Layout";
 import { MissionConfig } from "../@types";
 import Profile from "../components/Profile";
 import Quests from "../components/Quests";
@@ -22,19 +23,20 @@ export default function ProfilePage() {
 
   const completedQuests = quests?.filter((quest) =>
     profileData?.completed_missions?.some(
-      (completedMission: { metadata: { name: string; }; }) =>
+      (completedMission: { metadata: { name: string } }) =>
         completedMission.metadata.name === quest.id
     )
   );
 
   return (
-    <>
+    <Layout>
+      <h2>Profile</h2>
       <Profile />
       <Quests
         title="Completed Quests"
         quests={completedQuests}
         isLoading={isLoading}
       />
-    </>
+    </Layout>
   );
 }
