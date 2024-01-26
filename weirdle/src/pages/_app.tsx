@@ -1,7 +1,5 @@
 import { XIcon } from "@heroicons/react/solid";
-import { Chains, OpenFormatProvider } from "@openformat/react";
 import clsx from "clsx";
-import { AnimatePresence } from "framer-motion";
 import tw from "lib/tw";
 import { capitalize } from "lib/utils";
 import type { AppProps } from "next/app";
@@ -45,18 +43,10 @@ function MyApp({ Component, pageProps }: AppProps) {
       <Head>
         <title>{capitalize(APP_NAME)}</title>
       </Head>
-      <AnimatePresence>
-        <OpenFormatProvider
-          config={{
-            networks: [Chains.polygonMumbai],
-            appId: process.env.NEXT_PUBLIC_APPLICATION_ID as string,
-          }}
-        >
-          <QueryClientProvider client={queryClient}>
-            <Component {...pageProps} />
-          </QueryClientProvider>
-        </OpenFormatProvider>
-      </AnimatePresence>
+
+      <QueryClientProvider client={queryClient}>
+        <Component {...pageProps} />
+      </QueryClientProvider>
     </>
   );
 }
