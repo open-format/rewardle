@@ -1,17 +1,22 @@
-FROM oven/bun:1
+FROM node:20-slim
 
-# Install Node.js (and npm, npx)
-RUN apt-get update && apt-get install -y nodejs npm
+WORKDIR /app
+
+# Install needed libs for prisma, e.g. openssl, etc..
+RUN apt-get update -qq && apt-get install -y build-essential openssl pkg-config python-is-python3
+
+# Install bun
+RUN npm install -g bun
+
+# Install node modules
+COPY bun.lockb package.json ./
 
 # Copy the entire monorepo
-WORKDIR /app
 COPY . .
 
-# Install TurboRepo and dependencies
-RUN bun install
+# Clean install. Install TurboRepo and dependencies
+RUN bun install --ci
 
-# Install Prisma CLI
-RUN bun add @prisma/cli --save-dev
 #RUN cd backend && npx prisma generate && cd ..
 RUN cd backend && npx migrate dev && cd ..
 
