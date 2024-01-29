@@ -1,8 +1,9 @@
 import { useWallet } from "@openformat/react";
 import Grid from "components/Grid";
 import Keyboard, { isMappableKey } from "components/Keyboard";
-import { useCallback, useEffect } from "react";
+import { useCallback, useContext, useEffect } from "react";
 import { useGameStore } from "stores/game";
+import GameContext from "utils/GameContext";
 import { useStatsStore } from "stores/stats";
 
 const { useSelector } = useGameStore;
@@ -10,6 +11,7 @@ const { useSelector } = useGameStore;
 export default function Home() {
   const { state: gameState, actions: gameActions } = useGameStore();
   const { state: stats, actions: statsActions } = useStatsStore();
+  const { handlePayment } = useContext(GameContext);
 
   const { address } = useWallet();
   const keys = useSelector("getUsedKeys");
@@ -64,6 +66,16 @@ export default function Home() {
           {gameState.secret}
         </div>
       )}
+      {gameState.status === "won" ||
+        (gameState.guesses.length >= 6 && (
+          <div className="border bg-gray-100 p-2 text-center font-mono uppercase tracking-widest">
+            <h3>
+              You have completed today's game.{" "}
+              <button onClick={handlePayment}>Pay to play</button> again?
+            </h3>
+          </div>
+        ))}
+
       <Grid data={gameState.grid} />
       <div className="flex-1 md:hidden"></div>
       <Keyboard

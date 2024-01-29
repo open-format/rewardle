@@ -5,6 +5,7 @@ import StatsModal from "components/StatsModal";
 import HelpModal from "components/HelpModal";
 import { useGameStore } from "stores/game";
 import PaywallModal from "./PaywallModal";
+import GameContext from "utils/GameContext";
 import {
   ContractType,
   ERC20Base,
@@ -47,27 +48,29 @@ const Layout: React.FC<{ onIconClick?: () => void }> = ({
 
   return (
     <div className="m-auto flex h-screen w-full flex-col dark:bg-gray-700">
-      <Header onIconClick={onIconClick} />
-      <main className="m-auto flex max-w-lg flex-1 flex-col justify-between p-4">
-        {children}
-      </main>
-      <HelpModal
-        open={gameState.activeModal === "help"}
-        onClose={gameActions.closeModal}
-      />
-      <StatsModal
-        open={gameState.activeModal === "stats"}
-        onClose={gameActions.closeModal}
-      />
-      <SettingsModal
-        open={gameState.activeModal === "settings"}
-        onClose={gameActions.closeModal}
-      />
-      <PaywallModal
-        open={gameState.activeModal === "paywall"}
-        onClose={gameActions.closeModal}
-        handlePayment={spendTokens}
-      />
+      <GameContext.Provider value={{ handlePayment: spendTokens }}>
+        <Header onIconClick={onIconClick} />
+        <main className="m-auto flex max-w-lg flex-1 flex-col justify-between p-4">
+          {children}
+        </main>
+        <HelpModal
+          open={gameState.activeModal === "help"}
+          onClose={gameActions.closeModal}
+        />
+        <StatsModal
+          open={gameState.activeModal === "stats"}
+          onClose={gameActions.closeModal}
+        />
+        <SettingsModal
+          open={gameState.activeModal === "settings"}
+          onClose={gameActions.closeModal}
+        />
+        <PaywallModal
+          open={gameState.activeModal === "paywall"}
+          onClose={gameActions.closeModal}
+          handlePayment={spendTokens}
+        />
+      </GameContext.Provider>
     </div>
   );
 };
