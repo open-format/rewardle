@@ -1,5 +1,8 @@
 FROM oven/bun:1
 
+# Install Node.js (and npm, npx)
+RUN apt-get update && apt-get install -y nodejs npm
+
 # Copy the entire monorepo
 WORKDIR /app
 COPY . .
@@ -8,10 +11,9 @@ COPY . .
 RUN bun install
 
 # Install Prisma CLI
-RUN bun install @prisma/cli --save-dev
-RUN cd backend && npx prisma generate && cd ..
-
-# npx prisma migrate dev
+RUN bun add @prisma/cli --save-dev
+#RUN cd backend && npx prisma generate && cd ..
+RUN cd backend && npx migrate dev && cd ..
 
 # Expose ports for frontend and backend
 EXPOSE 3000 8080
