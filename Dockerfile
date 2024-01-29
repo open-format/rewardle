@@ -1,4 +1,4 @@
-FROM node:20-slim
+FROM node:18-slim
 
 WORKDIR /app
 
@@ -8,9 +8,6 @@ RUN apt-get update -qq && apt-get install -y build-essential openssl pkg-config 
 # Install bun
 RUN npm install -g bun
 
-# Install node modules
-COPY bun.lockb package.json ./
-
 # Copy the entire monorepo
 COPY . .
 
@@ -18,7 +15,7 @@ COPY . .
 RUN bun install --ci
 
 #RUN cd backend && npx prisma generate && cd ..
-RUN cd backend && npx migrate dev && cd ..
+RUN cd backend && npx prisma migrate dev && cd ..
 
 # Expose ports for frontend and backend
 EXPOSE 3000 8080
