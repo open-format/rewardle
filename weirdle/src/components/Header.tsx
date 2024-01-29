@@ -39,6 +39,7 @@ export default function Header(props: Props) {
         eth_address: address,
         signature: signedMessage,
       });
+      verifyResponse.data.address = address;
       localStorage.setItem("tokens", JSON.stringify(verifyResponse.data));
     } catch (error) {
       console.error("Authentication error:", error);
