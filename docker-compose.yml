@@ -1,16 +1,5 @@
 version: "3.8"
 services:
-  app:
-    build:
-      context: .
-      dockerfile: Dockerfile
-    #volumes:
-    #  - .:/app
-    ports:
-      - "3000:3000" # Frontend port
-      - "8080:8080" # Backend port
-    networks:
-      - docker-network
   nginx:
     build:
       #args:
@@ -20,7 +9,8 @@ services:
     image: nginx:latest
     restart: unless-stopped
     ports:
-      - "80:80"
+      - "${PORT_1}:80"
+      - "${PORT_2}:${PORT_2}"
     environment:
       - SERVER_NAME=${SERVER_NAME}
       - USE_CERTBOT=${USE_CERTBOT}
@@ -30,6 +20,13 @@ services:
       - ./data/certbot/conf:/etc/letsencrypt
       - ./data/certbot/www:/var/www/certbot
     command: /scripts/process-template.sh
+    entrypoint: "tail -f /dev/null"
+    networks:
+      - docker-network
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
     networks:
       - docker-network
   certbot:

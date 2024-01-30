@@ -17,8 +17,5 @@ RUN bun install --ci
 #RUN cd backend && npx prisma generate && cd ..
 RUN cd backend && npx prisma migrate dev && cd ..
 
-# Expose ports for frontend and backend
-EXPOSE 3000 8080
-
 # Start commands for frontend and backend
 CMD ["bun", "run", "dev"]

@@ -4,8 +4,8 @@ upstream docker-backend {
     server app:8080;
 }
 
-upstream docker-3000 {
-    server app:8080;
+upstream docker-frontend {
+    server app:3000;
 }
 
 ###CERTBOT_CONFIG_END###
