@@ -5,10 +5,7 @@ interface LeaderboardProps {
   isLoading: boolean;
 }
 
-export default function Leaderboard({
-  data,
-  isLoading,
-}: LeaderboardProps) {
+export default function Leaderboard({ data, isLoading }: LeaderboardProps) {
   if (isLoading)
     return (
       <div aria-live="assertive" aria-busy="true">
@@ -17,8 +14,8 @@ export default function Leaderboard({
     );
 
   return (
-    <section id="leaderboard">
-      <table className="leaderboard-table" aria-live="polite">
+    <section>
+      <table className="min-w-full divide-y divide-gray-300" aria-live="polite">
         <thead>
           <tr role="row">
             <th scope="col" role="columnheader">
@@ -27,11 +24,7 @@ export default function Leaderboard({
             <th scope="col" role="columnheader">
               User
             </th>
-            <th
-              scope="col"
-              role="columnheader"
-              aria-sort="descending"
-            >
+            <th scope="col" role="columnheader" aria-sort="descending">
               XP Rewarded
             </th>
           </tr>

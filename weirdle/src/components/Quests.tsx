@@ -18,48 +18,25 @@ export default function Quests({
     );
 
   return (
-    <section id="achievements" className="main">
+    <section>
       <h2>{title}</h2>
-      <ul className="quests__list">
+      <ul className="grid grid-cols-4 gap-5">
         {quests && quests.length ? (
           quests.map((quest, index) => (
-            <li key={`quest-${index}`} className="quests__item">
-              <article className="quest">
-                <div className="quest__details">
+            <li key={`quest-${index}`}>
+              <article>
+                <div>
                   <div>
-                    <h3 className="quest__id">{quest.id}</h3>
-                    <p className="quest__description">
-                      {quest.description}
-                    </p>
+                    <h3>{quest.id}</h3>
+                    <p>{quest.description}</p>
                   </div>
-                  <img
-                    src={quest.badgeUrl}
-                    className="quest__image"
-                  />
-                </div>
-                <div className="quest__requirements">
-                  <h4 className="quest__requirements-title">
-                    Requirements
-                  </h4>
-                  <ul className="quest__requirements-list">
-                    {quest.requirements.map(
-                      (requirement, reqIndex) => (
-                        <li
-                          key={`requirement-${index}-${reqIndex}`}
-                          className="quest__requirement"
-                        >
-                          {requirement.actionId}:{" "}
-                          {requirement.description}
-                        </li>
-                      )
-                    )}
-                  </ul>
+                  <img src={quest.badgeUrl} />
                 </div>
               </article>
             </li>
           ))
         ) : (
-          <li className="quests__item">No Quests Found.</li>
+          <li>No Completed Quests</li>
         )}
       </ul>
     </section>
