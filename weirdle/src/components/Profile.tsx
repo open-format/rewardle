@@ -1,7 +1,7 @@
+import { useQuery } from "@tanstack/react-query";
 import { ProfileData } from "../@types";
 import { useProfileStore } from "../stores/index";
 import apiClient from "../utils/apiClient";
-import { useQuery } from "@tanstack/react-query";
 
 export default function Profile() {
   const { setProfileData } = useProfileStore();
@@ -29,14 +29,12 @@ export default function Profile() {
     );
 
   return (
-    <section id="profile" className="main">
+    <section id="profile">
       <h2>Your Profile</h2>
       {profileData && (
         <div className="user-data">
           <div className="user-data-details">
-            <figcaption id="user-name">
-              {profileData?.name}
-            </figcaption>
+            <figcaption id="user-name">{profileData?.name}</figcaption>
             <p id="user-email">{profileData?.email}</p>
             <p id="user-wallet">{profileData?.eth_address}</p>
           </div>

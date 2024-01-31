@@ -1,9 +1,9 @@
+import { useQuery } from "@tanstack/react-query";
 import { MissionConfig } from "../@types";
 import Profile from "../components/Profile";
 import Quests from "../components/Quests";
 import { useProfileStore } from "../stores/index";
 import apiClient from "../utils/apiClient";
-import { useQuery } from "@tanstack/react-query";
 
 export default function ProfilePage() {
   const { profileData } = useProfileStore();
@@ -28,14 +28,13 @@ export default function ProfilePage() {
   );
 
   return (
-    <>
-      <h2>Profile</h2>
+    <div className="space-y-5">
       <Profile />
       <Quests
         title="Completed Quests"
         quests={completedQuests}
         isLoading={isLoading}
       />
-    </>
+    </div>
   );
 }
