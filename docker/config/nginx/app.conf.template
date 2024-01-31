@@ -33,8 +33,8 @@ server {
     server_name ${SERVER_NAME};
     server_tokens off;
 
-    ssl_certificate /etc/letsencrypt/live/${SERVER_NAME}-0001/fullchain.pem;
-    ssl_certificate_key /etc/letsencrypt/live/${SERVER_NAME}-0001/privkey.pem;
+    ssl_certificate /etc/letsencrypt/live/${SERVER_NAME}/fullchain.pem;
+    ssl_certificate_key /etc/letsencrypt/live/${SERVER_NAME}/privkey.pem;
     include /etc/letsencrypt/options-ssl-nginx.conf;
     ssl_dhparam /etc/letsencrypt/ssl-dhparams.pem;
 
@@ -46,7 +46,7 @@ server {
     }
 
     location /socket.io/ {
-        proxy_pass http://docker-nackend/socket.io/;
+        proxy_pass http://docker-backend/socket.io/;
         proxy_http_version 1.1;
         proxy_set_header Upgrade $http_upgrade;
         proxy_set_header Connection "upgrade";
