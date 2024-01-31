@@ -6,7 +6,9 @@ async function handleRewards(address: string, actoion_id: string) {
       user_address: address,
       action_id: actoion_id,
     })
-    .then((res) => alert(`Success!, View transaction: ${res.data.transaction}`))
+    .then((res) =>
+      console.log(`Success!, View transaction: ${res.data.transaction}`)
+    )
     .catch((err) => console.log({ err }));
 }
 
