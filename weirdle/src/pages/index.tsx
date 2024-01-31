@@ -1,17 +1,16 @@
 import { useWallet } from "@openformat/react";
 import Grid from "components/Grid";
 import Keyboard, { isMappableKey } from "components/Keyboard";
-import { useCallback, useContext, useEffect } from "react";
+import { useCallback, useEffect } from "react";
 import { useGameStore } from "stores/game";
-import GameContext from "utils/GameContext";
 import { useStatsStore } from "stores/stats";
+import handleRewards from "utils/handleRewards";
 
 const { useSelector } = useGameStore;
 
 export default function Home() {
   const { state: gameState, actions: gameActions } = useGameStore();
   const { state: stats, actions: statsActions } = useStatsStore();
-  const { handlePayment } = useContext(GameContext);
 
   const { address } = useWallet();
   const keys = useSelector("getUsedKeys");
@@ -39,9 +38,12 @@ export default function Home() {
           switch (result.status) {
             case "win":
               if (address) {
+                if (result.attempts === 1) {
+                  await handleRewards(address, "one_guess");
+                }
+
                 statsActions.captureWin({
                   attempts: result.attempts,
-                  address: address,
                 });
               } else {
                 console.error(
@@ -71,7 +73,8 @@ export default function Home() {
           <div className="border bg-gray-100 p-2 text-center font-mono uppercase tracking-widest">
             <h3>
               You have completed today's game.{" "}
-              <button onClick={handlePayment}>Pay to play</button> again?
+              <button onClick={() => gameActions.reset()}>Pay to play</button>{" "}
+              again?
             </h3>
           </div>
         ))}

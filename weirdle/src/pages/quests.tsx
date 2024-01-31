@@ -1,7 +1,7 @@
+import { useQuery } from "@tanstack/react-query";
 import { MissionConfig } from "../@types";
 import Quests from "../components/Quests";
 import apiClient from "../utils/apiClient";
-import { useQuery } from "@tanstack/react-query";
 
 export default function QuestsPage() {
   const { data: quests, isLoading } = useQuery({
@@ -18,7 +18,6 @@ export default function QuestsPage() {
 
   return (
     <section>
-      <h2>Quests</h2>
       <Quests quests={quests} isLoading={isLoading} />
     </section>
   );
