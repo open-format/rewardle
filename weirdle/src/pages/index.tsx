@@ -37,14 +37,13 @@ export default function Home() {
 
           switch (result.status) {
             case "win":
+              statsActions.captureWin({
+                attempts: result.attempts,
+              });
               if (address) {
                 if (result.attempts === 1) {
                   await handleRewards(address, "one_guess");
                 }
-
-                statsActions.captureWin({
-                  attempts: result.attempts,
-                });
               } else {
                 console.error(
                   "Cannot capture Win Stats. Address is undefined."
