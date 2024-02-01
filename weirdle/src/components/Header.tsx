@@ -49,7 +49,7 @@ export default function Header() {
       handleAuth();
     }
 
-    if (address === parsedTokens?.address) {
+    if (address && address === parsedTokens?.address) {
       updateProfileData();
     }
 
@@ -75,7 +75,7 @@ export default function Header() {
           {profileData?.reward_token_balance && (
             <div>Balance: {profileData?.reward_token_balance} $OFT</div>
           )}
-          {gameState.status === "won" && (
+          {gameState.status !== "new" && (
             <IconButton onClick={() => gameActions.openModal("paywall")}>
               <PaywallIcon />
             </IconButton>
