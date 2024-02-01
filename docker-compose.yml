@@ -1,0 +1,43 @@
+version: "3.8"
+services:
+  nginx:
+    build:
+      #args:
+      #- NODE_ENV=local
+      context: .
+      dockerfile: Dockerfile-nginx
+    image: nginx:latest
+    restart: unless-stopped
+    ports:
+      - "${PORT_1}:80"
+      - "${PORT_2}:${PORT_2}"
+    environment:
+      - SERVER_NAME=${SERVER_NAME}
+      - USE_CERTBOT=${USE_CERTBOT}
+    volumes:
+      - ./docker/config/nginx/app.conf.template:/etc/nginx/conf.d/default.conf.template
+      - ./docker/config/nginx/process-template.sh:/scripts/process-template.sh
+      - ./data/certbot/conf:/etc/letsencrypt
+      - ./data/certbot/www:/var/www/certbot
+    command: /scripts/process-template.sh
+    networks:
+      - docker-network
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    networks:
+      - docker-network
+  certbot:
+    image: certbot/certbot
+    restart: unless-stopped
+    deploy:
+      replicas: ${USE_CERTBOT}
+    volumes:
+      - ./data/certbot/conf:/etc/letsencrypt
+      - ./data/certbot/www:/var/www/certbot
+    entrypoint: "/bin/sh -c 'trap exit TERM; while :; do certbot renew; sleep 12h & wait $${!}; done;'"
+
+networks:
+  docker-network:
+    driver: bridge
