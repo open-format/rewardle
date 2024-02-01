@@ -45,6 +45,12 @@ export default function Home() {
                 statsActions.captureWin({
                   attempts: result.attempts,
                 });
+                if (stats.currentStreak === 10) {
+                  await handleRewards(address, "streak_10");
+                }
+                if (stats.currentStreak === 20) {
+                  await handleRewards(address, "streak_20");
+                }
               } else {
                 console.error(
                   "Cannot capture Win Stats. Address is undefined."

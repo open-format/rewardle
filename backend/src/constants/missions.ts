@@ -59,9 +59,9 @@ export default [
     badgeUrl: "https://i.postimg.cc/cJCq33sK/20-day-streak-badge.png",
     requirements: [
       {
-        actionId: "streak",
+        actionId: "streak_20",
         description: "Add to the streak",
-        count: 20,
+        count: 1,
       },
     ],
   },
@@ -81,9 +81,9 @@ export default [
     badgeUrl: "https://i.postimg.cc/0jD1Qq9c/10-day-streak-badge.png",
     requirements: [
       {
-        actionId: "streak",
+        actionId: "streak_10",
         description: "Add to the streak",
-        count: 10,
+        count: 1,
       },
     ],
   },
