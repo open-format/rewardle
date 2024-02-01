@@ -23,6 +23,9 @@ export default function Home() {
 
   const handleKeyPress = useCallback(
     async (key: string) => {
+      if (gameState.status !== "new") {
+        return;
+      }
       if (!isMappableKey(key)) {
         gameActions.insert(key);
         return;
@@ -63,32 +66,27 @@ export default function Home() {
           break;
       }
     },
-    [gameActions, statsActions]
+    [gameActions, statsActions, gameState]
   );
 
   return (
     <>
       {process.env.NODE_ENV === "development" && (
         <div className="border bg-gray-100 p-2 text-center font-mono uppercase tracking-widest">
-          {gameState.secret}
+          DEVMODE: {gameState.secret}
         </div>
       )}
-      {gameState.status === "won" ||
-        (gameState.guesses.length >= 6 && (
-          <div className="border bg-gray-100 p-2 text-center font-mono uppercase tracking-widest">
-            <h3>
-              You have completed today's game.{" "}
-              <button onClick={() => gameActions.reset()}>Pay to play</button>{" "}
-              again?
-            </h3>
-          </div>
-        ))}
+      {gameState.status === "lost" && (
+        <div className="m-2 mx-auto max-w-max rounded-lg bg-rose-500 px-5 py-2 font-bold uppercase text-white">
+          The word is {gameState.secret}
+        </div>
+      )}
 
       <Grid data={gameState.grid} />
       <div className="flex-1 md:hidden"></div>
       <Keyboard
         usedKeys={keys}
-        disabled={gameState.isLoading}
+        disabled={gameState.isLoading || gameState.status !== "new"}
         onKeyPress={handleKeyPress}
       />
     </>
