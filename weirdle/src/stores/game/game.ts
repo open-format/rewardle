@@ -26,7 +26,7 @@ export const useGameStore = createStore(INITIAL_STATE, {
         }
       }
 
-      const result = await api.getSecretWord();
+      const result = await api.getSecretWord({ random: false });
 
       // Get today's date
       const today = dayjs().startOf("day");
@@ -67,6 +67,14 @@ export const useGameStore = createStore(INITIAL_STATE, {
         onClose: this.init.bind(this),
       });
     },
+    async bypass() {
+      const result = await api.getSecretWord({ random: true });
+      set((store) => {
+        store.state = INITIAL_STATE;
+        store.state.secret = result.secret;
+      });
+    },
+
     /**
      * Attempts guessing a wordle
      * @returns

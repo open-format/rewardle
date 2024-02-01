@@ -1,9 +1,12 @@
+import { randomInt } from "crypto";
+import dayjs from "dayjs";
+import dayOfYear from "dayjs/plugin/dayOfYear";
+import data from "db/db.json";
+import { withSession } from "lib/session";
 import type { NextApiRequest, NextApiResponse } from "next";
 import { Session } from "next-iron-session";
 
-import data from "db/db.json";
-import { randomInt } from "crypto";
-import { withSession } from "lib/session";
+dayjs.extend(dayOfYear);
 
 export type SecretApiResponse = {
   secret: string;
@@ -16,8 +19,14 @@ export async function handler(
   res: NextApiResponse<SecretApiResponse>
 ) {
   const { length, items } = data;
+  const { random } = req.query;
 
-  const secret = items[randomInt(length)];
+  const dayOfYear = dayjs().dayOfYear();
+  let secret = items[dayOfYear % length];
+
+  if (random) {
+    secret = items[randomInt(length)];
+  }
 
   req.session.set("secret", secret);
   await req.session.save();
