@@ -23,4 +23,16 @@ export default [
     description: "Get naughty word",
     address: process.env.XP_TOKEN_ID,
   },
+  {
+    id: "streak_10",
+    amount: 50,
+    description: "Get a 10 day streak",
+    address: process.env.XP_TOKEN_ID,
+  },
+  {
+    id: "streak_20",
+    amount: 50,
+    description: "Get a 20 day streak",
+    address: process.env.XP_TOKEN_ID,
+  },
 ];
