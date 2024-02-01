@@ -12,7 +12,8 @@ export default function Header() {
   const { address } = useWallet();
   const { sdk } = useOpenFormat();
 
-  const { profileData, resetProfileData } = useProfileStore();
+  const { profileData, resetProfileData, updateProfileData } =
+    useProfileStore();
   const { state: gameState, actions: gameActions } = useGameStore();
 
   const handleAuth = async () => {
@@ -25,12 +26,16 @@ export default function Header() {
         challengeResponse.data.challenge
       );
 
-      const verifyResponse = await apiClient.post("auth/verify", {
-        eth_address: address,
-        signature: signedMessage,
-      });
-      verifyResponse.data.address = address;
-      localStorage.setItem("tokens", JSON.stringify(verifyResponse.data));
+      await apiClient
+        .post("auth/verify", {
+          eth_address: address,
+          signature: signedMessage,
+        })
+        .then(async ({ data }) => {
+          data.address = address;
+          localStorage.setItem("tokens", JSON.stringify(data));
+          updateProfileData();
+        });
     } catch (error) {
       console.error("Authentication error:", error);
     }
@@ -42,6 +47,10 @@ export default function Header() {
 
     if ((address && !tokens) || address !== parsedTokens?.address) {
       handleAuth();
+    }
+
+    if (address === parsedTokens?.address) {
+      updateProfileData();
     }
 
     if (!address) {
@@ -64,7 +73,7 @@ export default function Header() {
         </div>
         <div className="flex items-center gap-2">
           {profileData?.reward_token_balance && (
-            <div>{profileData?.reward_token_balance} $OFT</div>
+            <div>Balance: {profileData?.reward_token_balance} $OFT</div>
           )}
           {gameState.status === "won" && (
             <IconButton onClick={() => gameActions.openModal("paywall")}>
