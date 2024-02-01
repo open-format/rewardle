@@ -3,7 +3,7 @@ import * as api from "lib/api-client";
 import { filter, flatten, groupBy, pipe, prop, propEq, reject } from "ramda";
 import { toast } from "react-toastify";
 import { Selector, createStore } from "zustand-immer-store";
-import { INITIAL_STATE, STORAGE_KEY } from "./constants";
+import { INITIAL_STATE, ModalKind, STORAGE_KEY } from "./constants";
 import { findLastNonEmptyTile, getNextRow, getRowWord } from "./helpers";
 
 export type GameState = typeof INITIAL_STATE;
@@ -131,17 +131,12 @@ export const useGameStore = createStore(INITIAL_STATE, {
           state.status = "won";
           state.activeModal = "paywall";
         }
-      });
 
-      if (won) {
-        toast.success(
-          "Correct! 🎉 Wait until tomorrow, or click here to pay for a new go"
-        );
-      } else {
         if (isLastRow) {
-          toast.warn("Not today, my dude =/");
+          state.status = "lost";
+          state.activeModal = "paywall";
         }
-      }
+      });
 
       return {
         status: !isLastRow && !won ? "playing" : won ? "win" : "loss",
