@@ -47,7 +47,6 @@ const Layout: React.FC<{ onIconClick?: () => void }> = ({
       }
     } catch (e: any) {
       console.log(e.message);
-      alert(e.message);
     }
     setIsLoading(false);
   }
