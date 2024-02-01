@@ -1,8 +1,9 @@
+import dayjs from "dayjs";
 import * as api from "lib/api-client";
 import { filter, flatten, groupBy, pipe, prop, propEq, reject } from "ramda";
 import { toast } from "react-toastify";
-import { createStore, Selector } from "zustand-immer-store";
-import { INITIAL_STATE, ModalKind, STORAGE_KEY } from "./constants";
+import { Selector, createStore } from "zustand-immer-store";
+import { INITIAL_STATE, STORAGE_KEY } from "./constants";
 import { findLastNonEmptyTile, getNextRow, getRowWord } from "./helpers";
 
 export type GameState = typeof INITIAL_STATE;
@@ -25,6 +26,22 @@ export const useGameStore = createStore(INITIAL_STATE, {
         }
       }
 
+      const result = await api.getSecretWord();
+
+      // Get today's date
+      const today = dayjs().startOf("day");
+      const isNextDay = today.isAfter(
+        dayjs(persistedState.lastPlayed).startOf("day")
+      );
+
+      if (!persistedState?.lastPlayed || isNextDay) {
+        // Reset state and update last played date
+        set((store) => {
+          store.state = { ...INITIAL_STATE, secret: result.secret };
+        });
+        return;
+      }
+
       if (persistedState?.secret) {
         set((store) => {
           store.state = persistedState;
@@ -35,8 +52,6 @@ export const useGameStore = createStore(INITIAL_STATE, {
       set((store) => {
         store.state.isLoading = true;
       });
-
-      const result = await api.getSecretWord();
 
       set((store) => {
         store.state.isLoading = false;
@@ -120,7 +135,7 @@ export const useGameStore = createStore(INITIAL_STATE, {
 
       if (won) {
         toast.success(
-          "Damn son, you good! 🎉 Wait until tomorrow, or click here to pay for a new go"
+          "Correct! 🎉 Wait until tomorrow, or click here to pay for a new go"
         );
       } else {
         if (isLastRow) {

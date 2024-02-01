@@ -1,5 +1,6 @@
-import type { GameStatus } from "./types";
+import dayjs from "dayjs";
 import { makeEmptyGrid } from "./helpers";
+import type { GameStatus } from "./types";
 
 export const APP_NAME = "Rewardle";
 
@@ -18,4 +19,5 @@ export const INITIAL_STATE = {
   activeModal: null as ModalKind,
   darkMode: false,
   guesses: [] as string[],
+  lastPlayed: dayjs().toISOString(),
 };
