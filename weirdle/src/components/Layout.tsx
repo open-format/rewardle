@@ -15,10 +15,7 @@ import { useGameStore } from "stores/game";
 import GameContext from "utils/GameContext";
 import PaywallModal from "./PaywallModal";
 
-const Layout: React.FC<{ onIconClick?: () => void }> = ({
-  children,
-  onIconClick,
-}) => {
+const Layout: React.FC<{ onIconClick?: () => void }> = ({ children }) => {
   const { state: gameState, actions: gameActions } = useGameStore();
   const [isLoading, setIsLoading] = useState<boolean>();
 
@@ -42,7 +39,7 @@ const Layout: React.FC<{ onIconClick?: () => void }> = ({
           })
           .then(() => {
             updateProfileData();
-            gameActions.closeModal(), gameActions.reset();
+            gameActions.closeModal(), gameActions.bypass();
           });
       }
     } catch (e: any) {
