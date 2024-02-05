@@ -4,7 +4,7 @@ import { useProfileStore } from "../stores/index";
 import apiClient from "../utils/apiClient";
 import { IconButton } from "./Button";
 import { useState } from "react";
-import { toast } from "react-hot-toast";
+import { toast } from "react-toastify";
 import handleRewards from "../utils/handleRewards";
 
 export default function Profile() {
