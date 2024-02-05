@@ -36,32 +36,27 @@ profile.get("/me", async (c) => {
   const NAME = user.nickname;
   const EMAIL = user.email_address;
 
-  const response =
-    await sdk.subgraph.rawRequest<GetUserProfileResponse>(
-      getUserProfile,
-      {
-        user: USER.toLowerCase(),
-        app: sdk.appId.toLowerCase(),
-        xp: (process.env.XP_TOKEN_ID as string).toLowerCase(),
-        rewardToken: (
-          process.env.REWARD_TOKEN_ID as string
-        ).toLowerCase(),
-      }
-    );
+  const response = await sdk.subgraph.rawRequest<GetUserProfileResponse>(
+    getUserProfile,
+    {
+      user: USER.toLowerCase(),
+      app: sdk.appId.toLowerCase(),
+      xp: (process.env.XP_TOKEN_ID as string).toLowerCase(),
+      rewardToken: (process.env.REWARD_TOKEN_ID as string).toLowerCase(),
+    }
+  );
 
   const XPBalance = response.user?.tokenBalances.find(
-    (token) =>
-      token.token.id === process.env.XP_TOKEN_ID?.toLowerCase()
+    (token) => token.token.id === process.env.XP_TOKEN_ID?.toLowerCase()
   );
   const RewardTokenBalance = response.user?.tokenBalances.find(
-    (token) =>
-      token.token.id === process.env.REWARD_TOKEN_ID?.toLowerCase()
+    (token) => token.token.id === process.env.REWARD_TOKEN_ID?.toLowerCase()
   );
 
   return c.json({
     status: Status.SUCCESS,
     data: {
-      name: NAME,
+      nickname: NAME,
       email: EMAIL,
       eth_address: USER,
 
@@ -77,7 +72,7 @@ profile.put("/me", async (c) => {
   const { sub } = c.get("jwtPayload");
   const { nickname, email_address } = await c.req.json();
 
-  if (!validator.isEmail(email_address)) {
+  if (email_address && !validator.isEmail(email_address)) {
     return c.json(
       {
         status: Status.FAIL,

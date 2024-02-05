@@ -18,9 +18,9 @@ interface LeaderboardEntry {
 }
 
 export interface ProfileData {
-  name: string;
+  nickname: string;
   eth_address: string;
-  email: string;
+  email_address: string;
   xp_balance: string;
   reward_token_balance: string;
   completed_missions: Mission[];

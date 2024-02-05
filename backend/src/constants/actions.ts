@@ -35,4 +35,10 @@ export default [
     description: "Get a 20 day streak",
     address: process.env.XP_TOKEN_ID,
   },
+  {
+    id: "add_nickname",
+    amount: 50,
+    description: "Add your nickname",
+    address: process.env.XP_TOKEN_ID,
+  },
 ];
