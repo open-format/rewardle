@@ -1,4 +1,4 @@
-import { useWallet } from "@openformat/react";
+import { useIsWalletModalOpen, useWallet } from "@openformat/react";
 import Grid from "components/Grid";
 import Keyboard, { isMappableKey } from "components/Keyboard";
 import { useCallback, useEffect } from "react";
@@ -9,6 +9,7 @@ import handleRewards from "utils/handleRewards";
 const { useSelector } = useGameStore;
 
 export default function Home() {
+  const walletModalState = useIsWalletModalOpen();
   const { state: gameState, actions: gameActions } = useGameStore();
   const { state: stats, actions: statsActions } = useStatsStore();
 
@@ -23,6 +24,9 @@ export default function Home() {
 
   const handleKeyPress = useCallback(
     async (key: string) => {
+      if (walletModalState) {
+        return;
+      }
       if (gameState.status !== "new") {
         return;
       }
@@ -66,7 +70,7 @@ export default function Home() {
           break;
       }
     },
-    [gameActions, statsActions, gameState]
+    [gameActions, statsActions, gameState, walletModalState]
   );
 
   return (
