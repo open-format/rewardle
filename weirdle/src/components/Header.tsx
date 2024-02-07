@@ -73,7 +73,7 @@ export default function Header() {
         </div>
         <div className="flex items-center gap-2">
           {profileData?.reward_token_balance && (
-            <div>Balance: {profileData?.reward_token_balance} $OFT</div>
+            <div>Balance: {profileData?.reward_token_balance} $WORDLE</div>
           )}
           {gameState.status !== "new" && (
             <IconButton onClick={() => gameActions.openModal("paywall")}>
