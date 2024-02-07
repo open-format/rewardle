@@ -15,7 +15,8 @@ COPY . .
 RUN bun install --ci
 
 #RUN cd backend && npx prisma generate && cd ..
-RUN cd backend && npx prisma migrate dev && cd ..
+RUN cd backend && npx prisma migrate dev
 
-# Start commands for frontend and backend
-CMD ["bun", "run", "dev"]
+# Start command for backend
+WORKDIR /app/backend
+CMD ["bun", "run", "start"]
