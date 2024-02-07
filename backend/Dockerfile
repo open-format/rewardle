@@ -11,8 +11,6 @@ RUN npm install -g bun
 # Copy the entire monorepo
 COPY . .
 
-ARG CACHEBUST=2
-
 # Clean install. Install TurboRepo and dependencies
 RUN bun install --ci
 
