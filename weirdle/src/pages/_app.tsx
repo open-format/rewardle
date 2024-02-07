@@ -1,18 +1,18 @@
 import { XIcon } from "@heroicons/react/solid";
+import { Chains, OpenFormatProvider } from "@openformat/react";
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import clsx from "clsx";
+import Layout from "components/Layout";
+import { AnimatePresence } from "framer-motion";
 import tw from "lib/tw";
 import { capitalize } from "lib/utils";
 import type { AppProps } from "next/app";
 import Head from "next/head";
 import { useEffect } from "react";
-import { toast, TypeOptions } from "react-toastify";
+import { TypeOptions, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.min.css";
 import { APP_NAME } from "stores/game/constants";
 import "../styles/globals.css";
-import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import Layout from "components/Layout";
-import { AnimatePresence } from "framer-motion";
-import { Chains, OpenFormatProvider } from "@openformat/react";
 
 const queryClient = new QueryClient();
 
@@ -48,6 +48,7 @@ function MyApp({ Component, pageProps }: AppProps) {
           config={{
             networks: [Chains.polygonMumbai],
             appId: process.env.NEXT_PUBLIC_APPLICATION_ID as string,
+            activeChain: "mumbai",
           }}
         >
           <QueryClientProvider client={queryClient}>
