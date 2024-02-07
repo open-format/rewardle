@@ -71,9 +71,9 @@ export default function Home() {
 
   return (
     <>
-      {process.env.NODE_ENV === "development" && (
+      {process.env.NEXT_PUBLIC_SHOW_SECRET && (
         <div className="border bg-gray-100 p-2 text-center font-mono uppercase tracking-widest">
-          DEVMODE: {gameState.secret}
+          TEST_MODE: {gameState.secret}
         </div>
       )}
       {gameState.status === "lost" && (
