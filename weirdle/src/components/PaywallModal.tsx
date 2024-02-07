@@ -13,8 +13,8 @@ export default function PaywallModal(props: Props) {
     <Modal title="Pay to Play" open={props.open} onClose={props.onClose}>
       <div className="space-y-2">
         <p>
-          You can either wait to play again tomorrow, or you can pay 1 $OFT to
-          play again now.
+          You can either wait to play again tomorrow, or you can pay 1 $WORDLE
+          to play again now.
         </p>
         {address ? (
           <Button
