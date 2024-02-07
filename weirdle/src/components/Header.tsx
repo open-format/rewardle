@@ -86,7 +86,15 @@ export default function Header() {
           <IconButton onClick={() => gameActions.openModal("stats")}>
             <BarChartIcon />
           </IconButton>
-          <ConnectButton modalSize="compact" />
+          <ConnectButton
+            switchToActiveChain={true}
+            modalSize="compact"
+            welcomeScreen={{
+              title: "Welcome to OPENFORMAT",
+              subtitle: "Connect with Metamask or Continue as Guest.",
+            }}
+            modalTitleIconUrl={"https://app.openformat.tech/favicon.ico"}
+          />
         </div>
       </div>
     </header>
