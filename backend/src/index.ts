@@ -21,7 +21,7 @@ const app = new Hono().basePath("/api/v1");
 app.use(
   "/profile/*",
   cors({
-    origin: ["http://localhost:3000"],
+    origin: ["https://wordle-staging.vercel.app"],
   }),
   jwt({
     secret: process.env.JWT_SECRET as string,
@@ -31,7 +31,7 @@ app.use(
 app.use(
   "*",
   cors({
-    origin: ["http://localhost:3000"],
+    origin: ["https://wordle-staging.vercel.app"],
   })
 );
 
