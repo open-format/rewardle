@@ -1,29 +1,30 @@
-# Define default environment as local
-ENV ?= local
+# Default action
+ACTION = up -d
 
-# Define docker compose command
-COMPOSE_CMD = docker compose -f docker-compose.yml -f docker-compose.ports.yml --env-file docker/.env.$(ENV)
+# Use argument for environment, default to 'local'
+ENV = local
 
-# Default target executed when no arguments are given to make
-default: up
+# Define docker compose command based on the environment
+ifeq ($(ENV), local)
+	COMPOSE_FILE = docker-compose.ports.yml
+else
+	COMPOSE_FILE = docker-compose.expose.yml
+endif
 
-# Target for building the docker images
-build:
-	$(COMPOSE_CMD) build
+COMPOSE_CMD = docker compose -f docker-compose.yml -f $(COMPOSE_FILE) --env-file docker/.env.$(ENV)
 
-# Target for running the docker containers
-up:
-	$(COMPOSE_CMD) up
+default:
+	@echo "Usage: make [ENV=environment] action"
+	@echo "* environment: local (default), staging, production"
+	@echo "* action: build, up, down, logs, etc."
+	@echo "Example: make ENV=production action=up -d"
 
-# Target for stopping the docker containers
-down:
-	$(COMPOSE_CMD) down
+# Dynamic target to handle various Docker Compose actions
+action:
+	@echo "Performing '$(ACTION)' on $(ENV) environment..."
+	$(COMPOSE_CMD) $(ACTION)
 
-# Target for seeing logs of the docker containers
-logs:
-	$(COMPOSE_CMD) logs
-
-# To make build and up commands for specific environments
-# Usage: make build ENV=staging
-# Usage: make up ENV=production
-
+# Usage
+# make ENV=local ACTION=up
+# make ENV=staging ACTION="up -d"
+# make ENV=production ACTION=down
