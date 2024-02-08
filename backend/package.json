@@ -6,6 +6,7 @@
   },
   "dependencies": {
     "@openformat/sdk": "^1.2.2",
+    "@openformat/react": "^1.3.0",
     "@prisma/client": "^5.7.1",
     "@types/validator": "^13.11.7",
     "hono": "^3.11.4",
