@@ -1,30 +1,34 @@
-# Default action
-ACTION = up -d
+# Default environment and action
+ENV := local
+ACTION := up -d
 
-# Use argument for environment, default to 'local'
-ENV = local
+# Function to set environment and compose file based on the first argument
+set-env = \
+	$(eval ENV := $(1)) \
+	$(eval COMPOSE_FILE := $(if $(filter $(1),local),docker-compose.ports.yml,docker-compose.expose.yml))
 
-# Define docker compose command based on the environment
-ifeq ($(ENV), local)
-	COMPOSE_FILE = docker-compose.ports.yml
-else
-	COMPOSE_FILE = docker-compose.expose.yml
-endif
+# Function to execute Docker Compose command
+compose-cmd = \
+	@echo "Performing '$(ACTION)' on $(ENV) environment..." ; \
+	docker compose -f docker-compose.yml -f $(COMPOSE_FILE) --env-file docker/.env.$(ENV) $(ACTION)
 
-COMPOSE_CMD = docker compose -f docker-compose.yml -f $(COMPOSE_FILE) --env-file docker/.env.$(ENV)
+# Pattern targets for environments and actions
+local staging production:
+	$(call set-env,$@)
+	$(call compose-cmd)
 
-default:
-	@echo "Usage: make [ENV=environment] action"
-	@echo "* environment: local (default), staging, production"
-	@echo "* action: build, up, down, logs, etc."
-	@echo "Example: make ENV=production action=up -d"
+# Catch-all target to handle actions passed as arguments
+%:
+	@: # No-op, allows any argument to be passed
 
-# Dynamic target to handle various Docker Compose actions
-action:
-	@echo "Performing '$(ACTION)' on $(ENV) environment..."
-	$(COMPOSE_CMD) $(ACTION)
+# Dynamic rule to handle environment-action pairs
+local% staging% production%:
+	$(call set-env,$(firstword $(subst _, ,$@)))
+	$(eval ACTION := $(word 2,$(subst _, ,$@)))
+	$(call compose-cmd)
+
 
 # Usage
-# make ENV=local ACTION=up
-# make ENV=staging ACTION="up -d"
-# make ENV=production ACTION=down
+# make local up
+# make staging "up -d"
+# make production down
