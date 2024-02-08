@@ -91,3 +91,24 @@ We've implemented a basic sqlite database using Prisma, which by default, is sto
 | createdAt     | DateTime | Timestamp of when the token was created.          |
 | updatedAt     | DateTime | Timestamp of when the token was last updated.     |
 | user          | User     | User object the token is associated with.         |
+
+
+## Docker
+
+###Local
+`make build`
+`make up`
+`make down`
+`make logs`
+
+###Staging
+`make build ENV=staging`
+`make up ENV=staging`
+`make down ENV=staging`
+`make logs ENV=staging`
+
+#Production
+`make build ENV=production`
+`make up ENV=production`
+`make down ENV=production`
+`make logs ENV=production`
