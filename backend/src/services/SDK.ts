@@ -1,4 +1,4 @@
-import { Chains, OpenFormatSDK } from "@openformat/react";
+import { Chains, OpenFormatSDK } from "@openformat/sdk";
 
 export const sdk = new OpenFormatSDK({
   network: Chains.polygonMumbai,

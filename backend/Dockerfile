@@ -1,6 +1,6 @@
 FROM node:18-slim
 
-WORKDIR /app
+WORKDIR /app/backend
 
 # Install needed libs for prisma, e.g. openssl, etc..
 RUN apt-get update -qq && apt-get install -y build-essential openssl pkg-config python-is-python3
@@ -15,7 +15,7 @@ COPY . .
 RUN bun install --ci
 
 #RUN cd backend && npx prisma generate && cd ..
-RUN cd backend && npx prisma migrate dev && cd ..
+RUN npx prisma generate && npx prisma migrate dev
 
-# Start commands for frontend and backend
-CMD ["bun", "run", "dev"]
+# Start command for backend
+CMD ["bun", "run", "start"]

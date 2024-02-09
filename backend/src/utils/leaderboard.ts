@@ -1,4 +1,4 @@
-import { fromWei } from "@openformat/react";
+import { fromWei } from "@openformat/sdk";
 import dayjs from "dayjs";
 import { ethers } from "ethers";
 import { Action, LeaderboardEntry, Mission } from "../../@types";

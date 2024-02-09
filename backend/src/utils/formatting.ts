@@ -1,4 +1,4 @@
-import { fromWei } from "@openformat/react";
+import { fromWei } from "@openformat/sdk";
 
 export function weiToNumber(
   amount: string = "0",

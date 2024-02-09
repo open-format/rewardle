@@ -1,4 +1,4 @@
-import { RewardType } from "@openformat/react";
+import { RewardType } from "@openformat/sdk";
 
 type Action = {
   id: string;
