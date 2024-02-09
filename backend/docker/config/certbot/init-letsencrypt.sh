@@ -1,5 +1,7 @@
 #!/bin/bash
 
+# PORT_1=80 PORT_2=443 SERVER_NAME=wordle-staging.openformat.tech USE_CERTBOT=0 ./docker/config/certbot/init-letsencrypt.sh staging
+
 if ! [ -x "$(command -v docker)" ]; then
   echo 'Error: docker is not installed.' >&2
   exit 1
@@ -10,11 +12,11 @@ fi
 
 # Based on script arg, load the respective .env variant
 if [ "$1" == "local" ]; then
-    env_file=".env.local"
+    env_file="../.env.local"
 elif [ "$1" == "staging" ]; then
-    env_file=".env.staging"
+    env_file="../.env.staging"
 elif [ "$1" == "production" ]; then
-    env_file=".env.production"
+    env_file="../.env.production"
 else
     echo "Please specify an environment: local, staging, or production."
     exit 1
@@ -59,7 +61,7 @@ echo
 
 
 echo "### Starting nginx ..."
-docker compose up --force-recreate -d nginx
+docker compose  -f docker-compose.yml -f $(COMPOSE_FILE) --env-file docker/.env.$(ENV) up --force-recreate -d nginx
 echo
 
 echo "### Deleting dummy certificate for $domains ..."
