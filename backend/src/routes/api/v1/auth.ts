@@ -36,8 +36,6 @@ auth.post("/verify", async (c) => {
     },
   });
 
-  console.log({ result });
-
   const originalChallenge = result ? result.challenge : null;
 
   if (!originalChallenge) {

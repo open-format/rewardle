@@ -1,7 +1,9 @@
 import { useIsWalletModalOpen, useWallet } from "@openformat/react";
 import Grid from "components/Grid";
 import Keyboard, { isMappableKey } from "components/Keyboard";
+import { ANIMAL_WORDS } from "constants/special_words";
 import { useCallback, useEffect } from "react";
+import { toast } from "react-toastify";
 import { useGameStore } from "stores/game";
 import { useStatsStore } from "stores/stats";
 import handleRewards from "utils/handleRewards";
@@ -41,6 +43,16 @@ export default function Home() {
           break;
         case "enter":
           const result = await gameActions.guess();
+          const isAnimalWord = ANIMAL_WORDS.includes(result.guess);
+
+          if (address) {
+            if (isAnimalWord && result?.guess) {
+              toast.success(
+                `You received an Animal Word Reward for ${result.guess}.`
+              );
+              await handleRewards(address, "animal");
+            }
+          }
 
           switch (result.status) {
             case "win":
