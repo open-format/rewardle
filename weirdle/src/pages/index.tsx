@@ -63,6 +63,9 @@ export default function Home() {
                 if (result.attempts === 1) {
                   await handleRewards(address, "one_guess");
                 }
+                if (result.attempts === 6) {
+                  await handleRewards(address, "last_chance");
+                }
                 if (stats.currentStreak === 10) {
                   await handleRewards(address, "streak_10");
                 }
