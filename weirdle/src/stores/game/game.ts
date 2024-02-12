@@ -138,9 +138,7 @@ export const useGameStore = createStore(INITIAL_STATE, {
         if (won) {
           state.status = "won";
           state.activeModal = "paywall";
-        }
-
-        if (isLastRow) {
+        } else if (isLastRow) {
           state.status = "lost";
           state.activeModal = "paywall";
         }
