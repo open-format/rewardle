@@ -1,4 +1,5 @@
 import { MissionConfig } from "@/@types";
+import { isRewardToken, isXP } from "utils/formatting";
 
 interface QuestProps {
   quests: MissionConfig[] | undefined;
@@ -20,17 +21,35 @@ export default function Quests({
   return (
     <section>
       <h2>{title}</h2>
-      <ul className="grid grid-cols-4 gap-5">
+      <ul className="space-y-5">
         {quests && quests.length ? (
           quests.map((quest, index) => (
-            <li key={`quest-${index}`}>
+            <li key={`quest-${index}`} className="rounded border p-2">
               <article>
-                <div>
-                  <div>
+                <div className="flex justify-between">
+                  <div className="space-y-5">
                     <h3>{quest.id}</h3>
                     <p>{quest.description}</p>
+                    <div>
+                      {quest.tokens.map((reward, i) => {
+                        if (isXP(reward.address)) {
+                          return (
+                            <p key={i}>
+                              <strong>XP Earned:</strong> {reward.amount} XP
+                            </p>
+                          );
+                        }
+                        if (isRewardToken(reward.address)) {
+                          return (
+                            <p key={i}>
+                              <strong>Reward</strong> {reward.amount} $WORDLE
+                            </p>
+                          );
+                        }
+                      })}
+                    </div>
                   </div>
-                  <img src={quest.badgeUrl} />
+                  <img src={quest.badgeUrl} className="h-36" />
                 </div>
               </article>
             </li>

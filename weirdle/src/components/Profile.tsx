@@ -1,11 +1,13 @@
+import { PencilAltIcon } from "@heroicons/react/solid";
 import { useQuery } from "@tanstack/react-query";
+import { useState } from "react";
+import { toast } from "react-toastify";
+import { addressSplitter } from "utils/formatting";
 import { ProfileData } from "../@types";
 import { useProfileStore } from "../stores/index";
 import apiClient from "../utils/apiClient";
-import { IconButton } from "./Button";
-import { useState } from "react";
-import { toast } from "react-toastify";
 import handleRewards from "../utils/handleRewards";
+import { IconButton } from "./Button";
 
 export default function Profile() {
   const { setProfileData } = useProfileStore();
@@ -33,19 +35,20 @@ export default function Profile() {
     );
 
   return (
-    <section id="profile">
+    <section>
       <h2>Your Profile</h2>
       {profileData && (
-        <div className="user-data">
-          <div className="user-data-details">
-            <figcaption id="user-name">
+        <div className="flex justify-between rounded border p-2">
+          <div>
+            <figcaption>
               <NicknameUpdater profileData={profileData} />
             </figcaption>
-            <p id="user-email">{profileData?.email}</p>
-            <p id="user-wallet">{profileData?.eth_address}</p>
           </div>
-          <div className="user-data-wallet-scores">
-            <ul id="user-tokens">
+          <div>
+            <ul>
+              <li>
+                <p>{addressSplitter(profileData?.eth_address)}</p>
+              </li>
               <li>
                 <strong>Total XP:</strong> {profileData?.xp_balance}
               </li>
@@ -109,7 +112,7 @@ function NicknameUpdater({ profileData }: { profileData: ProfileData }) {
 
   return (
     <div className="flex flex-col">
-      <div className="flex items-center justify-center space-x-1 lg:justify-start">
+      <div className="flex items-center justify-center space-x-1 text-2xl font-bold lg:justify-start">
         {isEditing ? (
           <input
             value={nickname}
@@ -118,17 +121,25 @@ function NicknameUpdater({ profileData }: { profileData: ProfileData }) {
             onBlur={handleNicknameUpdate}
             onKeyDown={handleKeyPress}
             autoFocus
-            className="font-pixel w-full bg-transparent font-bold uppercase outline-none"
+            className="w-full bg-transparent outline-none"
           />
         ) : (
-          <p className="whitespace-nowrap" onClick={() => setIsEditing(true)}>
+          <p
+            className="whitespace-nowrap text-2xl"
+            onClick={() => setIsEditing(true)}
+          >
             {profileData?.nickname && !isEditing && !hasUpdated
               ? profileData?.nickname
               : nickname}
           </p>
         )}
         {!isEditing && (
-          <IconButton className="" onClick={() => setIsEditing(true)} />
+          <IconButton>
+            <PencilAltIcon
+              className="h-8 w-8"
+              onClick={() => setIsEditing(true)}
+            />
+          </IconButton>
         )}
       </div>
     </div>

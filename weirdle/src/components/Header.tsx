@@ -1,12 +1,12 @@
 import { ConnectButton, useOpenFormat, useWallet } from "@openformat/react";
-import Link from "next/link";
+import { APP_NAME } from "constants/global";
 import { useEffect } from "react";
 import { useProfileStore } from "stores";
 import { useGameStore } from "stores/game";
-import { APP_NAME } from "stores/game/constants";
 import apiClient from "utils/apiClient";
 import { IconButton } from "./Button";
 import { BarChartIcon, HelpIcon, PaywallIcon } from "./icons";
+import Link from "./Link";
 
 export default function Header() {
   const { address } = useWallet();
@@ -59,22 +59,25 @@ export default function Header() {
   }, [address]);
 
   return (
-    <header className="w-full border-b-2 bg-brand p-4 dark:border-gray-800">
-      <div className="m-auto flex items-center justify-between">
-        <div className="space-x-5">
-          <Link href="/">Play</Link>
-          <Link href="/leaderboard">Leaderboard</Link>
-          {address && <Link href="/profile">Profile</Link>}
-          <Link href="/quests">Quests</Link>
-        </div>
-
-        <div className="text-center text-4xl font-bold tracking-widest text-white">
-          <Link href="/">{APP_NAME}</Link>
-        </div>
-        <div className="flex items-center gap-2">
-          {profileData?.reward_token_balance && (
-            <div>Balance: {profileData?.reward_token_balance} $WORDLE</div>
-          )}
+    <header className="grid w-full grid-rows-1 items-center space-y-2 bg-opacity-50 md:grid-cols-3">
+      <nav className="space-x-2 px-2 text-center md:text-left">
+        <Link href="/">Play</Link>
+        <Link href="/leaderboard">Leaderboard</Link>
+        <Link href="/profile">Profile</Link>
+        <Link href="/quests">Quests</Link>
+      </nav>
+      <div className="row-start-1 justify-self-center md:row-auto">
+        <a href="/">
+          <h1>{APP_NAME}</h1>
+        </a>
+      </div>
+      <div className="flex flex-col items-center space-x-2 space-y-2 md:flex-row md:space-y-0 md:justify-self-end">
+        {profileData?.reward_token_balance && (
+          <span className="whitespace-nowrap">
+            <strong> {profileData?.reward_token_balance} $WORDLE </strong>
+          </span>
+        )}
+        <div className="fixed right-2 top-2 flex flex-col items-center space-y-2 md:relative md:right-0 md:top-0 md:flex-row  md:space-x-2 md:space-y-0">
           {gameState.status !== "new" && (
             <IconButton onClick={() => gameActions.openModal("paywall")}>
               <PaywallIcon />
@@ -86,6 +89,8 @@ export default function Header() {
           <IconButton onClick={() => gameActions.openModal("stats")}>
             <BarChartIcon />
           </IconButton>
+        </div>
+        <div className="items-center md:relative md:flex md:p-2">
           <ConnectButton
             switchToActiveChain={true}
             modalSize="compact"
