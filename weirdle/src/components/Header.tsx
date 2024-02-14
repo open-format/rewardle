@@ -74,11 +74,18 @@ export default function Header() {
         </Link>
       </div>
       <div className="flex flex-col items-center space-x-2 space-y-2 md:flex-row md:space-y-0 md:justify-self-end">
-        {profileData?.reward_token_balance && (
-          <span className="whitespace-nowrap">
-            <strong> {profileData?.reward_token_balance} $WORDLE </strong>
-          </span>
-        )}
+        <div className="flex space-x-2">
+          {profileData?.xp_balance && (
+            <span className="whitespace-nowrap">
+              <strong>{profileData?.xp_balance} XP</strong>
+            </span>
+          )}
+          {profileData?.reward_token_balance && (
+            <span className="whitespace-nowrap">
+              <strong> {profileData?.reward_token_balance} $WORDLE </strong>
+            </span>
+          )}
+        </div>
         <div className="fixed right-2 top-2 flex flex-col items-center space-y-2 md:relative md:right-0 md:top-0 md:flex-row  md:space-x-2 md:space-y-0">
           {gameState.status !== "new" && (
             <IconButton onClick={() => gameActions.openModal("paywall")}>
