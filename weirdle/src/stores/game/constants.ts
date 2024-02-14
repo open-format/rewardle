@@ -6,7 +6,13 @@ const EMPTY_GRID = makeEmptyGrid();
 
 export const STORAGE_KEY = "@stores/game/1";
 
-export type ModalKind = "help" | "stats" | "settings" | "paywall" | null;
+export type ModalKind =
+  | "help"
+  | "stats"
+  | "settings"
+  | "paywall"
+  | "introduction"
+  | null;
 
 export const INITIAL_STATE = {
   grid: EMPTY_GRID,

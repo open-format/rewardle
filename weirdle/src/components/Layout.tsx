@@ -14,6 +14,7 @@ import React, { useState } from "react";
 import { useProfileStore } from "stores";
 import { useGameStore } from "stores/game";
 import GameContext from "utils/GameContext";
+import IntroductionModal from "./IntroductionModal";
 import PaywallModal from "./PaywallModal";
 
 const Layout: React.FC<{ onIconClick?: () => void }> = ({ children }) => {
@@ -73,6 +74,10 @@ const Layout: React.FC<{ onIconClick?: () => void }> = ({ children }) => {
           onClose={gameActions.closeModal}
           handlePayment={spendTokens}
           isLoading={isLoading}
+        />
+        <IntroductionModal
+          open={gameState.activeModal === "introduction"}
+          onClose={gameActions.closeModal}
         />
       </GameContext.Provider>
     </div>

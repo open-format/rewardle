@@ -22,6 +22,9 @@ export default function Home() {
     gameActions.init().then((state) => {
       if (state?.status && state?.status !== "new") {
         setTimeout(() => gameActions.openModal("paywall"), 2000);
+      } else if (!localStorage.getItem("onboardingComplete")) {
+        gameActions.openModal("introduction");
+        localStorage.setItem("onboardingComplete", "true");
       }
     });
   }, [gameActions]);

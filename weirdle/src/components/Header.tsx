@@ -101,6 +101,7 @@ export default function Header() {
         </div>
         <div className="items-center md:relative md:flex md:p-2">
           <ConnectButton
+            btnTitle="Login"
             switchToActiveChain={true}
             modalSize="compact"
             welcomeScreen={{
