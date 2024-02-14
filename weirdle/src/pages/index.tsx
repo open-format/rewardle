@@ -19,8 +19,10 @@ export default function Home() {
   const keys = useSelector("getUsedKeys");
 
   useEffect(() => {
-    gameActions.init().then(() => {
-      console.log("weirdle: cached state restored");
+    gameActions.init().then((state) => {
+      if (state?.status && state?.status !== "new") {
+        setTimeout(() => gameActions.openModal("paywall"), 2000);
+      }
     });
   }, [gameActions]);
 
@@ -50,7 +52,7 @@ export default function Home() {
               toast.success(
                 `You received an Animal Word Reward for ${result.guess}.`
               );
-              await handleRewards(address, "animal");
+              await handleRewards(address, "guess_an_animal");
             }
           }
 
@@ -91,18 +93,17 @@ export default function Home() {
   return (
     <>
       {process.env.NEXT_PUBLIC_SHOW_SECRET && (
-        <div className="border bg-gray-100 p-2 text-center font-mono uppercase tracking-widest">
+        <div className="border p-2 text-center font-mono uppercase tracking-widest">
           TEST_MODE: {gameState.secret}
         </div>
       )}
       {gameState.status === "lost" && (
-        <div className="m-2 mx-auto max-w-max rounded-lg bg-rose-500 px-5 py-2 font-bold uppercase text-white">
+        <div className="m-2 max-w-max rounded-lg bg-rose-500 px-5 py-2 font-bold uppercase text-white">
           The word is {gameState.secret}
         </div>
       )}
 
       <Grid data={gameState.grid} />
-      <div className="flex-1 md:hidden"></div>
       <Keyboard
         usedKeys={keys}
         disabled={gameState.isLoading || gameState.status !== "new"}
