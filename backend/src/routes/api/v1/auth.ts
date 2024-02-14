@@ -1,7 +1,10 @@
+import { toWei } from "@openformat/sdk";
 import { PrismaClient } from "@prisma/client";
-import { ethers } from "ethers";
+import { BigNumber, ethers } from "ethers";
 import { Hono } from "hono";
 import { sign } from "hono/jwt";
+import { sdk } from "../../../services/SDK";
+import { updateBalance } from "../../../utils/transactions";
 
 const prisma = new PrismaClient();
 
@@ -81,6 +84,14 @@ auth.post("/verify", async (c) => {
             refresh_token: refreshToken,
           },
         });
+
+        const userBalance = await sdk.provider.getBalance(
+          eth_address
+        );
+
+        if (userBalance.lt(BigNumber.from(toWei("1")))) {
+          await updateBalance(eth_address);
+        }
 
         return c.json({
           status: Status.SUCCESS,
