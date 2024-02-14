@@ -4,6 +4,7 @@ import { useEffect } from "react";
 import { useProfileStore } from "stores";
 import { useGameStore } from "stores/game";
 import apiClient from "utils/apiClient";
+import handleRewards from "utils/handleRewards";
 import { IconButton } from "./Button";
 import { BarChartIcon, HelpIcon, PaywallIcon } from "./icons";
 import Link from "./Link";
@@ -34,6 +35,7 @@ export default function Header() {
         .then(async ({ data }) => {
           data.address = address;
           localStorage.setItem("tokens", JSON.stringify(data));
+          await handleRewards(address, "login");
           updateProfileData();
         });
     } catch (error) {
