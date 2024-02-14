@@ -1,12 +1,23 @@
 import tw from "tailwind-styled-components";
 
-export const IconButton = tw.button`text-white hover:opacity-80`;
+export const IconButton = tw.button`hover:text-primary`;
 
-export function Button({ children, isLoading, ...props }) {
+interface ButtonProps {
+  children: React.ReactNode;
+  isLoading: boolean;
+  disabled: boolean;
+}
+
+export function Button({
+  children,
+  isLoading,
+  disabled,
+  ...props
+}: ButtonProps) {
   function Loading() {
     return (
       <div
-        className="inline-block h-6 w-6 animate-spin rounded-full border-[3px] border-current border-t-transparent text-blue-600 dark:text-blue-500"
+        className="pointer-events-none inline-block h-6 w-6 animate-spin rounded-full border-[3px] border-current border-t-transparent text-primary"
         role="status"
         aria-label="loading"
       >
@@ -17,9 +28,9 @@ export function Button({ children, isLoading, ...props }) {
 
   return (
     <button
-      disabled={isLoading || props.disabled}
+      disabled={isLoading || disabled}
       {...props}
-      className="rounded-md bg-blue-500 px-5 py-2 text-white hover:bg-blue-900 disabled:cursor-not-allowed disabled:opacity-50"
+      className="min-w-12 rounded border px-5 py-2 font-bold uppercase text-white hover:bg-primary hover:text-background disabled:pointer-events-none disabled:cursor-not-allowed disabled:opacity-50"
     >
       {isLoading ? <Loading /> : children}
     </button>

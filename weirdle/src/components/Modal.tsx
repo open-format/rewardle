@@ -1,8 +1,7 @@
-import { FC, Fragment, ReactNode, useRef } from "react";
 import { Dialog, Transition } from "@headlessui/react";
+import { XCircleIcon } from "@heroicons/react/solid";
 import clsx from "clsx";
-
-import { XIcon } from "@heroicons/react/solid";
+import { FC, Fragment, ReactNode, useRef } from "react";
 
 export type Props = {
   open: boolean;
@@ -18,11 +17,11 @@ const Modal: FC<Props> = (props) => {
     <Transition.Root show={props.open} as={Fragment}>
       <Dialog
         as="div"
-        className="fixed inset-0 z-10 overflow-y-auto"
+        className="overflow-none fixed inset-0 z-10"
         initialFocus={cancelButtonRef}
         onClose={props.onClose}
       >
-        <div className="flex min-h-screen items-end justify-center px-4 pt-4 pb-20 text-center sm:block sm:p-0">
+        <div className="flex min-h-screen items-center justify-center px-4 pb-20 pt-4 text-center sm:block sm:p-0">
           <Transition.Child
             as={Fragment}
             enter="ease-out duration-300"
@@ -56,15 +55,10 @@ const Modal: FC<Props> = (props) => {
                 "transition-all sm:my-8 sm:w-full sm:max-w-lg sm:align-middle"
               )}
             >
-              <div className="bg-white px-4 pt-5 pb-4 dark:bg-slate-800 dark:text-white sm:p-6 sm:pb-4">
+              <div className="bg-background px-4 pb-4 pt-5 sm:p-6 sm:pb-4">
                 <div className="sm:flex sm:items-start">
-                  <div className="mt-3 w-full text-center sm:mt-0 sm:ml-4 sm:text-left">
-                    <Dialog.Title
-                      as="h3"
-                      className="text-lg font-semibold uppercase leading-6 text-gray-900 dark:text-slate-100"
-                    >
-                      {props.title}
-                    </Dialog.Title>
+                  <div className="mt-3 w-full text-center sm:ml-4 sm:mt-0 sm:text-left">
+                    <Dialog.Title as="h2">{props.title}</Dialog.Title>
                     <div className="grid w-full place-items-center pt-4">
                       {props.children}
                     </div>
@@ -73,10 +67,10 @@ const Modal: FC<Props> = (props) => {
               </div>
               <button
                 type="button"
-                className="absolute top-0 right-0 m-1 h-8 w-8 rounded-full bg-gray-300/30 p-1 transition-colors hover:bg-gray-300 md:m-3"
+                className="absolute right-0 top-0 m-1 h-8 w-8 rounded-full bg-gray-300/30 transition-colors hover:bg-gray-300 md:m-3"
                 onClick={props.onClose.bind(null, false)}
               >
-                <XIcon />
+                <XCircleIcon />
               </button>
             </div>
           </Transition.Child>

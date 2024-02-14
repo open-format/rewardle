@@ -9,6 +9,7 @@ import Header from "components/Header";
 import HelpModal from "components/HelpModal";
 import SettingsModal from "components/SettingsModal";
 import StatsModal from "components/StatsModal";
+import { GAME_COST } from "constants/global";
 import React, { useState } from "react";
 import { useProfileStore } from "stores";
 import { useGameStore } from "stores/game";
@@ -35,7 +36,7 @@ const Layout: React.FC<{ onIconClick?: () => void }> = ({ children }) => {
         await rewardToken
           .transfer({
             to: process.env.NEXT_PUBLIC_APPLICATION_OWNER_ADDRESS!,
-            amount: toWei("1"),
+            amount: toWei(GAME_COST.toString()),
           })
           .then(() => {
             updateProfileData();
@@ -49,10 +50,10 @@ const Layout: React.FC<{ onIconClick?: () => void }> = ({ children }) => {
   }
 
   return (
-    <div className="m-auto flex h-screen w-full flex-col dark:bg-gray-700">
+    <div className="flex w-screen flex-col items-center justify-center md:min-h-screen">
       <GameContext.Provider value={{ handlePayment: spendTokens }}>
         <Header />
-        <main className="m-auto flex flex-1 flex-col justify-between p-4">
+        <main className="item-center flex w-full max-w-prose flex-1 flex-col p-4">
           {children}
         </main>
         <HelpModal

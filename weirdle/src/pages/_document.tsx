@@ -1,28 +1,32 @@
 import { Head, Html, Main, NextScript } from "next/document";
 
-import { APP_NAME } from "stores/game/constants";
-
 export default function Document() {
   return (
     <Html className="antialiased">
       <Head>
-        <meta charSet="utf-8" />
-        <meta httpEquiv="X-UA-Compatible" content="IE=edge" />
-
-        <meta name="description" content={`${APP_NAME} - a word puzzle game`} />
-        <meta name="keywords" content="wordle, puzzle, game" />
-        <link rel="manifest" href="/manifest.json" />
-        <link
-          href="/icons/icon-32.png"
-          rel="icon"
-          type="image/png"
-          sizes="32x32"
+        <meta name="description" content="A word puzzle game" />
+        <meta property="og:url" content="https://wordle.openformat.tech" />
+        <meta property="og:type" content="website" />
+        <meta property="og:title" content="Rewardable" />
+        <meta property="og:description" content="A word puzzle game" />
+        <meta
+          property="og:image"
+          content="https://wordle.openformat.tech/images/banner.png"
         />
-        <link rel="apple-touch-icon" href="/icons/icon-192.png"></link>
-        <meta name="theme-color" content="#6aaa64" />
+
+        <meta name="twitter:card" content="summary_large_image" />
+        <meta property="twitter:domain" content="wordle.openformat.tech" />
+        <meta property="twitter:url" content="https://wordle.openformat.tech" />
+        <meta name="twitter:title" content="Rewardable" />
+        <meta name="twitter:description" content="A word puzzle game" />
+        <meta
+          name="twitter:image"
+          content="https://wordle.openformat.tech/images/banner.png"
+        />
+        <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link
+          href="https://fonts.googleapis.com/css2?family=Manrope:wght@200..800&display=swap"
           rel="stylesheet"
-          href="https://fonts.googleapis.com/css2?family=Open+Sans&display=swap"
         />
       </Head>
       <body>

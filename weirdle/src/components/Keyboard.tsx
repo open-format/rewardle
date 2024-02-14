@@ -1,7 +1,7 @@
-import { useCallback, useEffect } from "react";
-import { match } from "ts-pattern";
 import { always, propEq } from "ramda";
+import { useCallback, useEffect } from "react";
 import tw from "tailwind-styled-components";
+import { match } from "ts-pattern";
 
 import type { GameTile } from "stores/game";
 
@@ -78,7 +78,7 @@ export default function Keyboard({ onKeyPress, disabled, usedKeys }: Props) {
   );
 
   return (
-    <div className="mx-auto grid h-min select-none gap-4">
+    <div className="m-5 mx-auto grid h-min select-none gap-4">
       {KEYS.map((row, i) => (
         <div
           className="flex touch-manipulation justify-evenly gap-1 md:gap-2"
