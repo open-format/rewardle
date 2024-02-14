@@ -1,4 +1,5 @@
 import { toWei, useSetIsWalletModalOpen, useWallet } from "@openformat/react";
+import { GAME_COST } from "constants/global";
 import { useProfileStore } from "stores";
 import { Button } from "./Button";
 import Modal, { Props as ModalProps } from "./Modal";
@@ -13,15 +14,17 @@ export default function PaywallModal(props: Props) {
     <Modal title="Pay to Play" open={props.open} onClose={props.onClose}>
       <div className="space-y-2">
         <p>
-          You can either wait to play again tomorrow, or you can pay 1 $WORDLE
-          to play again now.
+          You can either wait to play again tomorrow, or you can pay {GAME_COST}{" "}
+          $WORDLE to play again now.
         </p>
         {address ? (
           <Button
             onClick={props.handlePayment}
             isLoading={props.isLoading}
             disabled={
-              !address || profileData?.reward_token_balance < toWei("1")
+              !address ||
+              Boolean(profileData?.reward_token_balance < toWei("1")) |
+                props.isLoading
             }
           >
             {profileData?.reward_token_balance > toWei("1")

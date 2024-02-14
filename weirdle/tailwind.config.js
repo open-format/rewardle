@@ -9,13 +9,21 @@ module.exports = {
   darkMode: "class",
   theme: {
     extend: {
-      fontFamily: {
-        sans: "'Open Sans', sans-serif",
-      },
       colors: {
-        brand: "#6aaa64",
+        primary: "var(--primary-color)",
+        background: "var(--background-color)",
+        text: "var(--text-color)",
+        error: "var(--error-color)",
+      },
+      borderRadius: {
+        DEFAULT: "var(--border-radius)",
+      },
+      borderWidth: {
+        DEFAULT: "var(--border-width)",
+      },
+      borderColor: {
+        DEFAULT: "var(--primary-color)",
       },
     },
   },
-  plugins: [],
 };

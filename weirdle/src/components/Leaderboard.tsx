@@ -15,9 +15,9 @@ export default function Leaderboard({ data, isLoading }: LeaderboardProps) {
 
   return (
     <section>
-      <table className="min-w-full divide-y divide-gray-300" aria-live="polite">
+      <table className="divide-y divide-gray-300" aria-live="polite">
         <thead>
-          <tr role="row">
+          <tr role="row" className="text-left">
             <th scope="col" role="columnheader">
               Rank
             </th>
@@ -31,14 +31,20 @@ export default function Leaderboard({ data, isLoading }: LeaderboardProps) {
         </thead>
         <tbody>
           {data?.map((item, index) => (
-            <tr key={index}>
-              <td className="leaderboard-position">{index + 1}</td>
-              <td className="leaderboard-user">{item.user}</td>
-              <td className="leaderboard-xp">{item.xp_rewarded}</td>
-            </tr>
+            <TableItem key={index} item={item} index={index} />
           ))}
         </tbody>
       </table>
     </section>
+  );
+}
+
+function TableItem({ item, index }: { item: LeaderboardEntry; index: number }) {
+  return (
+    <tr className="my-5 border-b border-b-primary" key={index}>
+      <td>{index + 1}</td>
+      <td>{item.user}</td>
+      <td>{item.xp_rewarded}</td>
+    </tr>
   );
 }

@@ -1,7 +1,6 @@
 import { always } from "ramda";
 import { GameTile } from "stores/game";
 import { match } from "ts-pattern";
-
 import { GridRow } from "./Grid";
 import Modal, { Props as ModalProps } from "./Modal";
 
@@ -12,14 +11,14 @@ export default function HelpModal(props: Props) {
     <Modal title="How to play" open={props.open} onClose={props.onClose}>
       <section className="grid gap-4">
         <header className="grid gap-2 md:gap-3">
-          <h1 className="text-lg font-medium">
+          <h3 className="text-primary">
             Guess the <span className="font-bold">word</span> in 6 tries.
-          </h1>
-          <p className="text-sm text-slate-800 dark:text-slate-200">
+          </h3>
+          <p className="text-sm">
             Each guess must be a valid 5 letter word. Hit the enter button to
             submit.
           </p>
-          <p className="text-sm text-slate-800 dark:text-slate-200">
+          <p className="text-sm">
             After each guess, the color of the tiles will change to show how
             close your guess was to the word.
           </p>
