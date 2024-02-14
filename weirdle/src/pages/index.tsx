@@ -62,17 +62,21 @@ export default function Home() {
                 attempts: result.attempts,
               });
               if (address) {
-                if (result.attempts === 1) {
-                  await handleRewards(address, "one_guess");
-                }
-                if (result.attempts === 6) {
-                  await handleRewards(address, "last_chance");
-                }
-                if (stats.currentStreak === 10) {
-                  await handleRewards(address, "streak_10");
-                }
-                if (stats.currentStreak === 20) {
-                  await handleRewards(address, "streak_20");
+                await handleRewards(address, "win");
+
+                switch (result.attempts) {
+                  case 1:
+                    return await handleRewards(address, "first_guess");
+                  case 2:
+                    return await handleRewards(address, "second_guess");
+                  case 3:
+                    return await handleRewards(address, "third_guess");
+                  case 4:
+                    return await handleRewards(address, "fourth_guess");
+                  case 5:
+                    return await handleRewards(address, "fifth_guess");
+                  case 6:
+                    return await handleRewards(address, "sixth_guess");
                 }
               } else {
                 console.error(
@@ -81,6 +85,9 @@ export default function Home() {
               }
               break;
             case "loss":
+              if (address) {
+                await handleRewards(address, "lose");
+              }
               statsActions.captureLoss();
               break;
           }
@@ -98,7 +105,7 @@ export default function Home() {
         </div>
       )}
       {gameState.status === "lost" && (
-        <div className="m-2 max-w-max rounded-lg bg-rose-500 px-5 py-2 font-bold uppercase text-white">
+        <div className="m-2 mx-auto max-w-max rounded-lg bg-rose-500 px-5 py-2 font-bold uppercase text-white">
           The word is {gameState.secret}
         </div>
       )}
