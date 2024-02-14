@@ -4,9 +4,9 @@ import apiClient from "./apiClient";
 function checkActivityType(rewards) {
   const activityTypes = rewards.map((reward) => reward.activityType);
   if (activityTypes.includes("ACTION") && !activityTypes.includes("MISSION")) {
-    toast.success("You just received XP!");
+    return toast.success("You just received XP!");
   } else if (activityTypes.includes("MISSION")) {
-    toast.success("You just received XP and $WORDLE!");
+    return toast.success("You just received XP and $WORDLE!");
   }
 }
 
