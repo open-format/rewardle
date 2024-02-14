@@ -67,9 +67,9 @@ export default function Header() {
         <Link href="/quests">Quests</Link>
       </nav>
       <div className="row-start-1 justify-self-center md:row-auto">
-        <a href="/">
+        <Link href="/">
           <h1>{APP_NAME}</h1>
-        </a>
+        </Link>
       </div>
       <div className="flex flex-col items-center space-x-2 space-y-2 md:flex-row md:space-y-0 md:justify-self-end">
         {profileData?.reward_token_balance && (
