@@ -53,7 +53,7 @@ const Layout: React.FC<{ onIconClick?: () => void }> = ({ children }) => {
     <div className="flex w-screen flex-col items-center justify-center md:min-h-screen">
       <GameContext.Provider value={{ handlePayment: spendTokens }}>
         <Header />
-        <main className="item-center flex w-full max-w-prose flex-1 flex-col p-4">
+        <main className="item-center flex w-full max-w-5xl flex-1 flex-col p-4">
           {children}
         </main>
         <HelpModal

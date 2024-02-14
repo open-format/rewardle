@@ -1,5 +1,4 @@
 {
-  "baseBranch": "main",
   "pipeline": {
     "dev": {
       "cache": false
