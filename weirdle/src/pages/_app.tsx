@@ -1,4 +1,4 @@
-import { XIcon } from "@heroicons/react/solid";
+import { XCircleIcon } from "@heroicons/react/24/solid";
 import { Chains, OpenFormatProvider } from "@openformat/react";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import clsx from "clsx";
@@ -29,7 +29,7 @@ function MyApp({ Component, pageProps }: AppProps) {
     toast.configure({
       style: { padding: "1rem", display: "grid", gap: ".75rem" },
       hideProgressBar: true,
-      closeButton: <XIcon className="h-6 w-6 p-1" />,
+      closeButton: <XCircleIcon className="h-6 w-6 p-1" />,
       toastClassName: (ctx) =>
         clsx(
           contextClass[ctx?.type || "default"],

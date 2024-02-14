@@ -1,4 +1,4 @@
-import { PencilAltIcon } from "@heroicons/react/solid";
+import { PencilSquareIcon } from "@heroicons/react/24/solid";
 import { useQuery } from "@tanstack/react-query";
 import { useState } from "react";
 import { toast } from "react-toastify";
@@ -135,7 +135,7 @@ function NicknameUpdater({ profileData }: { profileData: ProfileData }) {
         )}
         {!isEditing && (
           <IconButton>
-            <PencilAltIcon
+            <PencilSquareIcon
               className="h-8 w-8"
               onClick={() => setIsEditing(true)}
             />
