@@ -1,6 +1,6 @@
 export default [
   {
-    id: "create_profile",
+    id: "login",
     amount: 50,
     description: "Login to Rewardle for the first time",
     address: process.env.XP_TOKEN_ID,

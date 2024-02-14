@@ -16,7 +16,7 @@ export default [
       "https://duqswponteoedwsylzwn.supabase.co/storage/v1/object/public/badges/New%20Kid%20On%20the%20Block.png",
     requirements: [
       {
-        actionId: "create_profile",
+        actionId: "login",
         description: "Login to Rewardle for the first time",
         count: 1,
       },
