@@ -1,7 +1,9 @@
 import { useIsWalletModalOpen, useWallet } from "@openformat/react";
 import Grid from "components/Grid";
 import Keyboard, { isMappableKey } from "components/Keyboard";
+import { ANIMAL_WORDS } from "constants/special_words";
 import { useCallback, useEffect } from "react";
+import { toast } from "react-toastify";
 import { useGameStore } from "stores/game";
 import { useStatsStore } from "stores/stats";
 import handleRewards from "utils/handleRewards";
@@ -17,8 +19,10 @@ export default function Home() {
   const keys = useSelector("getUsedKeys");
 
   useEffect(() => {
-    gameActions.init().then(() => {
-      console.log("weirdle: cached state restored");
+    gameActions.init().then((state) => {
+      if (state?.status && state?.status !== "new") {
+        setTimeout(() => gameActions.openModal("paywall"), 2000);
+      }
     });
   }, [gameActions]);
 
@@ -41,6 +45,16 @@ export default function Home() {
           break;
         case "enter":
           const result = await gameActions.guess();
+          const isAnimalWord = ANIMAL_WORDS.includes(result.guess);
+
+          if (address) {
+            if (isAnimalWord && result?.guess) {
+              toast.success(
+                `You received an Animal Word Reward for ${result.guess}.`
+              );
+              await handleRewards(address, "guess_an_animal");
+            }
+          }
 
           switch (result.status) {
             case "win":
@@ -48,14 +62,21 @@ export default function Home() {
                 attempts: result.attempts,
               });
               if (address) {
-                if (result.attempts === 1) {
-                  await handleRewards(address, "one_guess");
-                }
-                if (stats.currentStreak === 10) {
-                  await handleRewards(address, "streak_10");
-                }
-                if (stats.currentStreak === 20) {
-                  await handleRewards(address, "streak_20");
+                await handleRewards(address, "win");
+
+                switch (result.attempts) {
+                  case 1:
+                    return await handleRewards(address, "first_guess");
+                  case 2:
+                    return await handleRewards(address, "second_guess");
+                  case 3:
+                    return await handleRewards(address, "third_guess");
+                  case 4:
+                    return await handleRewards(address, "fourth_guess");
+                  case 5:
+                    return await handleRewards(address, "fifth_guess");
+                  case 6:
+                    return await handleRewards(address, "sixth_guess");
                 }
               } else {
                 console.error(
@@ -64,6 +85,9 @@ export default function Home() {
               }
               break;
             case "loss":
+              if (address) {
+                await handleRewards(address, "lose");
+              }
               statsActions.captureLoss();
               break;
           }
@@ -76,7 +100,7 @@ export default function Home() {
   return (
     <>
       {process.env.NEXT_PUBLIC_SHOW_SECRET && (
-        <div className="border bg-gray-100 p-2 text-center font-mono uppercase tracking-widest">
+        <div className="border p-2 text-center font-mono uppercase tracking-widest">
           TEST_MODE: {gameState.secret}
         </div>
       )}
@@ -87,7 +111,6 @@ export default function Home() {
       )}
 
       <Grid data={gameState.grid} />
-      <div className="flex-1 md:hidden"></div>
       <Keyboard
         usedKeys={keys}
         disabled={gameState.isLoading || gameState.status !== "new"}

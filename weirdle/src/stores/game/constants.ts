@@ -2,8 +2,6 @@ import dayjs from "dayjs";
 import { makeEmptyGrid } from "./helpers";
 import type { GameStatus } from "./types";
 
-export const APP_NAME = "Rewardle";
-
 const EMPTY_GRID = makeEmptyGrid();
 
 export const STORAGE_KEY = "@stores/game/1";

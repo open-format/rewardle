@@ -39,14 +39,18 @@ export const useGameStore = createStore(INITIAL_STATE, {
         set((store) => {
           store.state = { ...INITIAL_STATE, secret: result.secret };
         });
-        return;
+        return {
+          status: get().state.status,
+        };
       }
 
       if (persistedState?.secret) {
         set((store) => {
           store.state = persistedState;
         });
-        return;
+        return {
+          status: get().state.status,
+        };
       }
 
       set((store) => {
@@ -138,9 +142,7 @@ export const useGameStore = createStore(INITIAL_STATE, {
         if (won) {
           state.status = "won";
           state.activeModal = "paywall";
-        }
-
-        if (isLastRow) {
+        } else if (isLastRow) {
           state.status = "lost";
           state.activeModal = "paywall";
         }

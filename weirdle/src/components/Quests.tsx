@@ -21,35 +21,43 @@ export default function Quests({
   return (
     <section>
       <h2>{title}</h2>
-      <ul className="space-y-5">
+      <ul className="grid grid-cols-1 gap-12 md:grid-cols-3">
         {quests && quests.length ? (
           quests.map((quest, index) => (
             <li key={`quest-${index}`} className="rounded border p-2">
               <article>
-                <div className="flex justify-between">
-                  <div className="space-y-5">
-                    <h3>{quest.id}</h3>
-                    <p>{quest.description}</p>
-                    <div>
+                <div className="flex flex-col items-center space-y-5">
+                  <img src={quest.badgeUrl} className="h-36 w-36" />
+                  <h3>{quest.id}</h3>
+                  <p>{quest.description}</p>
+                  <div className="flex flex-col items-center">
+                    <p>
+                      <strong>Reward:</strong>
+                    </p>
+                    <div className="flex items-center">
                       {quest.tokens.map((reward, i) => {
                         if (isXP(reward.address)) {
                           return (
-                            <p key={i}>
-                              <strong>XP Earned:</strong> {reward.amount} XP
-                            </p>
+                            <div key={i} className="mr-1">
+                              {reward.amount}{" "}
+                              <span className="font-bold text-primary">XP</span>{" "}
+                              +
+                            </div>
                           );
                         }
                         if (isRewardToken(reward.address)) {
                           return (
-                            <p key={i}>
-                              <strong>Reward</strong> {reward.amount} $WORDLE
-                            </p>
+                            <div key={i}>
+                              {reward.amount}{" "}
+                              <span className="font-bold text-primary">
+                                $WORDLE
+                              </span>
+                            </div>
                           );
                         }
                       })}
                     </div>
                   </div>
-                  <img src={quest.badgeUrl} className="h-36" />
                 </div>
               </article>
             </li>

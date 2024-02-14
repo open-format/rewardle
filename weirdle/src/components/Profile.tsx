@@ -90,7 +90,7 @@ function NicknameUpdater({ profileData }: { profileData: ProfileData }) {
           setHasUpdated(true);
 
           if (isFirstUpdate) {
-            await handleRewards(profileData.eth_address, "add_nickname");
+            await handleRewards(profileData.eth_address, "add_name");
           }
         });
     } catch (e: any) {

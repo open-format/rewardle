@@ -4,6 +4,7 @@ import { useEffect } from "react";
 import { useProfileStore } from "stores";
 import { useGameStore } from "stores/game";
 import apiClient from "utils/apiClient";
+import handleRewards from "utils/handleRewards";
 import { IconButton } from "./Button";
 import { BarChartIcon, HelpIcon, PaywallIcon } from "./icons";
 import Link from "./Link";
@@ -34,6 +35,7 @@ export default function Header() {
         .then(async ({ data }) => {
           data.address = address;
           localStorage.setItem("tokens", JSON.stringify(data));
+          await handleRewards(address, "login");
           updateProfileData();
         });
     } catch (error) {
@@ -67,16 +69,23 @@ export default function Header() {
         <Link href="/quests">Quests</Link>
       </nav>
       <div className="row-start-1 justify-self-center md:row-auto">
-        <a href="/">
+        <Link href="/">
           <h1>{APP_NAME}</h1>
-        </a>
+        </Link>
       </div>
       <div className="flex flex-col items-center space-x-2 space-y-2 md:flex-row md:space-y-0 md:justify-self-end">
-        {profileData?.reward_token_balance && (
-          <span className="whitespace-nowrap">
-            <strong> {profileData?.reward_token_balance} $WORDLE </strong>
-          </span>
-        )}
+        <div className="flex space-x-2">
+          {profileData?.xp_balance && (
+            <span className="whitespace-nowrap">
+              <strong>{profileData?.xp_balance} XP</strong>
+            </span>
+          )}
+          {profileData?.reward_token_balance && (
+            <span className="whitespace-nowrap">
+              <strong> {profileData?.reward_token_balance} $WORDLE </strong>
+            </span>
+          )}
+        </div>
         <div className="fixed right-2 top-2 flex flex-col items-center space-y-2 md:relative md:right-0 md:top-0 md:flex-row  md:space-x-2 md:space-y-0">
           {gameState.status !== "new" && (
             <IconButton onClick={() => gameActions.openModal("paywall")}>

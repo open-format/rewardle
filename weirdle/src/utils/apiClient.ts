@@ -21,7 +21,6 @@ apiClient.interceptors.request.use(
 );
 
 const refreshAccessToken = async () => {
-  console.log("Refreshing token...");
   try {
     const tokens = localStorage.getItem("tokens");
     if (!tokens) throw new Error("No token found");
