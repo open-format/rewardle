@@ -61,8 +61,8 @@ export default function Header() {
   }, [address]);
 
   return (
-    <header className="grid w-full grid-rows-1 items-center space-y-2 bg-opacity-50 md:grid-cols-3">
-      <nav className="space-x-2 px-2 text-center md:text-left">
+    <header className="grid w-full grid-rows-1 items-center bg-opacity-50 md:grid-cols-3">
+      <nav className="my-3 space-x-2 px-2 text-center md:text-left">
         <Link href="/">Play</Link>
         <Link href="/leaderboard">Leaderboard</Link>
         <Link href="/profile">Profile</Link>
