@@ -1,5 +1,6 @@
 import { useSetIsWalletModalOpen, useWallet } from "@openformat/react";
 import { GAME_COST } from "constants/global";
+import Link from "next/link";
 import { useProfileStore } from "stores";
 import { useGameStore } from "stores/game";
 import { Button } from "./Button";
@@ -29,9 +30,9 @@ export default function PaywallModal(props: Props) {
         {lowBalance ? (
           <p>
             To play again now, you will need more $WORDLE. Explore the{" "}
-            <a className="underline" href="/quests">
+            <Link onClick={props.onClose} className="underline" href="/quests">
               Quests
-            </a>{" "}
+            </Link>{" "}
             page to discover additional ways of earning $WORDLE.
           </p>
         ) : (
