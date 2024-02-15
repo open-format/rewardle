@@ -1,3 +1,4 @@
+import { PrismaClient } from "@prisma/client";
 import dayjs from "dayjs";
 import { Hono } from "hono";
 import { leaderboardData } from "../../../queries/leaderboard";
@@ -13,6 +14,7 @@ enum Status {
 }
 
 const leaderboard = new Hono();
+const prisma = new PrismaClient();
 
 leaderboard.onError((err, c) => {
   console.error(`${err}`);
@@ -40,7 +42,20 @@ leaderboard.get("/", async (c) => {
     appId: process.env.APPLICATION_ID,
   });
 
-  const leaderboard = generateLeaderboard(data);
+  let leaderboard = generateLeaderboard(data);
+
+  const allUsers = await prisma.user.findMany();
+  const usersMap = new Map(
+    allUsers.map((user) => [
+      user.eth_address.toLowerCase(),
+      user.nickname,
+    ])
+  );
+
+  leaderboard = leaderboard.map((entry) => ({
+    ...entry,
+    user: usersMap.get(entry.user) || "Anonymous",
+  }));
 
   return c.json({ status: Status.SUCCESS, data: leaderboard });
 });
