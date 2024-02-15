@@ -29,4 +29,9 @@ export const ANIMAL_WORDS = [
   "terns",
   "hyena",
   "macaw",
+  "whale",
+  "camel",
+  "panda",
+  "chimp",
+  "gecko",
 ];
