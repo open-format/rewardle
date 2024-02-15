@@ -137,7 +137,7 @@ export default function Home() {
           TEST_MODE: {gameState.secret}
         </div>
       )}
-      {gameState.status === "lost" && (
+      {gameState.status !== "new" && (
         <div className="m-2 mx-auto max-w-max rounded-lg bg-rose-500 px-5 py-2 font-bold uppercase text-white">
           The word is {gameState.secret}
         </div>
