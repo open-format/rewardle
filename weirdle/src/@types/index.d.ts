@@ -40,6 +40,7 @@ type MissionConfig = {
   tokens: MissionConfigToken[];
   requirements: MissionConfigRequirements[];
   badgeUrl: string;
+  completed: boolean;
 };
 
 type MissionConfigToken = {
