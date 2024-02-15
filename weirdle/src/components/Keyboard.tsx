@@ -1,10 +1,8 @@
 import { always, propEq } from "ramda";
 import { useCallback, useEffect } from "react";
+import type { GameTile } from "stores/game";
 import tw from "tailwind-styled-components";
 import { match } from "ts-pattern";
-
-import type { GameTile } from "stores/game";
-
 import { BackspaceIcon } from "./icons";
 
 export const MAPPABLE_KEYS = {
@@ -107,7 +105,7 @@ export default function Keyboard({ onKeyPress, disabled, usedKeys }: Props) {
 }
 
 export const KeyButton = tw.button`
-  bg-gray-300 hover:bg-gray-400 active:opacity-60 md:p-3 
+  bg-gray-800 hover:bg-gray-900 active:opacity-60 md:p-3 
    p-2 rounded-md md:text-xl sm:text-sm text-xs font-bold transition-all 
    md:min-w-[2.5rem]
    min-w-[1.85rem]
