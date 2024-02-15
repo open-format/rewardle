@@ -14,6 +14,7 @@ interface Mission {
 
 interface LeaderboardEntry {
   user: string;
+  user_address: string;
   xp_rewarded: string;
 }
 
