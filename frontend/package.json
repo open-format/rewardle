@@ -1,5 +1,5 @@
 {
-  "name": "weirdle",
+  "name": "frontend",
   "private": true,
   "scripts": {
     "dev": "next dev",
