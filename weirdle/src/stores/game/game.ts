@@ -2,7 +2,7 @@ import dayjs from "dayjs";
 import * as api from "lib/api-client";
 import { filter, flatten, groupBy, pipe, prop, propEq, reject } from "ramda";
 import { toast } from "react-toastify";
-import { Selector, createStore } from "zustand-immer-store";
+import { createStore, Selector } from "zustand-immer-store";
 import { INITIAL_STATE, ModalKind, STORAGE_KEY } from "./constants";
 import { findLastNonEmptyTile, getNextRow, getRowWord } from "./helpers";
 
@@ -74,8 +74,7 @@ export const useGameStore = createStore(INITIAL_STATE, {
     async bypass() {
       const result = await api.getSecretWord({ random: true });
       set((store) => {
-        store.state = INITIAL_STATE;
-        store.state.secret = result.secret;
+        store.state = { ...INITIAL_STATE, secret: result.secret };
       });
     },
 
