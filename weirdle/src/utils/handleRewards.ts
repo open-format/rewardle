@@ -10,13 +10,25 @@ function checkActivityType(rewards) {
   }
 }
 
-async function handleRewards(address: string, action_id: string) {
+async function handleRewards(
+  address: string,
+  action_id: string,
+  callback?: () => void
+) {
   await apiClient
     .post("rewards/token-system/trigger", {
       user_address: address,
       action_id: action_id,
     })
-    .then((res) => checkActivityType(res.data.rewards))
+    .then((res) => {
+      checkActivityType(res.data.rewards);
+
+      if (callback) {
+        // @DEV We need to add a slight delay here due to subgraph being slightly behind.
+        // This will get better with time.
+        setTimeout(() => callback(), 500);
+      }
+    })
     .catch((err) => console.log({ err }));
 }
 

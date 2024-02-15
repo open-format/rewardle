@@ -35,8 +35,8 @@ export default function Header() {
         .then(async ({ data }) => {
           data.address = address;
           localStorage.setItem("tokens", JSON.stringify(data));
-          await handleRewards(address, "login");
           updateProfileData();
+          await handleRewards(address, "login", updateProfileData);
         });
     } catch (error) {
       console.error("Authentication error:", error);

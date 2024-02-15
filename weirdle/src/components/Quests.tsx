@@ -26,7 +26,7 @@ export default function Quests({
           quests.map((quest, index) => (
             <li key={`quest-${index}`} className="rounded border p-2">
               <article>
-                <div className="flex flex-col items-center space-y-5">
+                <div className="flex flex-col items-center space-y-5 text-center">
                   <img src={quest.badgeUrl} className="h-36 w-36" />
                   <h3>{quest.id}</h3>
                   <p>{quest.description}</p>

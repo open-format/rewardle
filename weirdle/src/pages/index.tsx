@@ -4,6 +4,7 @@ import Keyboard, { isMappableKey } from "components/Keyboard";
 import { ANIMAL_WORDS } from "constants/special_words";
 import { useCallback, useEffect } from "react";
 import { toast } from "react-toastify";
+import { useProfileStore } from "stores";
 import { useGameStore } from "stores/game";
 import { useStatsStore } from "stores/stats";
 import handleRewards from "utils/handleRewards";
@@ -14,6 +15,7 @@ export default function Home() {
   const walletModalState = useIsWalletModalOpen();
   const { state: gameState, actions: gameActions } = useGameStore();
   const { state: stats, actions: statsActions } = useStatsStore();
+  const { updateProfileData } = useProfileStore();
 
   const { address } = useWallet();
   const keys = useSelector("getUsedKeys");
@@ -55,7 +57,11 @@ export default function Home() {
               toast.success(
                 `You received an Animal Word Reward for ${result.guess}.`
               );
-              await handleRewards(address, "guess_an_animal");
+              await handleRewards(
+                address,
+                "guess_an_animal",
+                updateProfileData
+              );
             }
           }
 
@@ -65,21 +71,45 @@ export default function Home() {
                 attempts: result.attempts,
               });
               if (address) {
-                await handleRewards(address, "win");
+                await handleRewards(address, "win", updateProfileData);
 
                 switch (result.attempts) {
                   case 1:
-                    return await handleRewards(address, "first_guess");
+                    return await handleRewards(
+                      address,
+                      "first_guess",
+                      updateProfileData
+                    );
                   case 2:
-                    return await handleRewards(address, "second_guess");
+                    return await handleRewards(
+                      address,
+                      "second_guess",
+                      updateProfileData
+                    );
                   case 3:
-                    return await handleRewards(address, "third_guess");
+                    return await handleRewards(
+                      address,
+                      "third_guess",
+                      updateProfileData
+                    );
                   case 4:
-                    return await handleRewards(address, "fourth_guess");
+                    return await handleRewards(
+                      address,
+                      "fourth_guess",
+                      updateProfileData
+                    );
                   case 5:
-                    return await handleRewards(address, "fifth_guess");
+                    return await handleRewards(
+                      address,
+                      "fifth_guess",
+                      updateProfileData
+                    );
                   case 6:
-                    return await handleRewards(address, "sixth_guess");
+                    return await handleRewards(
+                      address,
+                      "sixth_guess",
+                      updateProfileData
+                    );
                 }
               } else {
                 console.error(
@@ -89,7 +119,7 @@ export default function Home() {
               break;
             case "loss":
               if (address) {
-                await handleRewards(address, "lose");
+                await handleRewards(address, "lose", updateProfileData);
               }
               statsActions.captureLoss();
               break;
