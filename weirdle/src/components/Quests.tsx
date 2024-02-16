@@ -1,4 +1,6 @@
 import { MissionConfig } from "@/@types";
+import { CheckCircleIcon } from "@heroicons/react/24/solid";
+import clsx from "clsx";
 import { isRewardToken, isXP } from "utils/formatting";
 
 interface QuestProps {
@@ -24,9 +26,19 @@ export default function Quests({
       <ul className="grid grid-cols-1 gap-12 md:grid-cols-3">
         {quests && quests.length ? (
           quests.map((quest, index) => (
-            <li key={`quest-${index}`} className="rounded border p-2">
-              <article>
-                <div className="flex flex-col items-center space-y-5 text-center">
+            <li key={`quest-${index}`} className={clsx("rounded border p-2")}>
+              <article className="relative">
+                {Boolean(quest.completed) && (
+                  <div className="absolute z-10 flex h-full w-full items-center justify-center">
+                    <CheckCircleIcon className="items-self-center h-16 w-16 text-green-500" />
+                  </div>
+                )}
+                <div
+                  className={clsx(
+                    { "opacity-30": quest.completed },
+                    "relative flex flex-col items-center space-y-5 text-center"
+                  )}
+                >
                   <img src={quest.badgeUrl} className="h-36 w-36" />
                   <h3>{quest.id}</h3>
                   <p>{quest.description}</p>
