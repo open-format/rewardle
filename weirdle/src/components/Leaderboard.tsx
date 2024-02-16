@@ -27,7 +27,7 @@ export default function Leaderboard({ data, isLoading }: LeaderboardProps) {
               User
             </th>
             <th scope="col" role="columnheader" aria-sort="descending">
-              XP Rewarded
+              XP
             </th>
           </tr>
         </thead>

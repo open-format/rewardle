@@ -55,3 +55,8 @@ section {
   flex-direction: column;
   gap: var(--spacing);
 }
+
+a {
+  color: var(--primary-color);
+  font-weight: 700;
+}
