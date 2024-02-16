@@ -55,6 +55,7 @@ leaderboard.get("/", async (c) => {
   leaderboard = leaderboard.map((entry) => ({
     ...entry,
     user: usersMap.get(entry.user) || "Anonymous",
+    user_address: entry.user,
   }));
 
   return c.json({ status: Status.SUCCESS, data: leaderboard });
