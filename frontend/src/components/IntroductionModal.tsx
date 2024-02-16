@@ -7,7 +7,7 @@ export default function IntroductionModal(props: Props) {
     <Modal title="Welcome" open={props.open} onClose={props.onClose}>
       <div className="space-y-2">
         <p>
-          Welcome to Rewardle. The wordle game you know and love, but including
+          Welcome to Rewardle. The word game you know and love, but including
           Rewards and Quests.
         </p>
         <p>

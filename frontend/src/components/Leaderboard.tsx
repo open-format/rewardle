@@ -1,3 +1,5 @@
+import { useWallet } from "@openformat/react";
+import clsx from "clsx";
 import { LeaderboardEntry } from "../@types";
 
 interface LeaderboardProps {
@@ -25,7 +27,7 @@ export default function Leaderboard({ data, isLoading }: LeaderboardProps) {
               User
             </th>
             <th scope="col" role="columnheader" aria-sort="descending">
-              XP Rewarded
+              XP
             </th>
           </tr>
         </thead>
@@ -40,8 +42,17 @@ export default function Leaderboard({ data, isLoading }: LeaderboardProps) {
 }
 
 function TableItem({ item, index }: { item: LeaderboardEntry; index: number }) {
+  const { address } = useWallet();
+  const currentUser = Boolean(address?.toLowerCase() === item.user_address);
+
   return (
-    <tr className="my-5 border-b border-b-primary" key={index}>
+    <tr
+      className={clsx(
+        { "bg-primary font-bold text-black": currentUser },
+        "my-5 border-b border-b-primary"
+      )}
+      key={index}
+    >
       <td>{index + 1}</td>
       <td>{item.user}</td>
       <td>{item.xp_rewarded}</td>

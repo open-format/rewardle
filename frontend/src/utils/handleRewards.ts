@@ -3,10 +3,10 @@ import apiClient from "./apiClient";
 
 function checkActivityType(rewards) {
   const activityTypes = rewards.map((reward) => reward.activityType);
-  if (activityTypes.includes("ACTION") && !activityTypes.includes("MISSION")) {
-    return toast.success("You just received XP!");
-  } else if (activityTypes.includes("MISSION")) {
-    return toast.success("You just received XP and $WORDLE!");
+  if (activityTypes.includes("MISSION")) {
+    return toast.success(
+      "Quest completed! Visit your profile to see the details"
+    );
   }
 }
 

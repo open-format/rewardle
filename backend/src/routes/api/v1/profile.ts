@@ -1,21 +1,12 @@
-import { Chains, OpenFormatSDK } from "@openformat/sdk";
 import { PrismaClient } from "@prisma/client";
 import { Hono } from "hono";
 import validator from "validator";
-import { GetUserProfileResponse } from "../../../../@types";
-import { getUserProfile } from "../../../queries";
-import { weiToNumber } from "../../../utils/formatting";
+import { getOnChainProfile } from "../../../utils/profile";
 
 enum Status {
   SUCCESS = "success",
   FAIL = "failed",
 }
-
-const sdk = new OpenFormatSDK({
-  network: Chains.polygonMumbai,
-  starId: process.env.APPLICATION_ID as string,
-  signer: process.env.PRIVATE_KEY,
-});
 
 const profile = new Hono();
 const prisma = new PrismaClient();
@@ -36,22 +27,7 @@ profile.get("/me", async (c) => {
   const NAME = user.nickname;
   const EMAIL = user.email_address;
 
-  const response = await sdk.subgraph.rawRequest<GetUserProfileResponse>(
-    getUserProfile,
-    {
-      user: USER.toLowerCase(),
-      app: sdk.appId.toLowerCase(),
-      xp: (process.env.XP_TOKEN_ID as string).toLowerCase(),
-      rewardToken: (process.env.REWARD_TOKEN_ID as string).toLowerCase(),
-    }
-  );
-
-  const XPBalance = response.user?.tokenBalances.find(
-    (token) => token.token.id === process.env.XP_TOKEN_ID?.toLowerCase()
-  );
-  const RewardTokenBalance = response.user?.tokenBalances.find(
-    (token) => token.token.id === process.env.REWARD_TOKEN_ID?.toLowerCase()
-  );
+  const onChainProfile = await getOnChainProfile(USER);
 
   return c.json({
     status: Status.SUCCESS,
@@ -59,11 +35,7 @@ profile.get("/me", async (c) => {
       nickname: NAME,
       email: EMAIL,
       eth_address: USER,
-
-      xp_balance: weiToNumber(XPBalance?.balance),
-      reward_token_balance: weiToNumber(RewardTokenBalance?.balance),
-      completed_missions: response.missions,
-      completed_actions: response.actions,
+      ...onChainProfile,
     },
   });
 });

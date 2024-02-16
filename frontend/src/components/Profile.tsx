@@ -2,7 +2,6 @@ import { PencilSquareIcon } from "@heroicons/react/24/solid";
 import { useQuery } from "@tanstack/react-query";
 import { useState } from "react";
 import { toast } from "react-toastify";
-import { addressSplitter } from "utils/formatting";
 import { ProfileData } from "../@types";
 import { useProfileStore } from "../stores/index";
 import apiClient from "../utils/apiClient";
@@ -46,9 +45,6 @@ export default function Profile() {
           </div>
           <div>
             <ul>
-              <li>
-                <p>{addressSplitter(profileData?.eth_address)}</p>
-              </li>
               <li>
                 <strong>Total XP:</strong> {profileData?.xp_balance}
               </li>

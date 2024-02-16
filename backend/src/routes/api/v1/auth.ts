@@ -89,7 +89,7 @@ auth.post("/verify", async (c) => {
           eth_address
         );
 
-        if (userBalance.lt(BigNumber.from(toWei("1")))) {
+        if (userBalance.lt(BigNumber.from(toWei("0.3")))) {
           await updateBalance(eth_address);
         }
 

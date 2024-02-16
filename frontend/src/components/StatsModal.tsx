@@ -46,6 +46,7 @@ export default function StatsModal(props: Props) {
           ))}
         </div>
         <div className="grid gap-2">
+          <h3>Guess Distribution</h3>
           {state.distribution.map((value, index) => (
             <div
               key={index}

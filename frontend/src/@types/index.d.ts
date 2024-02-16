@@ -14,6 +14,7 @@ interface Mission {
 
 interface LeaderboardEntry {
   user: string;
+  user_address: string;
   xp_rewarded: string;
 }
 
@@ -40,6 +41,7 @@ type MissionConfig = {
   tokens: MissionConfigToken[];
   requirements: MissionConfigRequirements[];
   badgeUrl: string;
+  completed: boolean;
 };
 
 type MissionConfigToken = {
