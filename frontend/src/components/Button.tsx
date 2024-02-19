@@ -17,7 +17,7 @@ export function Button({
   function Loading() {
     return (
       <div
-        className="pointer-events-none inline-block h-4 w-4 animate-spin rounded-full border-[3px] border-current border-t-transparent text-primary"
+        className="pointer-events-none inline-block h-4 w-4 animate-spin rounded-full border-[3px] border-current border-t-transparent text-white"
         role="status"
         aria-label="loading"
       >
@@ -30,7 +30,7 @@ export function Button({
     <button
       disabled={isLoading || disabled}
       {...props}
-      className="min-w-12 rounded border px-5 py-2 font-bold uppercase text-white hover:bg-primary hover:text-background disabled:pointer-events-none disabled:cursor-not-allowed disabled:opacity-50"
+      className="min-w-12 rounded border px-5 py-2 font-bold uppercase disabled:pointer-events-none disabled:cursor-not-allowed disabled:opacity-50 md:text-white md:hover:bg-primary md:hover:text-background"
     >
       {isLoading ? (
         <div className="flex items-center space-x-2">
