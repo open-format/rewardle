@@ -13,7 +13,7 @@ import { GAME_COST } from "constants/global";
 import React, { useState } from "react";
 import { useProfileStore } from "stores";
 import { useGameStore } from "stores/game";
-import GameContext from "utils/GameContext";
+import Footer from "./Footer";
 import IntroductionModal from "./IntroductionModal";
 import PaywallModal from "./PaywallModal";
 
@@ -52,34 +52,33 @@ const Layout: React.FC<{ onIconClick?: () => void }> = ({ children }) => {
 
   return (
     <div className="flex w-screen flex-col items-center justify-center md:min-h-screen">
-      <GameContext.Provider value={{ handlePayment: spendTokens }}>
-        <Header />
-        <main className="item-center flex w-full max-w-5xl flex-1 flex-col p-4">
-          {children}
-        </main>
-        <HelpModal
-          open={gameState.activeModal === "help"}
-          onClose={gameActions.closeModal}
-        />
-        <StatsModal
-          open={gameState.activeModal === "stats"}
-          onClose={gameActions.closeModal}
-        />
-        <SettingsModal
-          open={gameState.activeModal === "settings"}
-          onClose={gameActions.closeModal}
-        />
-        <PaywallModal
-          open={gameState.activeModal === "paywall"}
-          onClose={gameActions.closeModal}
-          handlePayment={spendTokens}
-          isLoading={isLoading}
-        />
-        <IntroductionModal
-          open={gameState.activeModal === "introduction"}
-          onClose={gameActions.closeModal}
-        />
-      </GameContext.Provider>
+      <Header />
+      <main className="item-center flex w-full max-w-5xl flex-1 flex-col p-4">
+        {children}
+      </main>
+      <HelpModal
+        open={gameState.activeModal === "help"}
+        onClose={gameActions.closeModal}
+      />
+      <StatsModal
+        open={gameState.activeModal === "stats"}
+        onClose={gameActions.closeModal}
+      />
+      <SettingsModal
+        open={gameState.activeModal === "settings"}
+        onClose={gameActions.closeModal}
+      />
+      <PaywallModal
+        open={gameState.activeModal === "paywall"}
+        onClose={gameActions.closeModal}
+        handlePayment={spendTokens}
+        isLoading={isLoading}
+      />
+      <IntroductionModal
+        open={gameState.activeModal === "introduction"}
+        onClose={gameActions.closeModal}
+      />
+      <Footer />
     </div>
   );
 };
