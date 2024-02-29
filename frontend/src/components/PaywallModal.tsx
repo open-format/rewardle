@@ -1,5 +1,5 @@
 import { useSetIsWalletModalOpen, useWallet } from "@openformat/react";
-import { GAME_COST } from "constants/global";
+import { GAME_COST, TOKEN_NAME } from "constants/global";
 import Link from "next/link";
 import { useProfileStore } from "stores";
 import { useGameStore } from "stores/game";
@@ -29,15 +29,17 @@ export default function PaywallModal(props: Props) {
         <p>You have the option to wait and play again tomorrow.</p>
         {lowBalance ? (
           <p>
-            To play again now, you will need {GAME_COST} $WORDLE. Explore the{" "}
+            To play again now, you will need {GAME_COST} ${TOKEN_NAME}. Explore
+            the{" "}
             <Link onClick={props.onClose} className="underline" href="/quests">
               Quests
             </Link>{" "}
-            page to discover additional ways of earning $WORDLE.
+            page to discover additional ways of earning ${TOKEN_NAME}.
           </p>
         ) : (
           <p>
-            As you have {GAME_COST} $WORDLE credits, you can play again now.
+            As you have {GAME_COST} ${TOKEN_NAME} credits, you can play again
+            now.
           </p>
         )}
         <div className="flex justify-center">
@@ -55,7 +57,7 @@ export default function PaywallModal(props: Props) {
                   props.isLoading
                 }
               >
-                Use {GAME_COST} $WORDLE to play
+                Use {GAME_COST} ${TOKEN_NAME} to play
               </Button>
             )
           )}

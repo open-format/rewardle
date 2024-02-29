@@ -1,3 +1,4 @@
+import { TOKEN_NAME } from "constants/global";
 import Modal, { Props as ModalProps } from "./Modal";
 
 export type Props = Pick<ModalProps, "open" | "onClose">;
@@ -12,7 +13,7 @@ export default function IntroductionModal(props: Props) {
         </p>
         <p>
           Login to start receiving rewards. Don&apos;t worry, you can still play
-          without logging in, however you will miss out on XP, $WORDLE and
+          without logging in, however you will miss out on XP, ${TOKEN_NAME} and
           Badges.
         </p>
         <p>Enjoy!</p>

@@ -1,5 +1,5 @@
 import { ConnectButton, useOpenFormat, useWallet } from "@openformat/react";
-import { APP_NAME } from "constants/global";
+import { APP_NAME, TOKEN_NAME } from "constants/global";
 import { useEffect } from "react";
 import { useProfileStore } from "stores";
 import { useGameStore } from "stores/game";
@@ -82,7 +82,10 @@ export default function Header() {
           )}
           {profileData?.reward_token_balance && (
             <span className="whitespace-nowrap">
-              <strong> {profileData?.reward_token_balance} $WORDLE </strong>
+              <strong>
+                {" "}
+                {profileData?.reward_token_balance} ${TOKEN_NAME}{" "}
+              </strong>
             </span>
           )}
         </div>
