@@ -9,10 +9,6 @@ This is the backend application. It currently handles:
 
 ## API Endpoints
 
-### Postman Collection
-
-We've created a [Postman collection](./get-started.postman_collection.json) with all the available endpoints. Start by updating the `eth_address` in the collection variables. The `jwt_token` and `refresh_token` variables will be automatically updated from the response of the `auth/verify` and `auth/refresh-token` endpoints.
-
 ### Endpoints
 
 #### Authentication
@@ -53,10 +49,6 @@ We've created a [Postman collection](./get-started.postman_collection.json) with
 ## Database
 
 We've implemented a basic sqlite database using Prisma, which by default, is stored locally as a file (dev.db) in the [prisma](./backend/prisma/) folder. Run `npx prisma studio` to view the database in the browser.
-
-### ERD
-
-![Entity-Relationship Diagram](../prisma-erd.svg)
 
 ### Tables
 

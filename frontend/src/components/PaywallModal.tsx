@@ -29,7 +29,7 @@ export default function PaywallModal(props: Props) {
         <p>You have the option to wait and play again tomorrow.</p>
         {lowBalance ? (
           <p>
-            To play again now, you will need more $WORDLE. Explore the{" "}
+            To play again now, you will need {GAME_COST} $WORDLE. Explore the{" "}
             <Link onClick={props.onClose} className="underline" href="/quests">
               Quests
             </Link>{" "}

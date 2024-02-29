@@ -132,7 +132,7 @@ export default function Home() {
 
   return (
     <>
-      {process.env.NEXT_PUBLIC_SHOW_SECRET && (
+      {Boolean(process.env.NEXT_PUBLIC_SHOW_SECRET === "true") && (
         <div className="border p-2 text-center font-mono uppercase tracking-widest">
           TEST_MODE: {gameState.secret}
         </div>
