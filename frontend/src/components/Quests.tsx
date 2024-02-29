@@ -1,6 +1,7 @@
 import { MissionConfig } from "@/@types";
 import { CheckCircleIcon } from "@heroicons/react/24/solid";
 import clsx from "clsx";
+import { TOKEN_NAME } from "constants/global";
 import { isRewardToken, isXP } from "utils/formatting";
 
 interface QuestProps {
@@ -62,7 +63,7 @@ export default function Quests({
                             <div key={i}>
                               {reward.amount}{" "}
                               <span className="font-bold text-primary">
-                                $WORDLE
+                                ${TOKEN_NAME}
                               </span>
                             </div>
                           );
