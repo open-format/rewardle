@@ -12,7 +12,7 @@ export default [
         amount: 50,
       },
       {
-        address: "0xa74d59189c20a45a048c03fe3ef0f3bd4a868d20",
+        address: "0xc65cb79bd79fc0d7a55c43590ae2ff9ae2e21f3a",
         amount: 1,
         uri: "ipfs://QmV91BXk33HQiNPobCb2bY2YZ7KuGVmgDp8HFxuEMerzRX",
       },
@@ -40,7 +40,7 @@ export default [
         amount: 150,
       },
       {
-        address: "0x69584508dbab5e1f98acb7d441eb23d7f0ae7fd0",
+        address: "0x23614acdd84b86be50fd50e6d75252a5fa8d107c",
         amount: 1,
         uri: "ipfs://QmX3X9e8YK9WGyDyhZLkhexCjcDQPPZqq6Scpv73jbELp4",
       },
@@ -68,7 +68,7 @@ export default [
         amount: 200,
       },
       {
-        address: "0x8925d2aff7cabd4f287ab25f914fa0013c8a91a1",
+        address: "0x5653626dd319e430cef60190e0ad1c5a5fc88f32",
         amount: 1,
         uri: "ipfs://QmUrXShFath31QPLbjXg7hAF6nSTjzxubAradqWsRNetmA",
       },
@@ -96,7 +96,7 @@ export default [
         amount: 500,
       },
       {
-        address: "0x508071cc6a73450b5697d09ff6b8988af07c2bb1",
+        address: "0xada762f4b71fd96775dc61c69cb7af1e21213198",
         amount: 1,
         uri: "ipfs://QmXB55VuB7P4ZvR5iYPo99JM8QQbBVHjuHf6FsXgUZ4PkR",
       },
@@ -124,7 +124,7 @@ export default [
         amount: 1000,
       },
       {
-        address: "0xfc83ae5816c0a9c4c31d0895622b702961aa1ee4",
+        address: "0xf551038fdb5c9b6e961942aa5f35e090d836b7e3",
         amount: 1,
         uri: "ipfs://QmV8Zy8tmYJpxQUFT6gJq2rem4m25vR8xLjqEyKpnPSoRq",
       },
@@ -152,7 +152,7 @@ export default [
         amount: 2000,
       },
       {
-        address: "0xde30e342623541a09c8dca4714ba8f89adff87d7",
+        address: "0xb45560189bd79dc3a1c72a1a226585d1f5836223",
         amount: 1,
         uri: "ipfs://Qmbqusq6kf7GNGTSCRUxBRPd6vyyRFSiHCApKgsJChJbbB",
       },
@@ -180,7 +180,7 @@ export default [
         amount: 20000,
       },
       {
-        address: "0xc3e31c8d94022732462e1758f466c8f1673c25b6",
+        address: "0x0fe9fb88a81a1384ba8c07e938b61e712a561088",
         amount: 1,
         uri: "ipfs://QmQDa93bLvZPRZUXx1K1GbcAj8R9HCXVKF1rRdzKu23ifG",
       },
@@ -208,7 +208,7 @@ export default [
         amount: 200,
       },
       {
-        address: "0xfa3dcf6d1467069cbd00cb0b56af999be89e1323",
+        address: "0x690829196317f9ae1678f223979be3d54e1da4c4",
         amount: 1,
         uri: "ipfs://QmXW1cFnovJDRL6kzd1qPHxfmkhK3d1UFMSrugxX7ZYYBV",
       },
@@ -236,7 +236,7 @@ export default [
         amount: 1000,
       },
       {
-        address: "0xc97f0f513820359741bd628752681d75f321a96b",
+        address: "0xad88dfa6d1f00d8d9059b8b59695f3266302ad54",
         amount: 1,
         uri: "ipfs://QmTzCC5vfSXZDmwuDSSaUMXHzfwuBcwjAh74LM5FTfdXPp",
       },
