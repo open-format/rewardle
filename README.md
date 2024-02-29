@@ -1,5 +1,3 @@
-# Rewardle
-
 <img width="1341" alt="Screenshot 2024-02-26 at 16 55 16" src="https://github.com/open-format/js/assets/7047410/399b00a1-7fe6-4212-9347-1bbf8af9e469">
 
 Welcome to Rewardle, a Wordle clone that demonstrates how to integrate OPENFORMAT rewards mechanisms into any React application. This project utilises the [GetStarted](https://github.com/open-format/get-started) template.
