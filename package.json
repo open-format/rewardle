@@ -1,11 +1,11 @@
 {
-  "name": "react-wordle",
+  "name": "rewardle",
   "module": "index.ts",
   "type": "module",
   "private": true,
   "workspaces": [
     "backend",
-    "weirdle"
+    "frontend"
   ],
   "devDependencies": {
     "bun-types": "latest"

@@ -1,0 +1,62 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+/* theme.css */
+
+/* Base theme variables */
+:root {
+  --primary-color: #fff400;
+  --background-color: #000;
+  --text-color: #fff;
+  --border-color: #fff400;
+  --border-radius: 3px;
+  --border-width: 1px;
+  --error-color: #ef4444;
+  --spacing: 0.625rem; /*10px*/
+}
+
+/* Global styles */
+body,
+html {
+  font-family: "Manrope";
+  background-color: var(--background-color);
+  color: var(--text-color);
+}
+h1,
+h2,
+h3,
+h4 {
+  text-transform: uppercase;
+  text-shadow: 0 0 5px var(--primary-color);
+  line-height: 1.2em;
+  color: var(--text-color);
+}
+
+h1 {
+  font-size: 3em;
+  font-weight: 900;
+  color: var(--primary-color);
+}
+h2 {
+  font-size: 2em;
+  font-weight: 600;
+}
+h3 {
+  font-size: 1.5em;
+  font-weight: 500;
+}
+h4 {
+  font-size: 1.2em;
+  font-weight: 400;
+}
+
+section {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing);
+}
+
+a {
+  color: var(--primary-color);
+  font-weight: 700;
+}
