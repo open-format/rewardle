@@ -7,7 +7,7 @@ export default function Document() {
         <meta name="description" content="A word puzzle game" />
         <meta property="og:url" content="https://wordle.openformat.tech" />
         <meta property="og:type" content="website" />
-        <meta property="og:title" content="Rewardable" />
+        <meta property="og:title" content="Rewardle" />
         <meta property="og:description" content="A word puzzle game" />
         <meta
           property="og:image"
@@ -17,7 +17,7 @@ export default function Document() {
         <meta name="twitter:card" content="summary_large_image" />
         <meta property="twitter:domain" content="wordle.openformat.tech" />
         <meta property="twitter:url" content="https://wordle.openformat.tech" />
-        <meta name="twitter:title" content="Rewardable" />
+        <meta name="twitter:title" content="Rewardle" />
         <meta name="twitter:description" content="A word puzzle game" />
         <meta
           name="twitter:image"
