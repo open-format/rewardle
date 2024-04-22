@@ -7,7 +7,7 @@ export const getActionsByUserAndRequirements = gql`
     $app: String!
   ) {
     actions(
-      where: { user: $user, star: $app }
+      where: { user: $user, app: $app }
       orderBy: "createdAt"
       orderDirection: "desc"
     ) {
