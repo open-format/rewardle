@@ -9,7 +9,7 @@ export const leaderboardData = gql`
     actions(
       first: 1000
       where: {
-        star_contains_nocase: $appId
+        app_contains_nocase: $appId
         createdAt_gte: $start
         createdAt_lte: $end
       }
@@ -25,7 +25,7 @@ export const leaderboardData = gql`
     missions(
       first: 1000
       where: {
-        star_contains_nocase: $appId
+        app_contains_nocase: $appId
         createdAt_gte: $start
         createdAt_lte: $end
       }

@@ -46,9 +46,9 @@ function MyApp({ Component, pageProps }: AppProps) {
       <AnimatePresence>
         <OpenFormatProvider
           config={{
-            networks: [Chains.polygonMumbai],
+            networks: [Chains.arbitrumSepolia],
             appId: process.env.NEXT_PUBLIC_APPLICATION_ID as string,
-            activeChain: "mumbai",
+            activeChain: "arbitrum-sepolia",
           }}
         >
           <QueryClientProvider client={queryClient}>

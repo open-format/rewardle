@@ -20,7 +20,7 @@ export const getUserProfile = gql`
     actions(
       where: {
         user_contains_nocase: $user
-        star_contains_nocase: $app
+        app_contains_nocase: $app
       }
       orderBy: createdAt
       orderDirection: desc
@@ -35,7 +35,7 @@ export const getUserProfile = gql`
     missions(
       where: {
         user_contains_nocase: $user
-        star_contains_nocase: $app
+        app_contains_nocase: $app
       }
       orderBy: createdAt
       orderDirection: desc

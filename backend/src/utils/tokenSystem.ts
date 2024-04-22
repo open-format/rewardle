@@ -5,8 +5,6 @@ import {
   RewardType,
   toWei,
 } from "@openformat/sdk";
-import TokenService from "../services/TokenService";
-
 import {
   ActionConfig,
   MissionConfig,
@@ -15,6 +13,7 @@ import {
 } from "../../@types";
 import actions from "../constants/actions";
 import missions from "../constants/missions";
+import TokenService from "../services/TokenService";
 
 export default class TokenSystem {
   private tokenService: TokenService;
@@ -124,7 +123,7 @@ export default class TokenSystem {
               id: mission.id,
               address: token.address,
               amount: toWei(token.amount.toString()),
-              type: RewardType.CONSTELLATION_TOKEN,
+              type: RewardType.REWARD_TOKEN,
               activityType: ActivityType.MISSION,
             });
           }
