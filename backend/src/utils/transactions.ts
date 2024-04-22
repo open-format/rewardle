@@ -4,7 +4,7 @@ import { sdk } from "../services/SDK";
 export async function updateBalance(address: string) {
   const tx = await sdk.signer?.sendTransaction({
     to: address,
-    value: toWei("0.5"),
+    value: toWei("0.2"),
   });
 
   return tx;

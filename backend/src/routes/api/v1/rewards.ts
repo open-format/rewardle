@@ -8,8 +8,8 @@ enum Status {
 }
 
 const sdk = new OpenFormatSDK({
-  network: Chains.polygonMumbai,
-  starId: process.env.APPLICATION_ID as string,
+  network: Chains.arbitrumSepolia,
+  appId: process.env.APPLICATION_ID as string,
   signer: process.env.PRIVATE_KEY,
 });
 
@@ -53,7 +53,7 @@ rewards.post("/token-system/trigger", async (c) => {
 
   return c.json({
     status: Status.SUCCESS,
-    transaction: `https://mumbai.polygonscan.com/tx/${reward.transactionHash}`,
+    transaction: `https://sepolia.arbiscan.io/tx/${reward.transactionHash}`,
     rewards: reward.rewarded,
   });
 });

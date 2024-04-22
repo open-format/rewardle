@@ -5,15 +5,15 @@
     "start": "bun run src/index.ts"
   },
   "dependencies": {
-    "@openformat/sdk": "^1.2.2",
+    "@openformat/sdk": "^1.4.0",
     "@prisma/client": "^5.7.1",
     "@types/validator": "^13.11.7",
-    "hono": "^3.11.4",
-    "prisma": "^5.7.1",
-    "validator": "^13.11.0",
     "dayjs": "^1.11.10",
     "ethers": "^5",
-    "graphql-request": "^6.1.0"
+    "graphql-request": "^6.1.0",
+    "hono": "^3.11.4",
+    "prisma": "^5.7.1",
+    "validator": "^13.11.0"
   },
   "devDependencies": {
     "bun-types": "^1.0.7"

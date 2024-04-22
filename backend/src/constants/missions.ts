@@ -12,13 +12,13 @@ export default [
         amount: 50,
       },
       {
-        address: "0xc65cb79bd79fc0d7a55c43590ae2ff9ae2e21f3a",
+        address: "0x2AABee409FFE5AB24eC9c90FBF3749499956dcA6",
         amount: 1,
         uri: "ipfs://QmV91BXk33HQiNPobCb2bY2YZ7KuGVmgDp8HFxuEMerzRX",
       },
     ],
     badgeUrl:
-      "https://duqswponteoedwsylzwn.supabase.co/storage/v1/object/public/badges/New%20Kid%20On%20the%20Block.png",
+      "https://ipfs.io/ipfs/QmXLQXY9ihBYHdds3ScXmD6ZQ1R6WBJdMVbaVW1qX8TDt5",
     requirements: [
       {
         actionId: "login",
@@ -40,13 +40,13 @@ export default [
         amount: 150,
       },
       {
-        address: "0x23614acdd84b86be50fd50e6d75252a5fa8d107c",
+        address: "0x5Fa49ed6a4A3Fe038C9079d2a7C2b6BbCf863355",
         amount: 1,
         uri: "ipfs://QmX3X9e8YK9WGyDyhZLkhexCjcDQPPZqq6Scpv73jbELp4",
       },
     ],
     badgeUrl:
-      "https://duqswponteoedwsylzwn.supabase.co/storage/v1/object/public/badges/2.png",
+      "https://ipfs.io/ipfs/QmeQBtkc1gviiAcatWecHV6GxFVwcpEe6YWuYGGN7N69dw",
     requirements: [
       {
         actionId: "add_name",
@@ -68,13 +68,13 @@ export default [
         amount: 200,
       },
       {
-        address: "0x5653626dd319e430cef60190e0ad1c5a5fc88f32",
+        address: "0x9a97c6E843a41A68B1e64be29Bebf6275Ed36ae0",
         amount: 1,
         uri: "ipfs://QmUrXShFath31QPLbjXg7hAF6nSTjzxubAradqWsRNetmA",
       },
     ],
     badgeUrl:
-      "https://duqswponteoedwsylzwn.supabase.co/storage/v1/object/public/badges/10%20wins.png",
+      "https://ipfs.io/ipfs/QmPHkLw2NA9vCseZEZBytdfzuZwZfr9rzA1wSBuxGtSnhG",
     requirements: [
       {
         actionId: "win",
@@ -96,13 +96,13 @@ export default [
         amount: 500,
       },
       {
-        address: "0xada762f4b71fd96775dc61c69cb7af1e21213198",
+        address: "0xA7208e23b7Bea95B0761aD59a2F88aB142f57583",
         amount: 1,
         uri: "ipfs://QmXB55VuB7P4ZvR5iYPo99JM8QQbBVHjuHf6FsXgUZ4PkR",
       },
     ],
     badgeUrl:
-      "https://duqswponteoedwsylzwn.supabase.co/storage/v1/object/public/badges/25%20wins.png",
+      "https://ipfs.io/ipfs/QmTFxVnkHpsTAmauszUGanSNKBu2ofbdQFQk3Mp7zNAj1x",
     requirements: [
       {
         actionId: "win",
@@ -124,13 +124,13 @@ export default [
         amount: 1000,
       },
       {
-        address: "0xf551038fdb5c9b6e961942aa5f35e090d836b7e3",
+        address: "0x63cB9989651adEd7810E06b4EdE4d4ed541CA712",
         amount: 1,
         uri: "ipfs://QmV8Zy8tmYJpxQUFT6gJq2rem4m25vR8xLjqEyKpnPSoRq",
       },
     ],
     badgeUrl:
-      "https://duqswponteoedwsylzwn.supabase.co/storage/v1/object/public/badges/50%20wins.png",
+      "https://ipfs.io/ipfs/QmVHp63QoBY4f5gHFbpJbdpa6fukKBWWs7X1hM7xgHj1Gg",
     requirements: [
       {
         actionId: "win",
@@ -152,13 +152,13 @@ export default [
         amount: 2000,
       },
       {
-        address: "0xb45560189bd79dc3a1c72a1a226585d1f5836223",
+        address: "0xa7Fa163c0F5431fA35f4b915013F4a928AB52569",
         amount: 1,
         uri: "ipfs://Qmbqusq6kf7GNGTSCRUxBRPd6vyyRFSiHCApKgsJChJbbB",
       },
     ],
     badgeUrl:
-      "https://duqswponteoedwsylzwn.supabase.co/storage/v1/object/public/badges/First%20time%20lucky.png",
+      "https://ipfs.io/ipfs/QmfEGVL52ZUp35SWXi7C5w3WKJAUb2jt7sHnYavbxC3vsB",
     requirements: [
       {
         actionId: "first_guess",
@@ -180,13 +180,13 @@ export default [
         amount: 20000,
       },
       {
-        address: "0x0fe9fb88a81a1384ba8c07e938b61e712a561088",
+        address: "0x353876bb58D469740d48D34d3a7900380F2C2648",
         amount: 1,
         uri: "ipfs://QmQDa93bLvZPRZUXx1K1GbcAj8R9HCXVKF1rRdzKu23ifG",
       },
     ],
     badgeUrl:
-      "https://duqswponteoedwsylzwn.supabase.co/storage/v1/object/public/badges/7.png",
+      "https://ipfs.io/ipfs/QmNTs1pa9knqm88uXhFmaxc2ZmWbKdgEL3XbEAkXr7MndY",
     requirements: [
       {
         actionId: "first_guess",
@@ -208,13 +208,13 @@ export default [
         amount: 200,
       },
       {
-        address: "0x690829196317f9ae1678f223979be3d54e1da4c4",
+        address: "0xD77D288e4d2886cdf91961A58b457d8026987FFE",
         amount: 1,
         uri: "ipfs://QmXW1cFnovJDRL6kzd1qPHxfmkhK3d1UFMSrugxX7ZYYBV",
       },
     ],
     badgeUrl:
-      "https://duqswponteoedwsylzwn.supabase.co/storage/v1/object/public/badges/Animal%20Lover.png",
+      "https://ipfs.io/ipfs/QmddiWsEaHyq5Y7bW1mFrrv4aYKYG16VE9md1umBSFpvPG",
     requirements: [
       {
         actionId: "guess_an_animal",
@@ -236,13 +236,13 @@ export default [
         amount: 1000,
       },
       {
-        address: "0xad88dfa6d1f00d8d9059b8b59695f3266302ad54",
+        address: "0xd0Ea27C430a577AEBab344D5D1f1BDbd8ede046E",
         amount: 1,
         uri: "ipfs://QmTzCC5vfSXZDmwuDSSaUMXHzfwuBcwjAh74LM5FTfdXPp",
       },
     ],
     badgeUrl:
-      "https://duqswponteoedwsylzwn.supabase.co/storage/v1/object/public/badges/10.png",
+      "https://ipfs.io/ipfs/QmVvRQS5Xv7dr5SDSg8AGzEuGMjY2X9y1UvP56WKwJcik1",
     requirements: [
       {
         actionId: "guess_an_animal",

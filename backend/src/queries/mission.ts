@@ -7,7 +7,7 @@ export const getMissionsByUserAndRequirements = gql`
     $app: String!
   ) {
     missions(
-      where: { user: $user, star: $app }
+      where: { user: $user, app: $app }
       orderBy: "createdAt"
       orderDirection: "desc"
     ) {
