@@ -9,28 +9,8 @@ datasource db {
 }
 
 model User {
-  id            Int      @id @default(autoincrement())
-  eth_address   String   @unique
-  nickname      String?
-  email_address String?  @unique
-  created_at    DateTime @default(now())
-  tokens        Token[]
-}
-
-model Challenge {
   id          Int      @id @default(autoincrement())
-  eth_address String
-  challenge   String
+  eth_address String   @unique
+  nickname    String?
   created_at  DateTime @default(now())
-}
-
-model Token {
-  id            Int      @id @default(autoincrement())
-  userId        Int
-  access_token  String   @unique
-  refresh_token String   @unique
-  created_at    DateTime @default(now())
-  updated_at    DateTime @updatedAt
-
-  user User @relation(fields: [userId], references: [id])
 }
