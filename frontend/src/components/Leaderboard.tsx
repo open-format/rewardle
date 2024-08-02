@@ -1,4 +1,4 @@
-import { useWallet } from "@openformat/react";
+import { usePrivy } from "@privy-io/react-auth";
 import clsx from "clsx";
 import { LeaderboardEntry } from "../@types";
 
@@ -42,7 +42,8 @@ export default function Leaderboard({ data, isLoading }: LeaderboardProps) {
 }
 
 function TableItem({ item, index }: { item: LeaderboardEntry; index: number }) {
-  const { address } = useWallet();
+  const { user } = usePrivy();
+  const address = user?.wallet?.address;
   const currentUser = Boolean(address?.toLowerCase() === item.user_address);
 
   return (

@@ -1,4 +1,4 @@
-import { useSetIsWalletModalOpen, useWallet } from "@openformat/react";
+import { usePrivy } from "@privy-io/react-auth";
 import { GAME_COST, TOKEN_NAME } from "constants/global";
 import Link from "next/link";
 import { useProfileStore } from "stores";
@@ -9,10 +9,10 @@ import Modal, { Props as ModalProps } from "./Modal";
 export type Props = Pick<ModalProps, "open" | "onClose">;
 
 export default function PaywallModal(props: Props) {
-  const { address } = useWallet();
-  const { profileData } = useProfileStore();
+  const { user, login } = usePrivy();
+  const address = user?.wallet?.address;
+  const { profileData, updateProfileData } = useProfileStore();
   const { state: gameState } = useGameStore();
-  const openModal = useSetIsWalletModalOpen();
 
   const title =
     gameState.status === "won"
@@ -44,7 +44,7 @@ export default function PaywallModal(props: Props) {
         )}
         <div className="flex justify-center">
           {!address && !lowBalance ? (
-            <Button onClick={openModal}>Login to play again</Button>
+            <Button onClick={login}>Login to play again</Button>
           ) : (
             address &&
             !lowBalance && (

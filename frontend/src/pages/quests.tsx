@@ -1,4 +1,4 @@
-import { useWallet } from "@openformat/react";
+import { usePrivy } from "@privy-io/react-auth";
 import { useQuery } from "@tanstack/react-query";
 import { useEffect } from "react";
 import { MissionConfig } from "../@types";
@@ -6,7 +6,9 @@ import Quests from "../components/Quests";
 import apiClient from "../utils/apiClient";
 
 export default function QuestsPage() {
-  const { address } = useWallet();
+  const { user } = usePrivy();
+  const address = user?.wallet?.address;
+
   const {
     data: quests,
     isLoading,

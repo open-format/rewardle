@@ -3,8 +3,8 @@ import {
   ERC20Base,
   toWei,
   useOpenFormat,
-  useWallet,
 } from "@openformat/react";
+import { usePrivy, useWallets } from "@privy-io/react-auth";
 import Header from "components/Header";
 import HelpModal from "components/HelpModal";
 import SettingsModal from "components/SettingsModal";
@@ -22,13 +22,24 @@ const Layout: React.FC<{ onIconClick?: () => void }> = ({ children }) => {
   const [isLoading, setIsLoading] = useState<boolean>();
 
   const { sdk } = useOpenFormat();
-  const { address } = useWallet();
+  const { user } = usePrivy();
+  const { wallets } = useWallets();
+
+  const address = user?.wallet?.address;
   const { updateProfileData } = useProfileStore();
 
   async function spendTokens() {
     try {
       if (address) {
         setIsLoading(true);
+        const wallet = wallets[0];
+        await wallet.switchChain(421614);
+
+        const provider = await wallet.getEthersProvider();
+        const signer = provider.getSigner();
+
+        sdk.signer = signer;
+
         const rewardToken = (await sdk.getContract({
           contractAddress: process.env.NEXT_PUBLIC_REWARD_TOKEN_ID!,
           type: ContractType.Token,
@@ -40,7 +51,7 @@ const Layout: React.FC<{ onIconClick?: () => void }> = ({ children }) => {
             amount: toWei(GAME_COST.toString()),
           })
           .then(() => {
-            updateProfileData();
+            setTimeout(() => updateProfileData(), 500);
             gameActions.closeModal(), gameActions.bypass();
           });
       }
