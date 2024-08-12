@@ -40,8 +40,9 @@ export const privyAuthMiddleware = async (c: Context, next: Next) => {
     } else {
       return c.text("unauthorized - invalid auth token", 401);
     }
-  } catch (error) {
-    return c.text("unauthorized - error", 401);
+  } catch (error: any) {
+    console.error(error.message);
+    return c.text("unauthorized", 401);
   }
 
   await next();
