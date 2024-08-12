@@ -15,7 +15,7 @@ export const privyAuthMiddleware = async (c: Context, next: Next) => {
     ?.replace("Bearer ", "");
 
   if (!authToken) {
-    return c.text("unauthorized", 401);
+    return c.text("unauthorized - no auth token", 401);
   }
 
   try {
@@ -38,10 +38,10 @@ export const privyAuthMiddleware = async (c: Context, next: Next) => {
 
       c.set("user", user as User);
     } else {
-      return c.text("unauthorized", 401);
+      return c.text("unauthorized - invalid auth token", 401);
     }
   } catch (error) {
-    return c.text("unauthorized", 401);
+    return c.text("unauthorized - error", 401);
   }
 
   await next();
