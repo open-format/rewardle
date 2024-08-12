@@ -3,6 +3,8 @@ on:
   push:
     branches:
       - staging
+    paths:
+      - "backend/**"
 env:
   FLY_API_TOKEN: ${{ secrets.FLY_API_TOKEN_STAGING }}
 jobs:
