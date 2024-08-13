@@ -20,7 +20,3 @@ primary_region = 'lhr'
   memory = '1gb'
   cpu_kind = 'shared'
   cpus = 1
-
-[[mounts]]
-  source = 'data'
-  destination = '/data'

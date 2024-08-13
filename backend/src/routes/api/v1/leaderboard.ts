@@ -1,8 +1,8 @@
-import { PrismaClient } from "@prisma/client";
 import dayjs from "dayjs";
 import { Hono } from "hono";
 import { leaderboardData } from "../../../queries/leaderboard";
 import { sdk } from "../../../services/SDK";
+import { prisma } from "../../../services/db";
 import {
   convertToTimestamps,
   generateLeaderboard,
@@ -14,7 +14,6 @@ enum Status {
 }
 
 const leaderboard = new Hono();
-const prisma = new PrismaClient();
 
 leaderboard.onError((err, c) => {
   console.error(`${err}`);

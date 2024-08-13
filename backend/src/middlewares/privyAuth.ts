@@ -1,13 +1,11 @@
-import { PrismaClient } from "@prisma/client";
 import { PrivyClient, User } from "@privy-io/server-auth";
 import { Context, Next } from "hono";
+import { prisma } from "../services/db";
 
 const privy = new PrivyClient(
   process.env.PRIVY_APP_ID!,
   process.env.PRIVY_APP_SECRET!
 );
-
-const prisma = new PrismaClient();
 
 export const privyAuthMiddleware = async (c: Context, next: Next) => {
   const authToken = c.req

@@ -1,6 +1,6 @@
-import { PrismaClient } from "@prisma/client";
 import { User } from "@privy-io/server-auth";
 import { Hono } from "hono";
+import { prisma } from "../../../services/db";
 import { getOnChainProfile } from "../../../utils/profile";
 
 enum Status {
@@ -9,7 +9,6 @@ enum Status {
 }
 
 const profile = new Hono<{ Variables: { user: User } }>();
-const prisma = new PrismaClient();
 
 profile.onError((err, c) => {
   console.error(`${err}`);

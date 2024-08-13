@@ -5,7 +5,9 @@
     "start": "bun run src/index.ts"
   },
   "dependencies": {
+    "@libsql/client": "^0.9.0",
     "@openformat/sdk": "^1.4.0",
+    "@prisma/adapter-libsql": "^5.18.0",
     "@prisma/client": "^5.7.1",
     "@privy-io/server-auth": "^1.9.6",
     "@types/validator": "^13.11.7",
