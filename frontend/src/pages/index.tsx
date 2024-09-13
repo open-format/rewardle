@@ -1,4 +1,4 @@
-import { usePrivy } from "@privy-io/react-auth";
+import { useModalStatus, usePrivy } from "@privy-io/react-auth";
 import Grid from "components/Grid";
 import Keyboard, { isMappableKey } from "components/Keyboard";
 import { ANIMAL_WORDS } from "constants/special_words";
@@ -15,6 +15,7 @@ export default function Home() {
   const { state: gameState, actions: gameActions } = useGameStore();
   const { state: stats, actions: statsActions } = useStatsStore();
   const { updateProfileData } = useProfileStore();
+  const { isOpen: isAuthenticating } = useModalStatus();
 
   const { user } = usePrivy();
   const address = user?.wallet?.address;
@@ -33,6 +34,9 @@ export default function Home() {
 
   const handleKeyPress = useCallback(
     async (key: string) => {
+      if (isAuthenticating) {
+        return;
+      }
       if (gameState.status !== "new") {
         return;
       }
@@ -124,7 +128,7 @@ export default function Home() {
           break;
       }
     },
-    [gameActions, statsActions, gameState]
+    [gameActions, statsActions, gameState, isAuthenticating]
   );
 
   return (
