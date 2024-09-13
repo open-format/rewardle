@@ -1,3 +1,4 @@
+import { usePrivy } from "@privy-io/react-auth";
 import { useQuery } from "@tanstack/react-query";
 import { MissionConfig } from "../@types";
 import Profile from "../components/Profile";
@@ -7,6 +8,7 @@ import apiClient from "../utils/apiClient";
 
 export default function ProfilePage() {
   const { profileData } = useProfileStore();
+  const { user } = usePrivy();
 
   const { data: quests, isLoading } = useQuery({
     queryKey: ["quests"],

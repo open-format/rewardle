@@ -5,10 +5,10 @@
 
 /* Base theme variables */
 :root {
-  --primary-color: #fff400;
-  --background-color: #000;
+  --primary-color: #ffda00;
+  --background-color: #16151d;
   --text-color: #fff;
-  --border-color: #fff400;
+  --border-color: #ffda00;
   --border-radius: 3px;
   --border-width: 1px;
   --error-color: #ef4444;

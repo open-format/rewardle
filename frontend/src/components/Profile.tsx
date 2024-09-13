@@ -1,6 +1,7 @@
 import { PencilSquareIcon } from "@heroicons/react/24/solid";
+import { usePrivy } from "@privy-io/react-auth";
 import { useQuery } from "@tanstack/react-query";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { toast } from "react-toastify";
 import { ProfileData } from "../@types";
 import { useProfileStore } from "../stores/index";
@@ -10,11 +11,23 @@ import { IconButton } from "./Button";
 
 export default function Profile() {
   const { setProfileData } = useProfileStore();
+  const { ready, user } = usePrivy();
 
-  const { data: profileData, isLoading } = useQuery({
+  const {
+    data: profileData,
+    isLoading,
+    refetch,
+  } = useQuery({
     queryKey: ["profileData"],
     queryFn: fetchProfileData,
+    enabled: false,
   });
+
+  useEffect(() => {
+    if (ready && user?.wallet?.address) {
+      refetch();
+    }
+  }, [ready, user?.wallet?.address, refetch]);
 
   async function fetchProfileData(): Promise<ProfileData> {
     return await apiClient

@@ -1,4 +1,4 @@
-import { useIsWalletModalOpen, useWallet } from "@openformat/react";
+import { useModalStatus, usePrivy } from "@privy-io/react-auth";
 import Grid from "components/Grid";
 import Keyboard, { isMappableKey } from "components/Keyboard";
 import { ANIMAL_WORDS } from "constants/special_words";
@@ -12,12 +12,13 @@ import handleRewards from "utils/handleRewards";
 const { useSelector } = useGameStore;
 
 export default function Home() {
-  const walletModalState = useIsWalletModalOpen();
   const { state: gameState, actions: gameActions } = useGameStore();
   const { state: stats, actions: statsActions } = useStatsStore();
   const { updateProfileData } = useProfileStore();
+  const { isOpen: isAuthenticating } = useModalStatus();
 
-  const { address } = useWallet();
+  const { user } = usePrivy();
+  const address = user?.wallet?.address;
   const keys = useSelector("getUsedKeys");
 
   useEffect(() => {
@@ -33,7 +34,7 @@ export default function Home() {
 
   const handleKeyPress = useCallback(
     async (key: string) => {
-      if (walletModalState) {
+      if (isAuthenticating) {
         return;
       }
       if (gameState.status !== "new") {
@@ -127,7 +128,7 @@ export default function Home() {
           break;
       }
     },
-    [gameActions, statsActions, gameState, walletModalState]
+    [gameActions, statsActions, gameState, isAuthenticating]
   );
 
   return (

@@ -1,6 +1,5 @@
 import { XCircleIcon } from "@heroicons/react/24/solid";
-import { Chains, OpenFormatProvider } from "@openformat/react";
-import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+import { QueryClient } from "@tanstack/react-query";
 import clsx from "clsx";
 import Layout from "components/Layout";
 import { APP_NAME } from "constants/global";
@@ -9,8 +8,9 @@ import tw from "lib/tw";
 import { capitalize } from "lib/utils";
 import type { AppProps } from "next/app";
 import Head from "next/head";
+import Providers from "providers";
 import { useEffect } from "react";
-import { toast, TypeOptions } from "react-toastify";
+import { TypeOptions, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.min.css";
 import "../styles/globals.css";
 
@@ -44,19 +44,11 @@ function MyApp({ Component, pageProps }: AppProps) {
         <title>{capitalize(APP_NAME)}</title>
       </Head>
       <AnimatePresence>
-        <OpenFormatProvider
-          config={{
-            networks: [Chains.arbitrumSepolia],
-            appId: process.env.NEXT_PUBLIC_APPLICATION_ID as string,
-            activeChain: "arbitrum-sepolia",
-          }}
-        >
-          <QueryClientProvider client={queryClient}>
-            <Layout>
-              <Component {...pageProps} />
-            </Layout>
-          </QueryClientProvider>
-        </OpenFormatProvider>
+        <Providers>
+          <Layout>
+            <Component {...pageProps} />
+          </Layout>
+        </Providers>
       </AnimatePresence>
     </>
   );
